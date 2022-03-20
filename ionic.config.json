@@ -1,0 +1,7 @@
+{
+  "name": "PJTUT2-FrontEnd",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
