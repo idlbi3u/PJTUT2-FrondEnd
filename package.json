@@ -2,10 +2,14 @@
   "name": "PJTUT2-FrontEnd",
   "version": "0.0.1",
   "private": true,
+  "homepage": "./",
   "dependencies": {
+    "@capacitor/android": "3.4.3",
     "@capacitor/app": "1.1.1",
     "@capacitor/core": "3.4.3",
+    "@capacitor/electron": "2.5.0",
     "@capacitor/haptics": "1.1.4",
+    "@capacitor/ios": "3.4.3",
     "@capacitor/keyboard": "1.2.2",
     "@capacitor/status-bar": "1.0.8",
     "@ionic/react": "^6.0.0",
@@ -65,7 +69,10 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "3.4.3"
+    "@capacitor/cli": "3.4.3",
+    "concurrently": "^7.0.0",
+    "electron": "^17.1.2",
+    "electron-is-dev": "^2.0.0"
   },
   "description": "An Ionic project"
 }
