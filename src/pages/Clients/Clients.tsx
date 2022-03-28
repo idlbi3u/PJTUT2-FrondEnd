@@ -1,4 +1,5 @@
-import { IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonPage, IonRow, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
+import { pencil, trash } from 'ionicons/icons';
 import React, { useState } from 'react';
 
 interface Client {
@@ -13,7 +14,12 @@ const Clients: React.FC = () =>
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Clients</IonTitle>
+                    <IonItem>
+                        <IonTitle>Clients</IonTitle>
+                        <IonItem className='SearchBar'>   
+                                <IonSearchbar></IonSearchbar>
+                            </IonItem>
+                    </IonItem>  
                 </IonToolbar>
             </IonHeader>
             <IonContent>
@@ -22,7 +28,16 @@ const Clients: React.FC = () =>
                     <IonRow>
                         <IonCol>Nom</IonCol>
                         <IonCol>Affaires associées</IonCol>
-                        <IonCol>Actions</IonCol>
+                        <IonCol>Actions
+                            <IonButtons>
+                                <IonButton >
+                                    <IonIcon slot="icon-only" icon={pencil} />
+                                </IonButton>
+                                <IonButton>
+                                    <IonIcon slot="icon-only" icon={trash} />
+                                </IonButton>
+                            </IonButtons>      
+                        </IonCol>
                     </IonRow>
                     <IonRow>
                         <IonCol>Nom</IonCol>

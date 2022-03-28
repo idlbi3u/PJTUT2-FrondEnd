@@ -38,18 +38,14 @@ const Records: React.FC = () =>
                         <IonCol>Statut</IonCol>
                         <IonCol>Clients</IonCol>
                         <IonCol>Actions
-                            <IonToolbar>
-                                <IonButtons>
-                                    <IonButton >
-                                        <IonIcon slot="icon-only" icon={pencil} />
-                                    </IonButton>
-                                    <IonButton>
-                                        <IonIcon slot="icon-only" icon={trash} />
-                                    </IonButton>
-                                    </IonButtons>
-                                  
-                            </IonToolbar>
-                            
+                            <IonButtons>
+                                <IonButton >
+                                    <IonIcon slot="icon-only" icon={pencil} />
+                                </IonButton>
+                                <IonButton>
+                                    <IonIcon slot="icon-only" icon={trash} />
+                                </IonButton>
+                            </IonButtons>             
                         </IonCol>
                     </IonRow>
                     <IonRow>
