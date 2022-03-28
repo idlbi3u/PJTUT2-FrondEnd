@@ -20,15 +20,13 @@ const Clients: React.FC = () =>
                 
                 <IonGrid>
                     <IonRow>
-                        <IonCol>Code</IonCol>
-                        <IonCol>Statut</IonCol>
-                        <IonCol>Clients</IonCol>
+                        <IonCol>Nom</IonCol>
+                        <IonCol>Affaires associées</IonCol>
                         <IonCol>Actions</IonCol>
                     </IonRow>
                     <IonRow>
-                        <IonCol>Code</IonCol>
-                        <IonCol>Statut</IonCol>
-                        <IonCol>Clients</IonCol>
+                        <IonCol>Nom</IonCol>
+                        <IonCol>Affaires associées</IonCol>
                         <IonCol>Actions</IonCol>
                     </IonRow>
                     
