@@ -1,32 +1,29 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonFooter, IonGrid, IonHeader, IonIcon, IonItem, IonPage, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
-import {   pencil, star, trash,  } from 'ionicons/icons';
+import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { pencil, trash } from 'ionicons/icons';
 import React, { useState } from 'react';
-import './Records.css';
 
-interface Record {
-    id: number;
-
-}
-
-const Records: React.FC = () =>
+const DetailsRecord: React.FC = () =>
 {
-    const [records, setRecords] = useState<Record[]>([]);
+    interface DetailRecord {
+        id: number;
+    
+    }
+    
+    const [detailrecord, setDetailRecord] = useState<DetailRecord[]>([]);
     return (
         <IonPage>
             <IonHeader>      
                 <IonToolbar>
                     <IonItem>
-                        <IonTitle>Dossiers</IonTitle>
-                        <IonItem className='Business'>   
-                                <IonSelect placeholder="Selectionnez une catégorie d'affaire">
-                                <IonSelectOption value="AllBusiness">Afficher affaires en cours et cloturées</IonSelectOption>
-                                <IonSelectOption value="OnGoingBusiness">Afficher affaires en cours</IonSelectOption>
-                                <IonSelectOption value="CompletedBusiness">Afficher affaires cloturées</IonSelectOption>
-                                </IonSelect>
-                            </IonItem>
-                            <IonItem className='SearchBar'>   
-                                <IonSearchbar></IonSearchbar>
-                            </IonItem>
+                        <IonTitle>Dossier</IonTitle>
+                        <IonButtons>
+                            <IonButton >
+                                <IonIcon slot="icon-only" icon={pencil} />
+                            </IonButton>
+                            <IonButton>
+                                    <IonIcon slot="icon-only" icon={trash} />
+                                </IonButton>
+                            </IonButtons>   
                     </IonItem>
                 </IonToolbar>
             </IonHeader>
@@ -38,21 +35,6 @@ const Records: React.FC = () =>
                         <IonCol className='Col'>Clients</IonCol>
                         <IonCol className='Col'>Actions
                             <IonButtons>
-                                <IonButton href='/detailsrecord'>
-                                    <IonIcon slot="icon-only" icon={pencil} />
-                                </IonButton>
-                                <IonButton>
-                                    <IonIcon slot="icon-only" icon={trash} />
-                                </IonButton>
-                            </IonButtons>             
-                        </IonCol>
-                    </IonRow>
-                    <IonRow className='Row'>
-                    <IonCol className='Col'>Code</IonCol>
-                        <IonCol className='Col'>Statut</IonCol>
-                        <IonCol className='Col'>Clients</IonCol>
-                        <IonCol className='Col'>Actions
-                            <IonButtons>
                                 <IonButton >
                                     <IonIcon slot="icon-only" icon={pencil} />
                                 </IonButton>
@@ -91,7 +73,7 @@ const Records: React.FC = () =>
                                 </IonButton>
                             </IonButtons>             
                         </IonCol>
-                    </IonRow> 
+                    </IonRow>
                 </IonGrid>
             </IonContent>
             <IonItem>
@@ -107,4 +89,4 @@ const Records: React.FC = () =>
     );
 }
 
-export default Records;
+export default DetailsRecord;
