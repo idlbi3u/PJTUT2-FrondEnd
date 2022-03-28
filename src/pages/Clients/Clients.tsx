@@ -28,7 +28,7 @@ const Clients: React.FC = () =>
     const handleDeleteClient = (id: number) => {
         
     }
-    const modifyClient = (id: number) => {
+    const handleModifyClient = (id: number) => {
         
     }
     return (
@@ -60,7 +60,7 @@ const Clients: React.FC = () =>
                                 <IonButton onClick={() => {handleDeleteClient(1)}}>
                                     <IonIcon ios={trashBinOutline} md={trashBinSharp}></IonIcon>
                                 </IonButton>
-                                <IonButton onClick={() => {modifyClient(1)}}>
+                                <IonButton onClick={() => {handleModifyClient(1)}}>
                                     <IonIcon ios={pencilOutline} md={pencilSharp}></IonIcon>
                                 </IonButton>
                             </IonButtons>

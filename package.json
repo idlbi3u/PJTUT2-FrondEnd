@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "homepage": "./",
+  "main": "src/electron-starter.js",
   "dependencies": {
     "@capacitor/android": "3.4.3",
     "@capacitor/app": "1.1.1",
@@ -48,7 +49,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron-serve": "ionic build && electron ."
   },
   "eslintConfig": {
     "extends": [
@@ -71,8 +73,9 @@
   "devDependencies": {
     "@capacitor/cli": "3.4.3",
     "concurrently": "^7.0.0",
-    "electron": "^17.1.2",
-    "electron-is-dev": "^2.0.0"
+    "electron": "^17.2.0",
+    "electron-is-dev": "^2.0.0",
+    "electron-packager": "^15.4.0"
   },
   "description": "An Ionic project"
 }
