@@ -36,6 +36,8 @@ async function createWindow () {
     show: false,
     webPreferences: {
       nodeIntegration: true,
+      enableRemoteModule: true,
+      ELECTRON_RUN_AS_NODE: true,
       preload: path.join(__dirname, 'node_modules', '@capacitor', 'electron', 'dist', 'electron-bridge.js')
     }
   });
@@ -53,7 +55,7 @@ async function createWindow () {
     splashScreen = new CapacitorSplashScreen(mainWindow);
     splashScreen.init();
   } else {
-    mainWindow.loadURL('http://localhost:8101');
+    mainWindow.loadURL('http://localhost:8100');
     mainWindow.webContents.on('dom-ready', () => {
       mainWindow.show();
     });
