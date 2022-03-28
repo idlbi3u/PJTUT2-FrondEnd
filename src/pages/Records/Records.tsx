@@ -33,11 +33,11 @@ const Records: React.FC = () =>
             <IonContent>
                 
                 <IonGrid>
-                    <IonRow>
-                        <IonCol>Code</IonCol>
-                        <IonCol>Statut</IonCol>
-                        <IonCol>Clients</IonCol>
-                        <IonCol>Actions
+                    <IonRow className='Row'>
+                        <IonCol className='Col'>Code</IonCol>
+                        <IonCol className='Col'>Statut</IonCol>
+                        <IonCol className='Col'>Clients</IonCol>
+                        <IonCol className='Col'>Actions
                             <IonButtons>
                                 <IonButton >
                                     <IonIcon slot="icon-only" icon={pencil} />
@@ -48,13 +48,51 @@ const Records: React.FC = () =>
                             </IonButtons>             
                         </IonCol>
                     </IonRow>
-                    <IonRow>
-                        <IonCol>Code</IonCol>
-                        <IonCol>Statut</IonCol>
-                        <IonCol>Clients</IonCol>
-                        <IonCol>Actions</IonCol>
+                    <IonRow className='Row'>
+                    <IonCol className='Col'>Code</IonCol>
+                        <IonCol className='Col'>Statut</IonCol>
+                        <IonCol className='Col'>Clients</IonCol>
+                        <IonCol className='Col'>Actions
+                            <IonButtons>
+                                <IonButton >
+                                    <IonIcon slot="icon-only" icon={pencil} />
+                                </IonButton>
+                                <IonButton>
+                                    <IonIcon slot="icon-only" icon={trash} />
+                                </IonButton>
+                            </IonButtons>             
+                        </IonCol>
                     </IonRow>
-                    
+                    <IonRow className='Row'>
+                    <IonCol className='Col'>Code</IonCol>
+                        <IonCol className='Col'>Statut</IonCol>
+                        <IonCol className='Col'>Clients</IonCol>
+                        <IonCol className='Col'>Actions
+                            <IonButtons>
+                                <IonButton >
+                                    <IonIcon slot="icon-only" icon={pencil} />
+                                </IonButton>
+                                <IonButton>
+                                    <IonIcon slot="icon-only" icon={trash} />
+                                </IonButton>
+                            </IonButtons>             
+                        </IonCol>
+                    </IonRow>
+                    <IonRow className='Row'>
+                    <IonCol className='Col'>Code</IonCol>
+                        <IonCol className='Col'>Statut</IonCol>
+                        <IonCol className='Col'>Clients</IonCol>
+                        <IonCol className='Col'>Actions
+                            <IonButtons>
+                                <IonButton >
+                                    <IonIcon slot="icon-only" icon={pencil} />
+                                </IonButton>
+                                <IonButton>
+                                    <IonIcon slot="icon-only" icon={trash} />
+                                </IonButton>
+                            </IonButtons>             
+                        </IonCol>
+                    </IonRow> 
                 </IonGrid>
             </IonContent>
         </IonPage>

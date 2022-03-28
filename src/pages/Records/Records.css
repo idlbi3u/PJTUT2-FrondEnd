@@ -5,3 +5,9 @@
 .SearchBar{
     width: 400px;
 }
+
+
+.Row, .Col {
+    border: 1px solid black;
+}
+
