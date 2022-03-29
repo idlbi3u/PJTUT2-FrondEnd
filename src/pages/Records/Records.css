@@ -11,3 +11,26 @@
     border: 1px solid black;
 }
 
+.DetailsRecord{
+    font-weight: bold;
+}
+
+.ModifButton{
+    color: white;
+    background-color: #3880ff;
+}
+
+.DeleteButton{
+    color: white;
+    background-color: #eb445a;
+}
+
+.Pages, .ModifButton, .DeleteButton{
+    text-transform: capitalize;
+}
+
+.AddButton{
+    color: white;
+    background-color: #3880ff;
+    text-transform: capitalize;
+}

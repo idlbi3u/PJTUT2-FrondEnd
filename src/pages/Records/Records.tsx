@@ -1,5 +1,5 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonFooter, IonGrid, IonHeader, IonIcon, IonItem, IonPage, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
-import {   pencil, star, trash,  } from 'ionicons/icons';
+import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonPage, IonRoute, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
+import {   pencil,  trash,  } from 'ionicons/icons';
 import React, { useState } from 'react';
 import './Records.css';
 
@@ -96,11 +96,11 @@ const Records: React.FC = () =>
             </IonContent>
             <IonItem>
                 <IonButtons slot="end">
-                <IonButton color="black">Previous</IonButton>
+                <IonButton className='Pages' color="black">Previous</IonButton>
                 <IonButton color="black">1</IonButton>
                 <IonButton color="black">2</IonButton>
                 <IonButton color="black">3</IonButton>
-                <IonButton color="black">Next</IonButton>
+                <IonButton className='Pages' color="black">Next</IonButton>
                 </IonButtons>
             </IonItem>
         </IonPage>

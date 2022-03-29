@@ -44,7 +44,6 @@ const Clients: React.FC = () =>
                         <IonCol>Affaires associées</IonCol>
                         <IonCol>Actions</IonCol>
                     </IonRow>
-                    
                 </IonGrid>
             </IonContent>
         </IonPage>
