@@ -27,6 +27,7 @@ import './theme/variables.css';
 import ClientComponent from "./components/clients/client.component";
 import ClientListComponent from "./components/clients/client-list.component";
 import addClientComponent from "./components/clients/add-client.component";
+import LawyercaseListComponent from "./components/lawyercase/lawyercase-list.component";
 
 
 setupIonicReact();
@@ -38,7 +39,8 @@ const App: React.FC = () => (
         <Layout />
         <IonRouterOutlet class='ion-page' id='main'>
           <Route exact path="/home" component={Home} />
-          <Route exact path="/apicli" component={ClientListComponent} />
+          <Route exact path="/apiclitest" component={ClientListComponent} />
+          <Route exact path="/apilctest" component={LawyercaseListComponent} />
           <Route exact path="/add" component={addClientComponent} />
           <Route exact path="/clients" component={Clients} />
           <Route exact path="/records" component={Records} />
