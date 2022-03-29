@@ -1,7 +1,9 @@
+
 import { IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonPage, IonRoute, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import {   pencil,  trash,  } from 'ionicons/icons';
 import React, { useState } from 'react';
 import './Records.css';
+
 
 interface Record {
     id: number;
@@ -28,6 +30,7 @@ const Records: React.FC = () =>
                                 <IonSearchbar></IonSearchbar>
                             </IonItem>
                     </IonItem>
+
                 </IonToolbar>
             </IonHeader>
             <IonContent>
