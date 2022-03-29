@@ -4,7 +4,7 @@ export default interface IClientData {
     firstname:string,
     address:string,
     birthdate:string,
-    createdAt: string,
-    updatedAt: string,
-    caseId?: number
+    createdAt?: string,
+    updatedAt?: string,
+    caseId?: number|null
 }
