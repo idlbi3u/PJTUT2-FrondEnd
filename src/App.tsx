@@ -26,6 +26,7 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import ClientComponent from "./components/clients/client.component";
 import ClientListComponent from "./components/clients/client-list.component";
+import addClientComponent from "./components/clients/add-client.component";
 
 
 setupIonicReact();
@@ -38,6 +39,7 @@ const App: React.FC = () => (
         <IonRouterOutlet class='ion-page' id='main'>
           <Route exact path="/home" component={Home} />
           <Route exact path="/apicli" component={ClientListComponent} />
+          <Route exact path="/add" component={addClientComponent} />
           <Route exact path="/clients" component={Clients} />
           <Route exact path="/records" component={Records} />
           <Route exact path="/" render={() => <Redirect to="/home" />} />
