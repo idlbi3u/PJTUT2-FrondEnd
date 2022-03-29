@@ -7,12 +7,16 @@ import {
     IonGrid, 
     IonHeader, 
     IonIcon, 
+    IonItem, 
     IonPage, 
     IonRow, 
+    IonSearchbar, 
     IonTitle, 
     IonToolbar } from '@ionic/react';
-import { pencilOutline, pencilSharp, trashBinOutline, trashBinSharp } from 'ionicons/icons';
-import React, { useState } from 'react';
+import { pencilOutline, pencilSharp, trashBinOutline, trashBinSharp, addOutline } from 'ionicons/icons';
+import React, { useEffect, useState } from 'react';
+import AddClient from './AddClient';
+import './Clients.css';
 
 interface Client {
     id: number;
@@ -24,24 +28,42 @@ interface Client {
 const Clients: React.FC = () => 
 {
     const [clients, setClients] = useState<Client[]>([]);
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleDeleteClient = (id: number) => {
         
     }
+
     const handleModifyClient = (id: number) => {
         
     }
+
+
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonButtons slot='start'>
-                        <IonBackButton defaultHref='/home' ></IonBackButton>
-                    </IonButtons>
-                    <IonTitle>Clients</IonTitle>
+                    <IonItem lines='none' slot='start'>
+                        <IonButtons slot='start'>
+                            <IonBackButton defaultHref='/home' ></IonBackButton>
+                        </IonButtons>
+                    </IonItem>
+                   
+                    <IonTitle>Clients</IonTitle> 
+                                      
+                    <IonItem slot='end' lines='none'>
+                        <IonSearchbar class='search-bar' type='text' animated={true}></IonSearchbar>
+                    </IonItem>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
+                <IonItem lines='none'>
+                    <IonButtons slot='end'>
+                        <IonButton onClick={() => {setIsOpen(true)}} >
+                            <IonIcon icon={addOutline}></IonIcon>Ajouter
+                        </IonButton>
+                    </IonButtons>
+                </IonItem>
                 
                 <IonGrid>
                     <IonRow>
@@ -50,7 +72,7 @@ const Clients: React.FC = () =>
                         <IonCol>Clients</IonCol>
                         <IonCol>Actions</IonCol>
                     </IonRow>
-
+                    {/* DATA MAP */}
                     <IonRow>
                         <IonCol>12/333</IonCol>
                         <IonCol>En Cours</IonCol>
@@ -66,9 +88,10 @@ const Clients: React.FC = () =>
                             </IonButtons>
                         </IonCol>
                     </IonRow>
-                    
+                    {/* END */}
                 </IonGrid>
             </IonContent>
+            <AddClient isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
         </IonPage>
     );
 }
