@@ -16,6 +16,15 @@ const ClientListComponent = () => {
                 console.log(e);
             });
     }
+    const deleteClient = (id:string) => {
+        ClientDataService.delete(id)
+            .then((res:any) => {
+                console.log(res + "A bien été supprimé de la BDD");
+        })
+            .catch((e:Error) => {
+                console.log(e)
+            })
+    }
 
     useEffect(() => {
         //Execute when Mounted
@@ -32,7 +41,10 @@ const ClientListComponent = () => {
         <>
             <h1> HELLO CLIENT LIST COMPONENT</h1>
             {clients.map((client, key) =>
-                <div key={key}>{client.name} - {client.firstname} - {client.birthdate} - {client.createdAt}</div>
+                <>
+                <div key={key} >{client.name} - {client.firstname} - {client.birthdate} - {client.createdAt}</div>
+                <button onClick={() => deleteClient(client.id)}>Supprimer</button>
+                </>
             )}
         </>
 

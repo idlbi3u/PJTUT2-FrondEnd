@@ -14,17 +14,20 @@ class ClientDataService {
         return http.get(`/clients/${id}`);
     }
 
-    update(id:string, data:Object) {
-        return http.put(`/tutorials/${id}`, data);
-    }
     delete(id:string) {
-        return http.delete(`/tutorials/${id}`);
+        return http.delete(`/clients/${id}`);
     }
+
+    update(id:string, data:Object) {
+        return http.put(`/clients/${id}`, data);
+    }
+
     deleteAll() {
-        return http.delete(`/tutorials`);
+        return http.delete(`/clients`);
     }
-    findByTitle(title:string) {
-        return http.get(`/tutorials?title=${title}`);
+
+    findByName(name:string) {
+        return http.get(`/clients?title=${name}`);
     }
 }
 
