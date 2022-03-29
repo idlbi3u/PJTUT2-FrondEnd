@@ -10,7 +10,7 @@ const Home: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen id='main'>
-        Home
+        ERTZERZEHREOZJRHZEKLRH
       </IonContent>
     </IonPage>
   );
