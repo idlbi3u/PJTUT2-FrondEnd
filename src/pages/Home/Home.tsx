@@ -11,6 +11,7 @@ const Home: React.FC = () => {
       </IonHeader>
       <IonContent fullscreen id='main'>
         
+
       </IonContent>
     </IonPage>
   );
