@@ -14,7 +14,7 @@ import {
     IonTitle, 
     IonToolbar } from '@ionic/react';
 import { pencilOutline, pencilSharp, trashBinOutline, trashBinSharp, addOutline } from 'ionicons/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AddClient from './AddClient';
 import './Clients.css';
 
