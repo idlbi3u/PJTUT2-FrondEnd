@@ -1,6 +1,6 @@
 import ClientDataService from "../../services/client.service"
 import IClientData from "../../types/client.type";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
 const ClientListComponent = () => {
 
@@ -10,7 +10,6 @@ const ClientListComponent = () => {
         ClientDataService.getAll()
             .then((response: any) => {
                 setClients(response.data)
-                console.log(response.data);
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -24,6 +23,29 @@ const ClientListComponent = () => {
             .catch((e:Error) => {
                 console.log(e)
             })
+    }
+
+    const handleSearchClient = async (e: React.ChangeEvent<HTMLInputElement>) => {
+
+        if(e.target.value === ""){
+            retrieveClients()
+        }
+
+        await ClientDataService.getAll()
+            .then((response: any) => {
+                setClients(response.data)
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+
+        let tlc = e.target.value.toLocaleLowerCase();
+        let filterData = clients.filter((e) =>{
+            let nameTlc = e.name.toLocaleLowerCase();
+            return nameTlc.indexOf(tlc) !== -1
+        })
+
+        setClients(filterData)
     }
 
     useEffect(() => {
@@ -40,6 +62,13 @@ const ClientListComponent = () => {
     return (
         <>
             <h1> HELLO CLIENT LIST COMPONENT</h1>
+            <div className="clients_search-bar" style={{display:"flex", marginLeft:"2%"}} >
+                <input
+                    type="text"
+                    placeholder="Rechercher par nom"
+                    onChange={handleSearchClient}
+                />
+            </div>
             {clients.map((client, key) =>
                 <>
                 <div key={key} >{client.name} - {client.firstname} - {client.birthdate} - {client.createdAt}</div>
@@ -51,3 +80,7 @@ const ClientListComponent = () => {
     )
 }
 export default ClientListComponent;
+
+
+/*
+value={searchName} onChange={handleSearchName}*/

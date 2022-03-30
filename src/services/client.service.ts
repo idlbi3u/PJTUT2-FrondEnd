@@ -27,7 +27,7 @@ class ClientDataService {
     }
 
     findByName(name:string) {
-        return http.get(`/clients?title=${name}`);
+        return http.get(`/clients?name=${name}`);
     }
 }
 
