@@ -41,7 +41,7 @@ const AddRecord = (props: ModalProps) => {
         })
     }
 
-    const [selected, setSelected] = useState<string>('OngoingBusiness');
+    const [selected, setSelected] = useState<string>();
     return(
         <IonModal isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
             <IonHeader>
@@ -65,16 +65,10 @@ const AddRecord = (props: ModalProps) => {
                         <IonInput type='text' id='description' required name='description' onChange={() => handleChange}></IonInput>
                     </IonItem>
                     <IonItem>
-                        <IonRadioGroup value={selected} onIonChange={e => setSelected(e.detail.value)}>
+                        <IonRadioGroup name='Business' value={selected} onIonChange={e => setSelected(e.detail.value)}>
                             <IonItem>
-                                <IonItem>
-                                    <IonLabel>Affaire en cours</IonLabel>
-                                    <IonRadio slot="start" value="OngoingBusiness" />
-                                </IonItem>
-                                <IonItem>
-                                    <IonLabel>Affaire Cloturée</IonLabel>
-                                    <IonRadio slot="start" value="CompletedBusiness" />
-                                </IonItem>
+                                <IonLabel>Affaire Cloturée</IonLabel>
+                                <IonRadio slot="start" value="CompletedBusiness" />
                             </IonItem>   
                         </IonRadioGroup>
                     </IonItem>
