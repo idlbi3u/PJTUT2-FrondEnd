@@ -1,6 +1,7 @@
-import { IonButton, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonNote, IonTitle, IonToolbar } from '@ionic/react';
+import {IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList,IonMenu, IonMenuToggle, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useState } from 'react';
 import { useLocation } from 'react-router';
+import './Layout.css';
 import { 
     peopleOutline,
     folderOutline,
@@ -20,7 +21,7 @@ interface MenuItem {
 const Layout  = () => 
 {
     const location = useLocation();
-    const [menuItems, setMenuItems] = useState<MenuItem[]>([
+    const [menuItems] = useState<MenuItem[]>([
         {
             title: 'Home',
             url: '/home',
@@ -42,7 +43,12 @@ const Layout  = () =>
     ]);
 
     return(
-        <IonMenu contentId="main" type="overlay">
+        <IonMenu className='ionicMenu' side="start" menuId='first' contentId="main" type="overlay">
+            <IonHeader>
+                <IonToolbar>
+                    <IonTitle>LOGO</IonTitle>
+                </IonToolbar>
+            </IonHeader>
             <IonContent>    
                 <IonList id="app-menu">
                 {menuItems.map((item: MenuItem, index) => {

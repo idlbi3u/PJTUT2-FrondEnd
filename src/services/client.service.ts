@@ -1,5 +1,5 @@
 import http from "../http-common";
-import  IClientData from "../types/client.type";
+import IClientData from "../types/client.type";
 
 class ClientDataService {
     getAll(){
