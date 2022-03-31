@@ -57,6 +57,8 @@ const AddClient = (props: ModalProps) => {
             .catch((e: Error) => {
             console.log(e)
         })
+        setIsOpen(false);
+        window.location.reload();
     }
 
     const formatDate = (value: string) => {

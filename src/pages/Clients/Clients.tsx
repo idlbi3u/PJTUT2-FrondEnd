@@ -21,7 +21,7 @@ import './Clients.css';
 import ClientDataService from "../../services/client.service"
 import IClientData from "../../types/client.type";
 import AddClient from '../../components/Client/AddClient';
-import EditClient from "../../components/clients/edit-client";
+import EditClient from '../../components/Client/EditClient';
 
 
 const Clients: React.FC = () => {
@@ -31,10 +31,12 @@ const Clients: React.FC = () => {
 
     const handleDeleteClient = (id: string) => {
         deleteClient(id);
+        window.location.reload();
     }
 
-    const handleModifyClient = (id: string) => {
-
+    const handleModifyClient = (client: IClientData) => {
+        setSelectedClient(client)
+        setIsEdit(true)
     }
 
     const [clients, setClients] = useState<IClientData[]>([]);
@@ -142,8 +144,7 @@ const Clients: React.FC = () => {
                                             <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
                                         </IonButton>
                                         <IonButton onClick={() => {
-                                            setSelectedClient(client)
-                                            setIsEdit(true)
+                                            handleModifyClient(client)
                                         }}>
                                             <IonIcon ios={pencilOutline} md={pencilSharp}/>
                                         </IonButton>
