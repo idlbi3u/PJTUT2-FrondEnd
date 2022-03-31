@@ -1,4 +1,18 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import {
+    IonButton,
+    IonButtons,
+    IonContent,
+    IonDatetime,
+    IonHeader,
+    IonIcon,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonModal,
+    IonPage,
+    IonTitle,
+    IonToolbar
+} from '@ionic/react';
 import './AddClient.css'
 import { useState } from 'react';
 import { closeOutline, closeSharp } from 'ionicons/icons';
@@ -56,19 +70,19 @@ const AddClient = (props: ModalProps) => {
                 <form className='ion-padding'>
                     <IonItem>
                         <IonLabel position="floating">Nom</IonLabel>
-                        <IonInput type='text' id='name' required name='nom' onChange={() => handleChange} ></IonInput>
+                        <IonInput type='text' id='name' required name='nom' onChange={() => handleChange} />
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Prénom</IonLabel>
-                        <IonInput type='text' id='firstname' required name='firstname' onChange={() => handleChange}></IonInput>
+                        <IonInput type='text' id='firstname' required name='firstname' onChange={() => handleChange}/>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Adresse</IonLabel>
-                        <IonInput type='text' id='name' required name='adresse' onChange={() => handleChange}></IonInput>
+                        <IonInput type='text' id='name' required name='adresse' onChange={() => handleChange}/>
                     </IonItem>
                     <IonItem>
                         <IonLabel>Date De Naissance</IonLabel>
-                        <IonInput type='date' id='date' required name='date' onChange={() => handleChange}></IonInput>
+                        <IonDatetime  id='date' name='date' onChange={() => handleChange}/>
                     </IonItem>
                     <IonButton expand='block' type='submit' onChange={() => saveClient}>
                         Ajouter
