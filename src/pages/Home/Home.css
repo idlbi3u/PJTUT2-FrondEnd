@@ -1,0 +1,13 @@
+.home_main img {
+    margin: 10px auto;
+    display: block;
+}
+
+.home_main {
+    text-align: center;
+}
+
+.home_main h1 {
+    font-weight: bold;
+    font-size: 65px;
+}

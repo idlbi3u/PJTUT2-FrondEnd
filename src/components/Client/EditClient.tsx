@@ -94,32 +94,52 @@ const EditClient = (props: ModalProps) => {
                 <form className='ion-padding'>
                     <IonItem>
                         <IonLabel position="floating">Nom</IonLabel>
-                        <IonInput type='text' id='name' required name='nom' value={states.name}
+                        <IonInput type='text'
+                                  id='name'
+                                  required
+                                  name='nom'
+                                  value={states.name}
                                   onIonChange={e => handleChange(e, "name")}/>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Prénom</IonLabel>
-                        <IonInput type='text' id='firstname' required value={states.firstname} name='firstname'
+                        <IonInput type='text'
+                                  id='firstname'
+                                  required
+                                  value={states.firstname}
+                                  name='firstname'
                                   onIonChange={e => handleChange(e, "firstname")}/>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Adresse</IonLabel>
-                        <IonInput type='text' id='name' required name='address' value={states.address}
+                        <IonInput type='text'
+                                  id='name'
+                                  required
+                                  name='address'
+                                  value={states.address}
                                   onIonChange={e => handleChange(e, "address")}/>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Date de naissance</IonLabel>
-                        <IonInput type='text' id='bd' disabled name='bd' value={states.birthdate}/>
+                        <IonInput type='text'
+                                  id='bd'
+                                  disabled
+                                  name='bd'
+                                  value={states.birthdate}/>
                     </IonItem>
 
                     <IonItem>
                         <IonLabel>Sélectionnez <br/> Date De Naissance</IonLabel>
                         {/*TODO : Le format de la date dans la value={} ne fonctionne pas*/}
-                        <IonDatetime id='date' name='date' presentation={"date"}
+                        <IonDatetime id='date'
+                                     name='date'
+                                     presentation={"date"}
                                      onIonChange={ev => setDate(formatDate(ev.detail.value!))}/>
                     </IonItem>
 
-                    <IonButton expand='block' type='submit' onClick={updateClient}>
+                    <IonButton expand='block'
+                               type='submit'
+                               onClick={updateClient}>
                         Mettre à jour
                     </IonButton>
                 </form>
