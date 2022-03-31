@@ -2,23 +2,25 @@ import http from "../http-common";
 import IClientData from "../types/client.type";
 
 class ClientDataService {
-    getAll(){
+    getAll() {
         return http.get<IClientData[]>("/clients")
     }
 
-    create(data:Object) {
+    create(data: Object) {
         return http.post<IClientData[]>("/clients", data);
     }
 
-    get(id:string) {
+    get(id: string) {
         return http.get(`/clients/${id}`);
     }
 
-    delete(id:string) {
+    delete(id: string) {
         return http.delete(`/clients/${id}`);
     }
 
-    update(id:string, data:Object) {
+    update(id?: string, data?: Object) {
+        console.log(id)
+        console.log(data)
         return http.put(`/clients/${id}`, data);
     }
 
@@ -26,9 +28,9 @@ class ClientDataService {
         return http.delete(`/clients`);
     }
 
-    findByName(name:string) {
+    findByName(name: string) {
         return http.get(`/clients?name=${name}`);
     }
 }
 
-export default  new ClientDataService();
+export default new ClientDataService();
