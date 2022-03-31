@@ -60,7 +60,7 @@ const Records: React.FC = () =>
         } else {
             setFilteredRecords(records.filter(record => record.state));
         }
-    });
+    }, [filter, records]);
   
     return (
         <IonPage>
