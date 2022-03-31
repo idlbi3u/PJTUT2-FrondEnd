@@ -1,3 +1,4 @@
+
 import {
     IonBackButton,
     IonButton,
@@ -15,7 +16,7 @@ import {
     IonToolbar,
     SearchbarChangeEventDetail
 } from '@ionic/react';
-import {addOutline, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from 'ionicons/icons';
+import {addOutline, pencil, pencilOutline, pencilSharp, trash, trashBinOutline, trashBinSharp} from 'ionicons/icons';
 import React, {useEffect, useState} from 'react';
 import './Clients.css';
 import ClientDataService from "../../services/client.service"
@@ -24,7 +25,9 @@ import AddClient from '../../components/Client/AddClient';
 import EditClient from '../../components/Client/EditClient';
 
 
+
 const Clients: React.FC = () => {
+
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [selectedClient, setSelectedClient] = useState<IClientData>();
@@ -100,6 +103,7 @@ const Clients: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
+
                     <IonItem lines='none' slot='start'>
                         <IonButtons slot='start'>
                             <IonBackButton defaultHref='/home'/>
@@ -129,11 +133,20 @@ const Clients: React.FC = () => {
 
                 <IonGrid>
                     <IonRow>
-                        <IonCol>Code</IonCol>
-                        <IonCol>Statut</IonCol>
-                        <IonCol>Clients</IonCol>
-                        <IonCol>Actions</IonCol>
+                        <IonCol>Nom</IonCol>
+                        <IonCol>Affaires associées</IonCol>
+                        <IonCol>Actions
+                            <IonButtons>
+                                <IonButton >
+                                    <IonIcon slot="icon-only" icon={pencil} />
+                                </IonButton>
+                                <IonButton>
+                                    <IonIcon slot="icon-only" icon={trash} />
+                                </IonButton>
+                            </IonButtons>      
+                        </IonCol>
                     </IonRow>
+
                     {clients.map((client: IClientData, index: number) => {
                         return (
                             <IonRow key={index}>
