@@ -16,7 +16,8 @@ import {
 } from "@ionic/react";
 import {closeOutline, closeSharp} from "ionicons/icons";
 import IClientData from "../../types/client.type";
-import { format, parseISO } from 'date-fns';
+import {format, parseISO} from 'date-fns';
+import ClientDataService from "../../services/client.service";
 
 interface ModalProps {
     isOpen: boolean;
@@ -36,12 +37,30 @@ const EditClient = (props: ModalProps) => {
     });
 
     const handleChange = (e: CustomEvent<InputChangeEventDetail>, inputName: string) => {
-        setStates({ ...states, [inputName]: e.detail.value });
+        setStates({...states, [inputName]: e.detail.value});
     }
 
     const saveClient = () => {
+        const client: IClientData = {
+            name: states.name,
+            firstname: states.firstname,
+            address: states.address,
+            birthdate: date
+        }
+        console.log(client);
 
+        ClientDataService.update(client.id, client)
+            .then((res: any) => {
+                console.log("Client mis à jour avec succès");
+            })
+            .catch((e: Error) => {
+                console.log(e)
+            })
+        setIsOpen(false);
+        window.location.reload();
     }
+
+
     const formatDate = (value: string) => {
         return format(parseISO(value), 'yyyy-MM-dd');
     };
@@ -50,8 +69,10 @@ const EditClient = (props: ModalProps) => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='end'>
-                        <IonButton onClick={() => setIsOpen(false)}><IonIcon ios={closeOutline}
-                                                                             md={closeSharp}/></IonButton>
+                        <IonButton onClick={() => setIsOpen(false)}>
+                            <IonIcon ios={closeOutline}
+                                     md={closeSharp}/>
+                        </IonButton>
                     </IonButtons>
                     <IonTitle>Editer un Client</IonTitle>
                 </IonToolbar>
@@ -75,7 +96,8 @@ const EditClient = (props: ModalProps) => {
                     </IonItem>
                     <IonItem>
                         <IonLabel>Date De Naissance</IonLabel>
-                        <IonDatetime id='date' name='date' value={client?.birthdate} onIonChange={ev => setDate(formatDate(ev.detail.value!))}/>
+                        <IonDatetime id='date' name='date' value={client?.birthdate}
+                                     onIonChange={ev => setDate(formatDate(ev.detail.value!))}/>
                     </IonItem>
                     <IonButton expand='block' type='submit' onChange={() => saveClient}>
                         Mettre à jour
@@ -85,5 +107,6 @@ const EditClient = (props: ModalProps) => {
         </IonModal>
     )
 }
+
 
 export default EditClient;
