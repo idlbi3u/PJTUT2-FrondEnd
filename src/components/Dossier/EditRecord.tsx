@@ -28,6 +28,7 @@ interface IRecord {
     ref: string,
     description: string,
     state: boolean,
+    closedAt? : any|null
 }
 
 const EditRecord = (props: ModalProps) => {
@@ -39,6 +40,7 @@ const EditRecord = (props: ModalProps) => {
         ref: record.ref,
         description: record.description,
         state: record.state,
+        closedAt : record.closedAt
     });
 
     console.log(states)
@@ -56,6 +58,7 @@ const EditRecord = (props: ModalProps) => {
             ref: states.ref,
             description: states.description,
             state: states.state,
+            closedAt : states.closedAt
         }
 
         LawyercaseDataService.update(record.id, record)

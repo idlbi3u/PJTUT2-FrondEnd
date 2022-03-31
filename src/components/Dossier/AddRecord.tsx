@@ -17,6 +17,7 @@ const AddRecord = (props: ModalProps) => {
         ref:"",
         description:"",
         state:true,
+        closed_at:""
         
     });
 
@@ -29,6 +30,7 @@ const AddRecord = (props: ModalProps) => {
             ref: states.ref,
             description: states.description,
             state: states.state,
+            closed_at: states.closed_at
         }
 
         LawyercaseDataService.create(record)
