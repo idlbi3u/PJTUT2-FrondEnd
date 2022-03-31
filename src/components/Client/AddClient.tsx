@@ -30,6 +30,7 @@ const AddClient = (props: ModalProps) => {
     const {isOpen, setIsOpen} = props;
     const [date, setDate] = useState("");
     const [states, setStates] = useState<IClientData>({
+        id: "",
         name: "",
         firstname: "",
         address: "",
@@ -42,6 +43,7 @@ const AddClient = (props: ModalProps) => {
 
     const saveClient = () => {
         const client: IClientData = {
+            id: states.id,
             name: states.name,
             firstname: states.firstname,
             address: states.address,
