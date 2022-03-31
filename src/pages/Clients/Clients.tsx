@@ -36,6 +36,7 @@ const Clients: React.FC = () => {
 
     const handleDeleteClient = (id: string) => {
         deleteClient(id);
+        retrieveClients();
     }
 
     const handleModifyClient = (client: any) => {        
@@ -49,7 +50,6 @@ const Clients: React.FC = () => {
         ClientDataService.getAll()
             .then((response: any) => {
                 setClients(response.data)
-                console.log(response.data);
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -98,7 +98,7 @@ const Clients: React.FC = () => {
     useEffect(() => {
         retrieveClients();
 
-    }, []);
+    }, [isOpen, isEdit]);
 
 
     return (
@@ -124,7 +124,7 @@ const Clients: React.FC = () => {
             <IonContent>
                 <IonItem lines='none'>
                     <IonButtons slot='end'>
-                        <IonButton onClick={() => {
+                        <IonButton color='primary' onClick={() => {
                             setIsOpen(true)
                         }}>
                             <IonIcon icon={addOutline}/>Ajouter
@@ -178,7 +178,10 @@ const Clients: React.FC = () => {
                     })}
                 </IonGrid>
             </IonContent>
-            <AddClient isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
+            <AddClient 
+            isOpen={isOpen} 
+            setIsOpen={() => setIsOpen(false)}
+            />
             {selectedClient ? (
                 <EditClient
                     client={selectedClient}

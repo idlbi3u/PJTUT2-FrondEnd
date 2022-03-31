@@ -1,5 +1,6 @@
-import React, {useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {
+    DatetimeChangeEventDetail,
     InputChangeEventDetail,
     IonButton,
     IonButtons,
@@ -15,29 +16,22 @@ import {
     IonToolbar
 } from "@ionic/react";
 import {closeOutline, closeSharp} from "ionicons/icons";
-import {format, parseISO} from 'date-fns';
 import ClientDataService from "../../services/client.service";
+import IClientData from "../../types/client.type";
 
 interface ModalProps {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    client: IClient
+    client: IClientData
 }
 
-interface IClient {
-    id?: string,
-    name: string,
-    firstname: string,
-    address: string,
-    birthdate: string
-}
+
 
 const EditClient = (props: ModalProps) => {
-
     const {isOpen, client, setIsOpen} = props;
-    const [date, setDate] = useState("");
+    const [date, setDate] = useState<string>("");
 
-    const [states, setStates] = useState<IClient>({
+    const [states, setStates] = useState<IClientData>({
         id: client.id,
         name: client.name,
         firstname: client.firstname,
@@ -45,17 +39,16 @@ const EditClient = (props: ModalProps) => {
         birthdate: client.birthdate,
     });
 
-    const formatDate = (value: string) => {
-        return format(parseISO(value), 'yyyy-MM-dd');
-    };
-
     const handleChange = (e: CustomEvent<InputChangeEventDetail>, inputName: string) => {
         setStates({...states, [inputName]: e.detail.value});
     }
 
+    const handleChangeDate = (e: CustomEvent<DatetimeChangeEventDetail>) => {
+        setDate(e.detail.value!);        
+    }
+
     const updateClient = () => {
-        console.log("Updating....")
-        const client: IClient = {
+        const client: IClientData = {
             id: states.id,
             name: states.name,
             firstname: states.firstname,
@@ -73,6 +66,10 @@ const EditClient = (props: ModalProps) => {
         setIsOpen(false);
     }
 
+    useEffect(() => {
+        setDate(client.birthdate);
+        
+    }, [client.birthdate, isOpen]);
 
     return (
         <IonModal isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
@@ -119,18 +116,21 @@ const EditClient = (props: ModalProps) => {
                         <IonLabel position="floating">Date de naissance</IonLabel>
                         <IonInput type='text'
                                   id='bd'
-                                  disabled
+                                  readonly={true}
                                   name='bd'
                                   value={states.birthdate}/>
-                    </IonItem>
+                        </IonItem>
 
                     <IonItem>
-                        <IonLabel>Sélectionnez <br/> Date De Naissance</IonLabel>
-                        {/*TODO : Le format de la date dans la value={} ne fonctionne pas*/}
-                        <IonDatetime id='date'
-                                     name='date'
-                                     presentation="date"
-                                     onIonChange={ev => setDate(formatDate(ev.detail.value!))}/>
+                        <IonDatetime
+                        size="cover"
+                        id='date'
+                        name='date'
+                        presentation="date"
+                        value={date}
+                        onIonChange={(e) => handleChangeDate(e)}
+
+                        />
                     </IonItem>
 
                     <IonButton expand='block'

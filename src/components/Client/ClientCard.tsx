@@ -1,27 +1,32 @@
 import { 
-    IonButton, 
-    IonButtons, 
     IonCard, 
     IonCardContent, 
+    IonCardHeader, 
     IonIcon, 
     IonItem,     
+    IonText,     
     IonTitle,
-    useIonAlert} from "@ionic/react";
+} from "@ionic/react";
 import { 
     calendarClearOutline, 
-    calendarClearSharp,
-    pencilOutline, 
-    pencilSharp, 
+    calendarClearSharp,    
+    fileTrayFullOutline,
+    fileTrayFullSharp,
+    giftOutline,
+    giftSharp,
+    
     personOutline, 
     personSharp, 
-    trashBinOutline, 
-    trashBinSharp} from "ionicons/icons";
-import IClientData from "../../types/client.type";
-import ClientDataService from "../../services/client.service";
+    pinOutline, 
+    pinSharp,  
+    } from "ionicons/icons";
+    
 import {format, parseISO} from 'date-fns';
+
+
+import IClientData from "../../types/client.type";
+// CSS FILES
 import './ClientCard.css';
-import { useState } from "react";
-import EditClient from "./EditClient";
 
 
 interface ClientCardProps{
@@ -29,64 +34,15 @@ interface ClientCardProps{
 }
 const ClientCard = (props: ClientCardProps) => {
     const {client} = props;
-    const [present] = useIonAlert();
-    const [isEdit, setIsEdit] = useState(false);
-    const [selectedClient, setSelectedClient] = useState<IClientData>();
 
     const formatDate = (value: string) => {
-        return format(parseISO(value), 'yyyy-MM-dd');
+        return format(parseISO(value), 'dd/MM/yyyy');
     };
-    const handleDeleteClient = (id: string) => {
-        deleteClient(id);
-    }
-    const deleteClient = (id: string) => {
-        ClientDataService.delete(id)
-            .then((res: any) => {
-                console.log(res + "A bien été supprimé de la BDD");
-            })
-            .catch((e: Error) => {
-                console.log(e)
-            })
-    }
 
-    const handleModifyClient = (client: any) => {        
-        setSelectedClient(client)
-        setIsEdit(true)
-    }
-    
     return(
         <>
         {client ? (
-            <>
-                <IonItem  lines="none">
-                    <IonButtons slot="end">
-                        <IonButton 
-                        color="primary" 
-                        slot="start"
-                        onClick={() => {
-                            handleModifyClient(client)
-                        }}
-                        
-                        >Modifier<IonIcon ios={pencilOutline} md={pencilSharp}/></IonButton>
-                        <IonButton 
-                        color="danger" 
-                        slot="end"
-                        onClick={() => {
-                            present({
-                                cssClass: 'my-css',
-                                header: 'Suppression d\'un Client',
-                                message: 'êtes-vous sûr de vouloir supprimer ce Client ?',
-                                buttons: [
-                                  {text: 'Annuler', role: 'cancel'},
-                                  { text: 'Confirmer', handler: () => handleDeleteClient(client.id)}
-                                ],                        
-                              })
-                        }}
-                        
-                        >Supprimer<IonIcon ios={trashBinOutline} md={trashBinSharp}/></IonButton>
-                    </IonButtons>
-                </IonItem>
-
+            <>    
             <IonCard>
                 <IonCardContent>
                     <IonIcon class="icon" ios={personOutline} md={personSharp}/> 
@@ -98,26 +54,41 @@ const ClientCard = (props: ClientCardProps) => {
                     <IonItem lines="none">
                         <IonIcon ios={calendarClearOutline} md={calendarClearSharp}/>
                         {client.createdAt ? (
-                            <IonTitle>{formatDate(client.createdAt)}</IonTitle>
+                            <IonTitle>Client depuis le {formatDate(client.createdAt)}</IonTitle>
 
                         ) : null}
+                    </IonItem>
+                    <IonItem lines="none">
+                        <IonIcon ios={giftOutline} md={giftSharp}/>
+                        <IonTitle>{client.birthdate}</IonTitle>
                     </IonItem>
 
                 </IonCardContent>
             </IonCard>
 
             <IonCard>
+                <IonCardHeader>
+                    <IonItem lines="none">
+                        <IonIcon ios={pinOutline} md={pinSharp}/>
+                        <IonTitle>Adresse</IonTitle>
+                    </IonItem>
+                </IonCardHeader>
+
                 <IonCardContent>
-                    
+                    <IonText>
+                        <h2>{client.address}</h2>
+                    </IonText>
                 </IonCardContent>
             </IonCard>
-                {selectedClient ? (
-                    <EditClient
-                        client={selectedClient}
-                        isOpen={isEdit}
-                        setIsOpen={() => setIsEdit(false)}
-                    />
-                ) : null}
+
+            <IonCard>
+                <IonCardHeader>
+                    <IonItem lines="none">
+                        <IonIcon ios={fileTrayFullOutline} md={fileTrayFullSharp}/>
+                        <IonTitle>Dossiers</IonTitle>
+                    </IonItem>
+                </IonCardHeader>
+            </IonCard>
             </>
         ) : null}
             

@@ -87,11 +87,13 @@ const AddClient = (props: ModalProps) => {
                 </IonItem>
                 <IonItem>
                     <IonLabel position="floating">Adresse</IonLabel>
-                    <IonInput type='text' id='name' required name='address'
+                    <IonInput type='text' id='adress' required name='address'
                               onIonChange={e => handleChange(e, "address")}/>
                 </IonItem>
+                <IonItem lines='none'>
+                    <IonLabel>Date de naissance</IonLabel>
+                </IonItem>
                 <IonItem>
-                    <IonLabel>Date De Naissance</IonLabel>
                     <IonDatetime
                         id='date'
                         name='date'
