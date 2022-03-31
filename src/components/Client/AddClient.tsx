@@ -1,4 +1,5 @@
 import {
+    InputChangeEventDetail,
     IonButton,
     IonButtons,
     IonContent,
@@ -9,7 +10,6 @@ import {
     IonItem,
     IonLabel,
     IonModal,
-    IonPage,
     IonTitle,
     IonToolbar
 } from '@ionic/react';
@@ -18,6 +18,8 @@ import { useState } from 'react';
 import { closeOutline, closeSharp } from 'ionicons/icons';
 import IClientData from '../../types/client.type';
 import ClientDataService from "../../services/client.service";
+import { format, parseISO } from 'date-fns';
+
 
 
 interface ModalProps{
@@ -27,7 +29,7 @@ interface ModalProps{
 
 const AddClient = (props: ModalProps) => {
     const { isOpen, setIsOpen } = props;
-    const [submitted, setSubmitted] = useState<boolean>(false);
+    const [date, setDate] = useState("");
     const [states, setStates] = useState<IClientData>({
         name:"",
         firstname:"",
@@ -35,8 +37,8 @@ const AddClient = (props: ModalProps) => {
         birthdate:""
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setStates({...states, [e.target.name] : e.target.value.trim()})
+    const handleChange = (e: CustomEvent<InputChangeEventDetail>, inputName: string) => {
+        setStates({ ...states, [inputName]: e.detail.value });
     }
 
     const saveClient = () => {
@@ -44,8 +46,9 @@ const AddClient = (props: ModalProps) => {
             name: states.name,
             firstname: states.firstname,
             address: states.address,
-            birthdate: states.birthdate
+            birthdate: date
         }
+        console.log(client);
 
         ClientDataService.create(client)
             .then((res: any) => {
@@ -55,6 +58,10 @@ const AddClient = (props: ModalProps) => {
             console.log(e)
         })
     }
+
+    const formatDate = (value: string) => {
+        return format(parseISO(value), 'yyyy-MM-dd');
+    };
 
     return(
         <IonModal isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
@@ -67,27 +74,30 @@ const AddClient = (props: ModalProps) => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-                <form className='ion-padding'>
-                    <IonItem>
-                        <IonLabel position="floating">Nom</IonLabel>
-                        <IonInput type='text' id='name' required name='nom' onChange={() => handleChange} />
-                    </IonItem>
-                    <IonItem>
-                        <IonLabel position="floating">Prénom</IonLabel>
-                        <IonInput type='text' id='firstname' required name='firstname' onChange={() => handleChange}/>
-                    </IonItem>
-                    <IonItem>
-                        <IonLabel position="floating">Adresse</IonLabel>
-                        <IonInput type='text' id='name' required name='adresse' onChange={() => handleChange}/>
-                    </IonItem>
-                    <IonItem>
-                        <IonLabel>Date De Naissance</IonLabel>
-                        <IonDatetime  id='date' name='date' onChange={() => handleChange}/>
-                    </IonItem>
-                    <IonButton expand='block' type='submit' onChange={() => saveClient}>
-                        Ajouter
-                    </IonButton>
-                </form>
+                <IonItem>
+                    <IonLabel position="floating">Nom</IonLabel>
+                    <IonInput type='text' id='name' required name='nom' onIonChange={e => handleChange(e, "name")} ></IonInput>
+                </IonItem>
+                <IonItem>
+                    <IonLabel position="floating">Prénom</IonLabel>
+                    <IonInput type='text' id='firstname' required name='firstname' onIonChange={e => handleChange(e, "firstname")}></IonInput>
+                </IonItem>
+                <IonItem>
+                    <IonLabel position="floating">Adresse</IonLabel>
+                    <IonInput type='text' id='name' required name='address' onIonChange={e => handleChange(e, "address")}></IonInput>
+                </IonItem>
+                <IonItem>
+                    <IonLabel>Date De Naissance</IonLabel>
+                    <IonDatetime 
+                    id='date' 
+                    name='date' 
+                    presentation="date"
+                    onIonChange={ev => setDate(formatDate(ev.detail.value!))}
+                    ></IonDatetime>
+                </IonItem>
+                <IonButton expand='block' type='submit' onClick={saveClient}>
+                    Ajouter
+                </IonButton>
             </IonContent>
         </IonModal>
     )
