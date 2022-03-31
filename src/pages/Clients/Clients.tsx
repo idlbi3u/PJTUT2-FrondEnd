@@ -34,8 +34,12 @@ const Clients: React.FC = () => {
         window.location.reload();
     }
 
-    const handleModifyClient = (client: IClientData) => {
+    const handleModifyClient = (client: any) => {
+        console.log("client:")
+        console.log(client)
         setSelectedClient(client)
+        console.log("Selected Client :");
+        console.log(selectedClient);
         setIsEdit(true)
     }
 
@@ -63,10 +67,10 @@ const Clients: React.FC = () => {
 
     const handleSearchClient = async (e: CustomEvent<SearchbarChangeEventDetail>) => {
 
-        if(e.detail.value === ""){
+        if (e.detail.value === "") {
             retrieveClients()
         }
-        
+
         await ClientDataService.getAll()
             .then((response: any) => {
                 setClients(response.data)
@@ -74,13 +78,13 @@ const Clients: React.FC = () => {
             .catch((e: Error) => {
                 console.log(e);
             });
-        if(e.detail.value){
+        if (e.detail.value) {
             let tlc = e.detail.value.toLocaleLowerCase();
-            let filterData = clients.filter((e) =>{
+            let filterData = clients.filter((e) => {
                 let nameTlc = e.name.toLocaleLowerCase();
                 return nameTlc.indexOf(tlc) !== -1
             })
-            
+
             setClients(filterData)
         }
 
@@ -101,15 +105,15 @@ const Clients: React.FC = () => {
                             <IonBackButton defaultHref='/home'/>
                         </IonButtons>
 
-                        <IonTitle>Clients</IonTitle> 
-                    </IonItem>                                  
+                        <IonTitle>Clients</IonTitle>
+                    </IonItem>
                 </IonToolbar>
                 <IonItem lines='none'>
-                    <IonSearchbar 
-                    onIonChange={(e) => handleSearchClient(e)} 
-                    class='search-bar' 
-                    type='text' 
-                    placeholder="Rechercher par nom"></IonSearchbar>
+                    <IonSearchbar
+                        onIonChange={(e) => handleSearchClient(e)}
+                        class='search-bar'
+                        type='text'
+                        placeholder="Rechercher par nom"/>
                 </IonItem>
             </IonHeader>
             <IonContent>
@@ -132,7 +136,7 @@ const Clients: React.FC = () => {
                     </IonRow>
                     {clients.map((client: IClientData, index: number) => {
                         return (
-                            <IonRow>
+                            <IonRow key={index}>
                                 <IonCol>12/333</IonCol>
                                 <IonCol>En Cours</IonCol>
                                 <IonCol>{client.name + ' ' + client.firstname}</IonCol>
@@ -156,11 +160,15 @@ const Clients: React.FC = () => {
                 </IonGrid>
             </IonContent>
             <AddClient isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
-            <EditClient
-                client={selectedClient}
-                isOpen={isEdit}
-                setIsOpen={() => setIsEdit(false)}
-            />)
+            {selectedClient ? (
+                <EditClient
+                    client={selectedClient}
+                    isOpen={isEdit}
+                    setIsOpen={() => setIsEdit(false)}
+                />
+            ) : null}
+
+            )
 
         </IonPage>
     );
