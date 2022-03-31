@@ -1,9 +1,16 @@
+import { IonItem } from "@ionic/react";
+import IClientData from "../../types/client.type";
 
-const ClientCard = () => {
+interface ClientCardProps{
+    client?: IClientData;
+}
+const ClientCard = (props: ClientCardProps) => {
     return(
-        <div>
-            
-        </div>
+        <>
+            <IonItem>
+                
+            </IonItem>
+        </>
     )
 }
 

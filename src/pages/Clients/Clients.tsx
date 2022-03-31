@@ -12,7 +12,8 @@ import {
     IonRow,
     IonSearchbar,
     IonTitle,
-    IonToolbar
+    IonToolbar,
+    SearchbarChangeEventDetail
 } from '@ionic/react';
 import {addOutline, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from 'ionicons/icons';
 import React, {useEffect, useState} from 'react';
@@ -20,7 +21,7 @@ import './Clients.css';
 import ClientDataService from "../../services/client.service"
 import IClientData from "../../types/client.type";
 import AddClient from '../../components/Client/AddClient';
-import EditClient from "../../components/clients/edit-client";
+import EditClient from '../../components/Client/EditClient';
 
 
 const Clients: React.FC = () => {
@@ -30,6 +31,12 @@ const Clients: React.FC = () => {
 
     const handleDeleteClient = (id: string) => {
         deleteClient(id);
+        window.location.reload();
+    }
+
+    const handleModifyClient = (client: IClientData) => {
+        setSelectedClient(client)
+        setIsEdit(true)
     }
 
     const [clients, setClients] = useState<IClientData[]>([]);
@@ -54,6 +61,31 @@ const Clients: React.FC = () => {
             })
     }
 
+    const handleSearchClient = async (e: CustomEvent<SearchbarChangeEventDetail>) => {
+
+        if(e.detail.value === ""){
+            retrieveClients()
+        }
+        
+        await ClientDataService.getAll()
+            .then((response: any) => {
+                setClients(response.data)
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+        if(e.detail.value){
+            let tlc = e.detail.value.toLocaleLowerCase();
+            let filterData = clients.filter((e) =>{
+                let nameTlc = e.name.toLocaleLowerCase();
+                return nameTlc.indexOf(tlc) !== -1
+            })
+            
+            setClients(filterData)
+        }
+
+    }
+
     useEffect(() => {
         retrieveClients();
 
@@ -68,14 +100,17 @@ const Clients: React.FC = () => {
                         <IonButtons slot='start'>
                             <IonBackButton defaultHref='/home'/>
                         </IonButtons>
-                    </IonItem>
 
-                    <IonTitle>Clients</IonTitle>
-
-                    <IonItem slot='end' lines='none'>
-                        <IonSearchbar class='search-bar' type='text' animated={true}/>
-                    </IonItem>
+                        <IonTitle>Clients</IonTitle> 
+                    </IonItem>                                  
                 </IonToolbar>
+                <IonItem lines='none'>
+                    <IonSearchbar 
+                    onIonChange={(e) => handleSearchClient(e)} 
+                    class='search-bar' 
+                    type='text' 
+                    placeholder="Rechercher par nom"></IonSearchbar>
+                </IonItem>
             </IonHeader>
             <IonContent>
                 <IonItem lines='none'>
@@ -96,7 +131,6 @@ const Clients: React.FC = () => {
                         <IonCol>Actions</IonCol>
                     </IonRow>
                     {clients.map((client: IClientData, index: number) => {
-
                         return (
                             <IonRow key={index}>
                                 <IonCol>12/333</IonCol>
@@ -110,8 +144,7 @@ const Clients: React.FC = () => {
                                             <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
                                         </IonButton>
                                         <IonButton onClick={() => {
-                                            setSelectedClient(client)
-                                            setIsEdit(true)
+                                            handleModifyClient(client)
                                         }}>
                                             <IonIcon ios={pencilOutline} md={pencilSharp}/>
                                         </IonButton>

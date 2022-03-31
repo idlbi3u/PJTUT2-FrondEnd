@@ -1,5 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonButton, IonContent, IonHeader, IonItem, IonList, IonListHeader, IonMenu, IonMenuToggle, IonRouterOutlet, IonSplitPane, IonTitle, IonToolbar, setupIonicReact } from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home/Home';
 import Clients from './pages/Clients/Clients';
@@ -24,6 +24,8 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import ClientDetails from './pages/Clients/ClientDetails';
+import ClientListComponent from './components/clients/client-list.component';
 
 
 setupIonicReact();
@@ -37,6 +39,8 @@ const App: React.FC = () => (
           <Route exact path="/home" component={Home} />
           <Route exact path="/clients" component={Clients} />
           <Route exact path="/records" component={Records} />
+          <Route exact path="/apiclitest" component={ClientListComponent} />
+          <Route path="/clients/:id" children={ClientDetails} />
           <Route exact path="/" render={() => <Redirect to="/home" />} />
         </IonRouterOutlet>
       </IonSplitPane>
