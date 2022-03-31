@@ -1,36 +1,34 @@
-import { 
-    IonBackButton, 
-    IonButton, 
-    IonButtons, 
-    IonCol, 
-    IonContent, 
-    IonGrid, 
-    IonHeader, 
-    IonIcon, 
-    IonItem, 
-    IonPage, 
-    IonRow, 
-    IonSearchbar, 
-    IonTitle, 
-    IonToolbar } from '@ionic/react';
-import { pencilOutline, pencilSharp, trashBinOutline, trashBinSharp, addOutline } from 'ionicons/icons';
-import React, { useEffect, useState } from 'react';
+import {
+    IonBackButton,
+    IonButton,
+    IonButtons,
+    IonCol,
+    IonContent,
+    IonGrid,
+    IonHeader,
+    IonIcon,
+    IonItem,
+    IonPage,
+    IonRow,
+    IonSearchbar,
+    IonTitle,
+    IonToolbar
+} from '@ionic/react';
+import {addOutline, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from 'ionicons/icons';
+import React, {useEffect, useState} from 'react';
 import './Clients.css';
 import ClientDataService from "../../services/client.service"
 import IClientData from "../../types/client.type";
 import AddClient from '../../components/Client/AddClient';
+import EditClient from "../../components/clients/edit-client";
 
 
-
-const Clients: React.FC = () => 
-{
+const Clients: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const [selectedClient, setSelectedClient] = useState<IClientData>();
 
-    const handleDeleteClient = (id: number) => {
-        
-    }
-
-    const handleModifyClient = (id: string) => {
+    const handleDeleteClient = (id: string) => {
         deleteClient(id);
     }
 
@@ -46,18 +44,18 @@ const Clients: React.FC = () =>
                 console.log(e);
             });
     }
-    const deleteClient = (id:string) => {
+    const deleteClient = (id: string) => {
         ClientDataService.delete(id)
-            .then((res:any) => {
+            .then((res: any) => {
                 console.log(res + "A bien été supprimé de la BDD");
-        })
-            .catch((e:Error) => {
+            })
+            .catch((e: Error) => {
                 console.log(e)
             })
     }
 
     useEffect(() => {
-        retrieveClients();  
+        retrieveClients();
 
     }, []);
 
@@ -68,26 +66,28 @@ const Clients: React.FC = () =>
                 <IonToolbar>
                     <IonItem lines='none' slot='start'>
                         <IonButtons slot='start'>
-                            <IonBackButton defaultHref='/home' ></IonBackButton>
+                            <IonBackButton defaultHref='/home'/>
                         </IonButtons>
                     </IonItem>
-                   
-                    <IonTitle>Clients</IonTitle> 
-                                      
+
+                    <IonTitle>Clients</IonTitle>
+
                     <IonItem slot='end' lines='none'>
-                        <IonSearchbar class='search-bar' type='text' animated={true}></IonSearchbar>
+                        <IonSearchbar class='search-bar' type='text' animated={true}/>
                     </IonItem>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
                 <IonItem lines='none'>
                     <IonButtons slot='end'>
-                        <IonButton onClick={() => {setIsOpen(true)}} >
-                            <IonIcon icon={addOutline}></IonIcon>Ajouter
+                        <IonButton onClick={() => {
+                            setIsOpen(true)
+                        }}>
+                            <IonIcon icon={addOutline}/>Ajouter
                         </IonButton>
                     </IonButtons>
                 </IonItem>
-                
+
                 <IonGrid>
                     <IonRow>
                         <IonCol>Code</IonCol>
@@ -97,27 +97,40 @@ const Clients: React.FC = () =>
                     </IonRow>
                     {clients.map((client: IClientData, index: number) => {
 
-                        return(
-                        <IonRow>
-                            <IonCol>12/333</IonCol>
-                            <IonCol>En Cours</IonCol>
-                            <IonCol>{client.name + ' '+ client.firstname}</IonCol>
-                            <IonCol>
-                                <IonButtons>
-                                    <IonButton onClick={() => {handleDeleteClient(client.id)}}>
-                                        <IonIcon ios={trashBinOutline} md={trashBinSharp}></IonIcon>
-                                    </IonButton>
-                                    <IonButton onClick={() => {handleModifyClient(client.id)}}>
-                                        <IonIcon ios={pencilOutline} md={pencilSharp}></IonIcon>
-                                    </IonButton>
-                                </IonButtons>
-                            </IonCol>
-                        </IonRow>
+                        return (
+                            <IonRow>
+                                <IonCol>12/333</IonCol>
+                                <IonCol>En Cours</IonCol>
+                                <IonCol>{client.name + ' ' + client.firstname}</IonCol>
+                                <IonCol>
+                                    <IonButtons>
+                                        <IonButton onClick={() => {
+                                            handleDeleteClient(client.id)
+                                        }}>
+                                            <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
+                                        </IonButton>
+                                        <IonButton onClick={() => {
+                                            setSelectedClient(client)
+                                            setIsEdit(true)
+                                        }}>
+                                            <IonIcon ios={pencilOutline} md={pencilSharp}/>
+                                        </IonButton>
+                                    </IonButtons>
+
+
+                                </IonCol>
+                            </IonRow>
                         )
                     })}
                 </IonGrid>
             </IonContent>
             <AddClient isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
+            <EditClient
+                client={selectedClient}
+                isOpen={isEdit}
+                setIsOpen={() => setIsEdit(false)}
+            />)
+
         </IonPage>
     );
 }
