@@ -58,7 +58,6 @@ const AddClient = (props: ModalProps) => {
                 console.log(e)
             })
         setIsOpen(false);
-        // window.location.reload();
     }
 
     const formatDate = (value: string) => {

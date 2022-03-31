@@ -38,7 +38,7 @@ const ClientDetails = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-                {client ? <ClientCard client={client}/> : <div>Erreur!</div>}
+                {client ? <ClientCard client={client}/> : <div>Erreur, ce client n'existe pas!</div>}
             </IonContent>
         </IonPage>
     );

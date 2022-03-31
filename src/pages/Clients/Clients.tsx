@@ -9,10 +9,13 @@ import {
     IonIcon,
     IonItem,
     IonPage,
+    IonRefresher,
+    IonRefresherContent,
     IonRow,
     IonSearchbar,
     IonTitle,
     IonToolbar,
+    RefresherEventDetail,
     SearchbarChangeEventDetail,
     useIonAlert 
 } from '@ionic/react';
@@ -84,7 +87,12 @@ const Clients: React.FC = () => {
 
             setClients(filterData)
         }
-
+    }
+    const handleRefresh = (event: CustomEvent<RefresherEventDetail>) => {
+        setTimeout(() => {
+            retrieveClients();
+            event.detail.complete();
+        }, 2000);
     }
 
     useEffect(() => {
@@ -124,6 +132,11 @@ const Clients: React.FC = () => {
                     </IonButtons>
                 </IonItem>
 
+                <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+                    <IonRefresherContent>
+
+                    </IonRefresherContent>
+                </IonRefresher>
                 <IonGrid>
                     <IonRow>
                         <IonCol>Nom</IonCol>

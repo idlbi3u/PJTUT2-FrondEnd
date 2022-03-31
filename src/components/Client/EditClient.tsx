@@ -71,7 +71,6 @@ const EditClient = (props: ModalProps) => {
                 console.log(e)
             })
         setIsOpen(false);
-        // window.location.reload();
     }
 
 
