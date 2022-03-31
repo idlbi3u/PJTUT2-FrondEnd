@@ -5,6 +5,8 @@ import Home from './pages/Home/Home';
 import Clients from './pages/Clients/Clients';
 import Records from './pages/Records/Records';
 import Layout from './components/Layout/Layout';
+import DetailsRecord from './pages/Records/DetailsRecord';
+
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
