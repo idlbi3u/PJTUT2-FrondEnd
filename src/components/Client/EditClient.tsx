@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     DatetimeChangeEventDetail,
     InputChangeEventDetail,
@@ -69,7 +69,7 @@ const EditClient = (props: ModalProps) => {
     useEffect(() => {
         setDate(client.birthdate);
         
-    }, [client.birthdate, isOpen]);
+    }, [client.birthdate]);
 
     return (
         <IonModal isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>

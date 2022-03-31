@@ -95,6 +95,7 @@ const AddClient = (props: ModalProps) => {
                 </IonItem>
                 <IonItem>
                     <IonDatetime
+                        size='cover'
                         id='date'
                         name='date'
                         presentation="date"

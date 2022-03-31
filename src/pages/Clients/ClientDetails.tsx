@@ -81,6 +81,7 @@ const ClientDetails = () => {
                                     { text: 'Confirmer', handler: () => handleDeleteClient(client?.id)}
                                 ],                        
                                 })
+                            
                         }}
                         
                         >Supprimer<IonIcon ios={trashBinOutline} md={trashBinSharp}/></IonButton>
