@@ -98,7 +98,7 @@ const Clients: React.FC = () => {
                     {clients.map((client: IClientData, index: number) => {
 
                         return (
-                            <IonRow>
+                            <IonRow key={index}>
                                 <IonCol>12/333</IonCol>
                                 <IonCol>En Cours</IonCol>
                                 <IonCol>{client.name + ' ' + client.firstname}</IonCol>
@@ -116,8 +116,6 @@ const Clients: React.FC = () => {
                                             <IonIcon ios={pencilOutline} md={pencilSharp}/>
                                         </IonButton>
                                     </IonButtons>
-
-
                                 </IonCol>
                             </IonRow>
                         )

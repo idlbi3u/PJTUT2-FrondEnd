@@ -9,34 +9,33 @@ import {
     IonItem,
     IonLabel,
     IonModal,
-    IonPage,
     IonTitle,
     IonToolbar
 } from '@ionic/react';
 import './AddClient.css'
-import { useState } from 'react';
-import { closeOutline, closeSharp } from 'ionicons/icons';
+import {useState} from 'react';
+import {closeOutline, closeSharp} from 'ionicons/icons';
 import IClientData from '../../types/client.type';
 import ClientDataService from "../../services/client.service";
 
 
-interface ModalProps{
+interface ModalProps {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AddClient = (props: ModalProps) => {
-    const { isOpen, setIsOpen } = props;
+    const {isOpen, setIsOpen} = props;
     const [submitted, setSubmitted] = useState<boolean>(false);
     const [states, setStates] = useState<IClientData>({
-        name:"",
-        firstname:"",
-        address:"",
-        birthdate:""
+        name: "",
+        firstname: "",
+        address: "",
+        birthdate: ""
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setStates({...states, [e.target.name] : e.target.value.trim()})
+        setStates({...states, [e.target.name]: e.target.value.trim()})
     }
 
     const saveClient = () => {
@@ -52,16 +51,17 @@ const AddClient = (props: ModalProps) => {
                 console.log(res);
             })
             .catch((e: Error) => {
-            console.log(e)
-        })
+                console.log(e)
+            })
     }
 
-    return(
+    return (
         <IonModal isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='end'>
-                        <IonButton onClick={() => setIsOpen(false)}><IonIcon ios={closeOutline} md={closeSharp}/></IonButton>
+                        <IonButton onClick={() => setIsOpen(false)}><IonIcon ios={closeOutline}
+                                                                             md={closeSharp}/></IonButton>
                     </IonButtons>
                     <IonTitle>Ajouter un Client</IonTitle>
                 </IonToolbar>
@@ -70,7 +70,7 @@ const AddClient = (props: ModalProps) => {
                 <form className='ion-padding'>
                     <IonItem>
                         <IonLabel position="floating">Nom</IonLabel>
-                        <IonInput type='text' id='name' required name='nom' onChange={() => handleChange} />
+                        <IonInput type='text' id='name' required name='nom' onChange={() => handleChange}/>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Prénom</IonLabel>
@@ -82,9 +82,9 @@ const AddClient = (props: ModalProps) => {
                     </IonItem>
                     <IonItem>
                         <IonLabel>Date De Naissance</IonLabel>
-                        <IonDatetime  id='date' name='date' onChange={() => handleChange}/>
+                        <IonDatetime id='date' name='date' onChange={() => handleChange}/>
                     </IonItem>
-                    <IonButton expand='block' type='submit' onChange={() => saveClient}>
+                    <IonButton expand='block' type='submit' onClick={() => saveClient}>
                         Ajouter
                     </IonButton>
                 </form>
