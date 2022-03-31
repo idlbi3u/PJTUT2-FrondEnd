@@ -13,7 +13,6 @@ interface ModalProps{
 
 const AddRecord = (props: ModalProps) => {
     const { isOpen, setIsOpen } = props;
-    const [submitted, setSubmitted] = useState<boolean>(false);
     const [states, setStates] = useState<ILawyercase>({
         ref:"",
         description:"",
@@ -48,7 +47,7 @@ const AddRecord = (props: ModalProps) => {
                 <IonToolbar>
                     <IonButtons slot='end'>
                         <IonButton onClick={() => setIsOpen(false)}>
-                            <IonIcon ios={closeOutline} md={closeSharp}/>
+                        <IonIcon ios={closeOutline} md={closeSharp}/>                                                                
                         </IonButton>
                     </IonButtons>
                     <IonTitle>Ajouter un Dossier</IonTitle>
@@ -58,7 +57,7 @@ const AddRecord = (props: ModalProps) => {
                 <form className='ion-padding'>
                     <IonItem>
                         <IonLabel position="floating">Référence</IonLabel>
-                        <IonInput type='text' id='ref' required name='ref' onChange={() => handleChange} ></IonInput>
+                        <IonInput  type='text' id='ref' required name='ref' onChange={() => handleChange} ></IonInput>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Description</IonLabel>

@@ -3,13 +3,9 @@
 }
 
 .SearchBar{
-    width: 400px;
+    width: 500px;
 }
 
-
-.Row, .Col {
-    border: 1px solid black;
-}
 
 .DetailsRecord{
     font-weight: bold;

@@ -1,23 +1,28 @@
 
-import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonPage, IonRoute, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
-import {   addOutline, pencil,  trash,  } from 'ionicons/icons';
+import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonPage, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar, SearchbarChangeEventDetail, useIonAlert } from '@ionic/react';
+import {   addOutline, eyedropOutline, eyeSharp,   pencilOutline,  pencilSharp,   trashBinOutline, trashBinSharp,  } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import './Records.css';
 import LawyercaseDataService from "../../services/lawyercase.service"
 import ILawyercase from '../../types/lawyercase.type';
 import AddRecord from '../../components/Dossier/AddRecord'
+import EditRecord from '../../components/Dossier/EditRecord';
 
 
 const Records: React.FC = () =>
 {
     const [isOpen, setIsOpen] = useState(false);
+    const [present] = useIonAlert();
+    const [isEdit, setIsEdit] = useState(false);
+    const [selectedRecord, setSelectedRecord] = useState<ILawyercase>();
 
-    const handleDeleteRecord = (id: number) => {
-        
-    }
-
-    const handleModifyRecord = (id: string) => {
+    const handleDeleteRecord = (id: string) => {
         deleteRecord(id);
+        window.location.reload();
+    }
+    const handleModifyRecord = (record: any) => {
+        setSelectedRecord(record)
+        setIsEdit(true)
     }
 
     const [records, setRecords] = useState<ILawyercase[]>([]);
@@ -42,11 +47,37 @@ const Records: React.FC = () =>
             })
     }
 
+    const handleSearchRecord = async (e: CustomEvent<SearchbarChangeEventDetail>) => {
+
+        if (e.detail.value === "") {
+            retrieveRecords()
+        }
+
+        await LawyercaseDataService.getAll()
+            .then((response: any) => {
+                setRecords(response.data)
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+        if (e.detail.value) {
+            let tlc = e.detail.value.toLocaleLowerCase();
+            let filterData = records.filter((e) => {
+                let nameTlc = e.ref.toLocaleLowerCase();
+                return nameTlc.indexOf(tlc) !== -1
+            })
+
+            setRecords(filterData)
+        }
+
+    }
+
     useEffect(() => {
         retrieveRecords();  
 
     }, []);
   
+
     return (
         <IonPage>
             <IonHeader>      
@@ -66,7 +97,11 @@ const Records: React.FC = () =>
                                 </IonSelect>
                             </IonItem>
                             <IonItem className='SearchBar' lines='none'>   
-                                <IonSearchbar class='search-bar' type='text' animated={true}></IonSearchbar>
+                            <IonSearchbar
+                                onIonChange={(e) => handleSearchRecord(e)}
+                                class='search-bar'
+                                type='text'
+                                placeholder="Rechercher par nom de dossier"/>
                             </IonItem>
                     </IonItem>
 
@@ -80,70 +115,56 @@ const Records: React.FC = () =>
                         </IonButton>
                     </IonButtons>
                 </IonItem>
-                <IonGrid>
-                    <IonRow className='Row'>
-                        <IonCol className='Col'>Code</IonCol>
-                        <IonCol className='Col'>Statut</IonCol>
-                        <IonCol className='Col'>Clients</IonCol>
-                        <IonCol className='Col'>Actions
-                            <IonButtons>
-                                <IonButton href='/detailsrecord'>
-                                    <IonIcon slot="icon-only" icon={pencil} />
-                                </IonButton>
-                                <IonButton>
-                                    <IonIcon slot="icon-only" icon={trash} />
-                                </IonButton>
-                            </IonButtons>             
-                        </IonCol>
-                    </IonRow>
+                <IonGrid>   
                     <IonRow className='Row'>
                     <IonCol className='Col'>Code</IonCol>
                         <IonCol className='Col'>Statut</IonCol>
                         <IonCol className='Col'>Clients</IonCol>
-                        <IonCol className='Col'>Actions
-                            <IonButtons>
-                                <IonButton >
-                                    <IonIcon slot="icon-only" icon={pencil} />
-                                </IonButton>
-                                <IonButton>
-                                    <IonIcon slot="icon-only" icon={trash} />
-                                </IonButton>
-                            </IonButtons>             
-                        </IonCol>
-                    </IonRow>
-                    <IonRow className='Row'>
-                    <IonCol className='Col'>Code</IonCol>
-                        <IonCol className='Col'>Statut</IonCol>
-                        <IonCol className='Col'>Clients</IonCol>
-                        <IonCol className='Col'>Actions
-                            <IonButtons>
-                                <IonButton >
-                                    <IonIcon slot="icon-only" icon={pencil} />
-                                </IonButton>
-                                <IonButton>
-                                    <IonIcon slot="icon-only" icon={trash} />
-                                </IonButton>
-                            </IonButtons>             
-                        </IonCol>
-                    </IonRow>
-                    <IonRow className='Row'>
-                    <IonCol className='Col'>Code</IonCol>
-                        <IonCol className='Col'>Statut</IonCol>
-                        <IonCol className='Col'>Clients</IonCol>
-                        <IonCol className='Col'>Actions
-                            <IonButtons>
-                                <IonButton >
-                                    <IonIcon slot="icon-only" icon={pencil} />
-                                </IonButton>
-                                <IonButton>
-                                    <IonIcon slot="icon-only" icon={trash} />
-                                </IonButton>
-                            </IonButtons>             
-                        </IonCol>
+                        <IonCol className='Col'>Actions</IonCol>
                     </IonRow> 
+                    {records.map((record: ILawyercase, index: number) => {
+                        return (
+                            <IonRow key={index}>
+                            <IonCol>{record.ref}</IonCol>
+                            <IonCol>test</IonCol>                                
+                            <IonCol>
+                                <IonButtons>
+                                    <IonButton href={'/id'} color='success'>
+                                            <IonIcon ios={eyedropOutline} md={eyeSharp}/>
+                                    </IonButton>
+                                    <IonButton color='primary' onClick={() => {
+                                        handleModifyRecord(record)
+                                    }}>
+                                        <IonIcon ios={pencilOutline} md={pencilSharp}/>
+                                    </IonButton>
+                                    <IonButton color='danger' onClick={() => {
+                                        present({
+                                            cssClass: 'my-css',
+                                            header: 'Suppression d\'un client',
+                                            message: 'êtes-vous sûr de vouloir supprimer ce client ?',
+                                            buttons: [
+                                                {text: 'Annuler', role: 'cancel'},
+                                                { text: 'Oui', handler: () => handleDeleteRecord(record.id)}
+                                            ],                        
+                                        })               
+                                    }}>                                        
+                                        <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
+                                    </IonButton>
+                                </IonButtons>
+                                </IonCol>
+                            </IonRow>
+                        )
+                    })}
                 </IonGrid>
             </IonContent>
-            <AddRecord isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
+            <AddRecord  isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
+            {selectedRecord ? (
+                <EditRecord
+                    record={selectedRecord}
+                    isOpen={isEdit}
+                    setIsOpen={() => setIsEdit(false)}
+                />
+            ) : null}
             <IonItem>
                 <IonButtons slot="end">
                 <IonButton className='Pages' color="black">Previous</IonButton>

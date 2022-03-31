@@ -1,5 +1,5 @@
-import { IonButton, IonButtons,  IonContent, IonFooter, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonText, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
-import {  folderOpenOutline, trash } from 'ionicons/icons';
+import { IonButton, IonButtons,  IonContent,  IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonText, IonTextarea, IonTitle, IonToolbar, useIonAlert } from '@ionic/react';
+import {  folderOpenOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import './Records.css';
 
@@ -10,6 +10,7 @@ const DetailsRecord: React.FC = () =>
     
     }
     
+    const [present] = useIonAlert();
     const [detailrecord, setDetailRecord] = useState<DetailRecord[]>([]);
     return (
         <IonPage>
@@ -27,7 +28,17 @@ const DetailsRecord: React.FC = () =>
                     </IonButtons>   
                     <IonButtons slot='end'>
                         <IonButton className='ModifButton'>Modifier Dossier</IonButton>
-                        <IonButton className='DeleteButton'>Supprimer</IonButton>
+                        <IonButton className='DeleteButton'  onClick={() => {
+                                            present({
+                                                cssClass: 'my-css',
+                                                header: 'Suppression d\'un client',
+                                                message: 'êtes-vous sûr de vouloir supprimer ce client ?',
+                                                buttons: [
+                                                  {text: 'Annuler', role: 'cancel'},
+                                                  { text: 'Oui'}
+                                                ],                        
+                                              })
+                                        }}>Supprimer</IonButton>
                     </IonButtons>   
                 </IonToolbar>
                     <IonLabel className='DetailsRecord'>description</IonLabel>   
