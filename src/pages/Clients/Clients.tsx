@@ -13,9 +13,10 @@ import {
     IonSearchbar,
     IonTitle,
     IonToolbar,
-    SearchbarChangeEventDetail
+    SearchbarChangeEventDetail,
+    useIonAlert 
 } from '@ionic/react';
-import {addOutline, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from 'ionicons/icons';
+import {addOutline, eyedropOutline, eyeSharp, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from 'ionicons/icons';
 import React, {useEffect, useState} from 'react';
 import './Clients.css';
 import ClientDataService from "../../services/client.service"
@@ -28,18 +29,14 @@ const Clients: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [selectedClient, setSelectedClient] = useState<IClientData>();
+    const [present] = useIonAlert();
 
     const handleDeleteClient = (id: string) => {
         deleteClient(id);
-        window.location.reload();
     }
 
-    const handleModifyClient = (client: any) => {
-        console.log("client:")
-        console.log(client)
+    const handleModifyClient = (client: any) => {        
         setSelectedClient(client)
-        console.log("Selected Client :");
-        console.log(selectedClient);
         setIsEdit(true)
     }
 
@@ -129,28 +126,37 @@ const Clients: React.FC = () => {
 
                 <IonGrid>
                     <IonRow>
-                        <IonCol>Code</IonCol>
-                        <IonCol>Statut</IonCol>
-                        <IonCol>Clients</IonCol>
+                        <IonCol>Nom</IonCol>
+                        <IonCol>Affaires Associées</IonCol>
                         <IonCol>Actions</IonCol>
                     </IonRow>
                     {clients.map((client: IClientData, index: number) => {
                         return (
                             <IonRow key={index}>
-                                <IonCol>12/333</IonCol>
-                                <IonCol>En Cours</IonCol>
                                 <IonCol>{client.name + ' ' + client.firstname}</IonCol>
+                                <IonCol>12/333</IonCol>                                
                                 <IonCol>
                                     <IonButtons>
-                                        <IonButton onClick={() => {
-                                            handleDeleteClient(client.id)
-                                        }}>
-                                            <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
+                                        <IonButton href={'/clients/view/'+ client.id} color='success'>
+                                            <IonIcon ios={eyedropOutline} md={eyeSharp}/>
                                         </IonButton>
-                                        <IonButton onClick={() => {
+                                        <IonButton color='primary' onClick={() => {
                                             handleModifyClient(client)
                                         }}>
                                             <IonIcon ios={pencilOutline} md={pencilSharp}/>
+                                        </IonButton>
+                                        <IonButton color='danger' onClick={() => {
+                                            present({
+                                                cssClass: 'my-css',
+                                                header: 'Suppression d\'un client',
+                                                message: 'êtes-vous sûr de vouloir supprimer ce client ?',
+                                                buttons: [
+                                                  {text: 'Annuler', role: 'cancel'},
+                                                  { text: 'Confirmer', handler: () => handleDeleteClient(client.id)}
+                                                ],                        
+                                              })                                            
+                                        }}>                                        
+                                            <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
                                         </IonButton>
                                     </IonButtons>
                                 </IonCol>
@@ -167,9 +173,6 @@ const Clients: React.FC = () => {
                     setIsOpen={() => setIsEdit(false)}
                 />
             ) : null}
-
-            )
-
         </IonPage>
     );
 }

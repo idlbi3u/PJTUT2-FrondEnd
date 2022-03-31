@@ -30,11 +30,11 @@ const AddClient = (props: ModalProps) => {
     const {isOpen, setIsOpen} = props;
     const [date, setDate] = useState("");
     const [states, setStates] = useState<IClientData>({
-        id: "",
+        id:"",
         name: "",
         firstname: "",
         address: "",
-        birthdate: ""
+        birthdate: "",
     });
 
     const handleChange = (e: CustomEvent<InputChangeEventDetail>, inputName: string) => {
@@ -49,7 +49,6 @@ const AddClient = (props: ModalProps) => {
             address: states.address,
             birthdate: date
         }
-        console.log(client);
 
         ClientDataService.create(client)
             .then((res: any) => {
@@ -59,7 +58,7 @@ const AddClient = (props: ModalProps) => {
                 console.log(e)
             })
         setIsOpen(false);
-        window.location.reload();
+        // window.location.reload();
     }
 
     const formatDate = (value: string) => {

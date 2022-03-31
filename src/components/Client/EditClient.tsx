@@ -45,8 +45,6 @@ const EditClient = (props: ModalProps) => {
         birthdate: client.birthdate,
     });
 
-    console.log(states)
-
     const formatDate = (value: string) => {
         return format(parseISO(value), 'yyyy-MM-dd');
     };
@@ -72,8 +70,8 @@ const EditClient = (props: ModalProps) => {
             .catch((e: Error) => {
                 console.log(e)
             })
-        /*setIsOpen(false);*/
-        /*window.location.reload();*/
+        setIsOpen(false);
+        // window.location.reload();
     }
 
 
@@ -91,7 +89,6 @@ const EditClient = (props: ModalProps) => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-                <form className='ion-padding'>
                     <IonItem>
                         <IonLabel position="floating">Nom</IonLabel>
                         <IonInput type='text'
@@ -133,7 +130,7 @@ const EditClient = (props: ModalProps) => {
                         {/*TODO : Le format de la date dans la value={} ne fonctionne pas*/}
                         <IonDatetime id='date'
                                      name='date'
-                                     presentation={"date"}
+                                     presentation="date"
                                      onIonChange={ev => setDate(formatDate(ev.detail.value!))}/>
                     </IonItem>
 
@@ -142,7 +139,6 @@ const EditClient = (props: ModalProps) => {
                                onClick={updateClient}>
                         Mettre à jour
                     </IonButton>
-                </form>
             </IonContent>
         </IonModal>
     )
