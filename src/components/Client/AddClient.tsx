@@ -1,17 +1,18 @@
-import { 
-    InputChangeEventDetail, 
-    IonButton, 
-    IonButtons, 
-    IonContent, 
-    IonDatetime, 
-    IonHeader, 
-    IonIcon, 
-    IonInput, 
-    IonItem, 
-    IonLabel, 
-    IonModal, 
-    IonTitle, 
-    IonToolbar } from '@ionic/react';
+import {
+    InputChangeEventDetail,
+    IonButton,
+    IonButtons,
+    IonContent,
+    IonDatetime,
+    IonHeader,
+    IonIcon,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonModal,
+    IonTitle,
+    IonToolbar
+} from '@ionic/react';
 import './AddClient.css'
 import { useState } from 'react';
 import { closeOutline, closeSharp } from 'ionicons/icons';
