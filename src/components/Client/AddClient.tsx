@@ -30,11 +30,11 @@ const AddClient = (props: ModalProps) => {
     const {isOpen, setIsOpen} = props;
     const [date, setDate] = useState("");
     const [states, setStates] = useState<IClientData>({
-        id: "",
+        id:"",
         name: "",
         firstname: "",
         address: "",
-        birthdate: ""
+        birthdate: "",
     });
 
     const handleChange = (e: CustomEvent<InputChangeEventDetail>, inputName: string) => {
@@ -49,7 +49,6 @@ const AddClient = (props: ModalProps) => {
             address: states.address,
             birthdate: date
         }
-        console.log(client);
 
         ClientDataService.create(client)
             .then((res: any) => {
@@ -59,7 +58,6 @@ const AddClient = (props: ModalProps) => {
                 console.log(e)
             })
         setIsOpen(false);
-        window.location.reload();
     }
 
     const formatDate = (value: string) => {
@@ -89,12 +87,15 @@ const AddClient = (props: ModalProps) => {
                 </IonItem>
                 <IonItem>
                     <IonLabel position="floating">Adresse</IonLabel>
-                    <IonInput type='text' id='name' required name='address'
+                    <IonInput type='text' id='adress' required name='address'
                               onIonChange={e => handleChange(e, "address")}/>
                 </IonItem>
+                <IonItem lines='none'>
+                    <IonLabel>Date de naissance</IonLabel>
+                </IonItem>
                 <IonItem>
-                    <IonLabel>Date De Naissance</IonLabel>
                     <IonDatetime
+                        size='cover'
                         id='date'
                         name='date'
                         presentation="date"

@@ -10,13 +10,17 @@ import {
     IonIcon,
     IonItem,
     IonPage,
+    IonRefresher,
+    IonRefresherContent,
     IonRow,
     IonSearchbar,
     IonTitle,
     IonToolbar,
-    SearchbarChangeEventDetail
+    RefresherEventDetail,
+    SearchbarChangeEventDetail,
+    useIonAlert 
 } from '@ionic/react';
-import {addOutline, pencil, pencilOutline, pencilSharp, trash, trashBinOutline, trashBinSharp} from 'ionicons/icons';
+import {addOutline, eyedropOutline, eyeSharp, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from 'ionicons/icons';
 import React, {useEffect, useState} from 'react';
 import './Clients.css';
 import ClientDataService from "../../services/client.service"
@@ -30,19 +34,17 @@ const Clients: React.FC = () => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
+    const [Delete, setDelete] = useState(false);
     const [selectedClient, setSelectedClient] = useState<IClientData>();
+    const [present] = useIonAlert();
 
     const handleDeleteClient = (id: string) => {
+        setDelete(true);
         deleteClient(id);
-        window.location.reload();
     }
 
-    const handleModifyClient = (client: any) => {
-        console.log("client:")
-        console.log(client)
+    const handleModifyClient = (client: any) => {        
         setSelectedClient(client)
-        console.log("Selected Client :");
-        console.log(selectedClient);
         setIsEdit(true)
     }
 
@@ -52,7 +54,6 @@ const Clients: React.FC = () => {
         ClientDataService.getAll()
             .then((response: any) => {
                 setClients(response.data)
-                console.log(response.data);
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -66,6 +67,7 @@ const Clients: React.FC = () => {
             .catch((e: Error) => {
                 console.log(e)
             })
+        setDelete(false);
     }
 
     const handleSearchClient = async (e: CustomEvent<SearchbarChangeEventDetail>) => {
@@ -90,13 +92,18 @@ const Clients: React.FC = () => {
 
             setClients(filterData)
         }
-
+    }
+    const handleRefresh = (event: CustomEvent<RefresherEventDetail>) => {
+        setTimeout(() => {
+            retrieveClients();
+            event.detail.complete();
+        }, 2000);
     }
 
     useEffect(() => {
         retrieveClients();
 
-    }, []);
+    }, [isOpen, isEdit, Delete]);
 
 
     return (
@@ -108,7 +115,6 @@ const Clients: React.FC = () => {
                         <IonButtons slot='start'>
                             <IonBackButton defaultHref='/home'/>
                         </IonButtons>
-
                         <IonTitle>Clients</IonTitle>
                     </IonItem>
                 </IonToolbar>
@@ -123,7 +129,7 @@ const Clients: React.FC = () => {
             <IonContent>
                 <IonItem lines='none'>
                     <IonButtons slot='end'>
-                        <IonButton onClick={() => {
+                        <IonButton color='primary' onClick={() => {
                             setIsOpen(true)
                         }}>
                             <IonIcon icon={addOutline}/>Ajouter
@@ -131,39 +137,45 @@ const Clients: React.FC = () => {
                     </IonButtons>
                 </IonItem>
 
+                <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+                    <IonRefresherContent>
+
+                    </IonRefresherContent>
+                </IonRefresher>
                 <IonGrid>
                     <IonRow>
                         <IonCol>Nom</IonCol>
-                        <IonCol>Affaires associées</IonCol>
-                        <IonCol>Actions
-                            <IonButtons>
-                                <IonButton >
-                                    <IonIcon slot="icon-only" icon={pencil} />
-                                </IonButton>
-                                <IonButton>
-                                    <IonIcon slot="icon-only" icon={trash} />
-                                </IonButton>
-                            </IonButtons>      
-                        </IonCol>
+                        <IonCol>Affaires Associées</IonCol>
+                        <IonCol>Actions</IonCol>
                     </IonRow>
 
                     {clients.map((client: IClientData, index: number) => {
                         return (
                             <IonRow key={index}>
-                                <IonCol>12/333</IonCol>
-                                <IonCol>En Cours</IonCol>
                                 <IonCol>{client.name + ' ' + client.firstname}</IonCol>
+                                <IonCol>12/333</IonCol>                                
                                 <IonCol>
                                     <IonButtons>
-                                        <IonButton onClick={() => {
-                                            handleDeleteClient(client.id)
-                                        }}>
-                                            <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
+                                        <IonButton href={'/clients/view/'+ client.id} color='success'>
+                                            <IonIcon ios={eyedropOutline} md={eyeSharp}/>
                                         </IonButton>
-                                        <IonButton onClick={() => {
+                                        <IonButton color='primary' onClick={() => {
                                             handleModifyClient(client)
                                         }}>
                                             <IonIcon ios={pencilOutline} md={pencilSharp}/>
+                                        </IonButton>
+                                        <IonButton color='danger' onClick={() => {
+                                            present({
+                                                cssClass: 'my-css',
+                                                header: 'Suppression d\'un client',
+                                                message: 'êtes-vous sûr de vouloir supprimer ce client ?',
+                                                buttons: [
+                                                  {text: 'Annuler', role: 'cancel'},
+                                                  { text: 'Confirmer', handler: () => handleDeleteClient(client.id)}
+                                                ],                        
+                                              })                                            
+                                        }}>                                        
+                                            <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
                                         </IonButton>
                                     </IonButtons>
                                 </IonCol>
@@ -172,7 +184,10 @@ const Clients: React.FC = () => {
                     })}
                 </IonGrid>
             </IonContent>
-            <AddClient isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
+            <AddClient 
+            isOpen={isOpen} 
+            setIsOpen={() => setIsOpen(false)}
+            />
             {selectedClient ? (
                 <EditClient
                     client={selectedClient}
@@ -180,9 +195,6 @@ const Clients: React.FC = () => {
                     setIsOpen={() => setIsEdit(false)}
                 />
             ) : null}
-
-            )
-
         </IonPage>
     );
 }
