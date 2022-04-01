@@ -7,6 +7,7 @@ import LawyercaseDataService from "../../services/lawyercase.service"
 import ILawyercase from '../../types/lawyercase.type';
 import AddRecord from '../../components/Dossier/AddRecord'
 import EditRecord from '../../components/Dossier/EditRecord';
+import IClientData from '../../types/client.type';
 
 
 const Records: React.FC = () =>
@@ -16,9 +17,12 @@ const Records: React.FC = () =>
     const [isEdit, setIsEdit] = useState(false);
     const [selectedRecord, setSelectedRecord] = useState<ILawyercase>();
 
-    const handleDeleteRecord = (id: string) => {
-        deleteRecord(id);
+    const [filter, setFilter] = useState<string>("AllBusiness");
+
+    const handleDeleteRecord = (id: number) => {
+        
     }
+
     const handleModifyRecord = (record: any) => {
         setSelectedRecord(record)
         setIsEdit(true)
@@ -75,6 +79,18 @@ const Records: React.FC = () =>
         retrieveRecords();  
 
     }, []);
+
+    const [filteredRecords, setFilteredRecords] = useState<ILawyercase[]>(records);
+
+    useEffect(() => {
+        if (filter === "AllBusiness") {
+            setFilteredRecords(records);
+        } else if (filter === "OnGoingBusiness") {
+            setFilteredRecords(records.filter(record => !record.state));
+        } else {
+            setFilteredRecords(records.filter(record => record.state));
+        }
+    });
   
 
     return (
@@ -89,10 +105,10 @@ const Records: React.FC = () =>
                     <IonItem>
                         <IonTitle>Dossiers</IonTitle>
                         <IonItem className='Business' lines='none'>   
-                                <IonSelect placeholder="Selectionnez une catégorie d'affaire">
-                                <IonSelectOption value="AllBusiness">Afficher affaires en cours et cloturées</IonSelectOption>
-                                <IonSelectOption value="OnGoingBusiness">Afficher affaires en cours</IonSelectOption>
-                                <IonSelectOption value="CompletedBusiness">Afficher affaires cloturées</IonSelectOption>
+                                <IonSelect placeholder="Selectionnez une catégorie d'affaire" value={filter} onIonChange={e => setFilter(e.detail.value)}>
+                                    <IonSelectOption value="AllBusiness">Toutes les affaires</IonSelectOption>
+                                    <IonSelectOption value="OnGoingBusiness">Affaires en cours</IonSelectOption>
+                                    <IonSelectOption value="CompletedBusiness">Affaires cloturées</IonSelectOption>
                                 </IonSelect>
                             </IonItem>
                             <IonItem className='SearchBar' lines='none'>   
@@ -114,20 +130,27 @@ const Records: React.FC = () =>
                         </IonButton>
                     </IonButtons>
                 </IonItem>
-                <IonGrid>   
+                <IonGrid>
                     <IonRow className='Row'>
-                    <IonCol className='Col'>Code</IonCol>
+                        <IonCol className='Col'>Code</IonCol>
                         <IonCol className='Col'>Statut</IonCol>
                         <IonCol className='Col'>Clients</IonCol>
                         <IonCol className='Col'>Actions</IonCol>
-                    </IonRow> 
-                    {records.map((record: ILawyercase, index: number) => {
+                    </IonRow>
+                    {filteredRecords.map((record: ILawyercase, index: number) => {
                         return (
-                            <IonRow key={index}>
-                                <IonCol>{record.ref}</IonCol>
-                                <IonCol>{record.description}</IonCol>                                
-                                <IonCol>
-                                    <IonButtons>
+                            <IonRow className='Row' key={index}>
+                                <IonCol className='Col'>{record.ref}</IonCol>
+                                <IonCol className='Col'>{record.state ? "Clôturé" : "En cours"}</IonCol>
+                                <IonCol className='Col'>
+                                    {record.clients ? record.clients.map((client: IClientData, index: number) => {
+                                        return (
+                                            client.name + " " + client.firstname + " / "
+                                        )
+                                    }) : "Aucun client"}
+                                </IonCol>
+                                <IonCol className='Col'>
+                                <IonButtons>
                                         <IonButton href={'/records/view/'+record.id} color='success'>
                                                 <IonIcon ios={eyedropOutline} md={eyeSharp}/>
                                         </IonButton>
@@ -149,7 +172,7 @@ const Records: React.FC = () =>
                                         }}>                                        
                                             <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
                                         </IonButton>
-                                    </IonButtons>
+                                    </IonButtons>        
                                 </IonCol>
                             </IonRow>
                         )
