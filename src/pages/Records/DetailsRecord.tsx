@@ -23,7 +23,7 @@ const DetailsRecord: React.FC = () =>
                 <IonToolbar>
                     <IonButtons>
                         <IonButton >
-                            <IonIcon slot="icon-only" icon={folderOpenOutline} />  
+                            <IonIcon slot="icon-only" icon={folderOpenOutline}  />  
                         </IonButton>
                     </IonButtons>   
                     <IonButtons slot='end'>

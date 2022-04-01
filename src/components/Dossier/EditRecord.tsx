@@ -58,8 +58,9 @@ const EditRecord = (props: ModalProps) => {
             ref: states.ref,
             description: states.description,
             state: states.state,
-            closedAt : states.closedAt
+            closedAt : states.closedAt || null
         }
+        console.log(record)
 
         LawyercaseDataService.update(record.id, record)
             .then((res: any) => {
@@ -87,10 +88,9 @@ const EditRecord = (props: ModalProps) => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-                <form className='ion-padding'>
                     <IonItem>
                         <IonLabel  position="floating">Référence</IonLabel>
-                        <IonInput  disabled type='text'
+                        <IonInput  type='text'
                                   id='name'
                                   required
                                   name='ref'
@@ -119,7 +119,6 @@ const EditRecord = (props: ModalProps) => {
                                onClick={updateRecord}>
                         Mettre à jour
                     </IonButton>
-                </form>
             </IonContent>
         </IonModal>
     )

@@ -18,7 +18,6 @@ const Records: React.FC = () =>
 
     const handleDeleteRecord = (id: string) => {
         deleteRecord(id);
-        window.location.reload();
     }
     const handleModifyRecord = (record: any) => {
         setSelectedRecord(record)
@@ -125,32 +124,32 @@ const Records: React.FC = () =>
                     {records.map((record: ILawyercase, index: number) => {
                         return (
                             <IonRow key={index}>
-                            <IonCol>{record.ref}</IonCol>
-                            <IonCol>test</IonCol>                                
-                            <IonCol>
-                                <IonButtons>
-                                    <IonButton href={'/id'} color='success'>
-                                            <IonIcon ios={eyedropOutline} md={eyeSharp}/>
-                                    </IonButton>
-                                    <IonButton color='primary' onClick={() => {
-                                        handleModifyRecord(record)
-                                    }}>
-                                        <IonIcon ios={pencilOutline} md={pencilSharp}/>
-                                    </IonButton>
-                                    <IonButton color='danger' onClick={() => {
-                                        present({
-                                            cssClass: 'my-css',
-                                            header: 'Suppression d\'un client',
-                                            message: 'êtes-vous sûr de vouloir supprimer ce client ?',
-                                            buttons: [
-                                                {text: 'Annuler', role: 'cancel'},
-                                                { text: 'Oui', handler: () => handleDeleteRecord(record.id)}
-                                            ],                        
-                                        })               
-                                    }}>                                        
-                                        <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
-                                    </IonButton>
-                                </IonButtons>
+                                <IonCol>{record.ref}</IonCol>
+                                <IonCol>{record.description}</IonCol>                                
+                                <IonCol>
+                                    <IonButtons>
+                                        <IonButton href={'/records/view/'+record.id} color='success'>
+                                                <IonIcon ios={eyedropOutline} md={eyeSharp}/>
+                                        </IonButton>
+                                        <IonButton color='primary' onClick={() => {
+                                            handleModifyRecord(record)
+                                        }}>
+                                            <IonIcon ios={pencilOutline} md={pencilSharp}/>
+                                        </IonButton>
+                                        <IonButton color='danger' onClick={() => {
+                                            present({
+                                                cssClass: 'my-css',
+                                                header: 'Suppression d\'un client',
+                                                message: 'êtes-vous sûr de vouloir supprimer ce client ?',
+                                                buttons: [
+                                                    {text: 'Annuler', role: 'cancel'},
+                                                    { text: 'Oui', handler: () => handleDeleteRecord(record.id)}
+                                                ],                        
+                                            })               
+                                        }}>                                        
+                                            <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
+                                        </IonButton>
+                                    </IonButtons>
                                 </IonCol>
                             </IonRow>
                         )
