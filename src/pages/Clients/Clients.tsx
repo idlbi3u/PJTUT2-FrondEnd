@@ -31,12 +31,13 @@ import EditClient from '../../components/Client/EditClient';
 const Clients: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
+    const [Delete, setDelete] = useState(false);
     const [selectedClient, setSelectedClient] = useState<IClientData>();
     const [present] = useIonAlert();
 
     const handleDeleteClient = (id: string) => {
+        setDelete(true);
         deleteClient(id);
-        retrieveClients();
     }
 
     const handleModifyClient = (client: any) => {        
@@ -63,6 +64,7 @@ const Clients: React.FC = () => {
             .catch((e: Error) => {
                 console.log(e)
             })
+        setDelete(false);
     }
 
     const handleSearchClient = async (e: CustomEvent<SearchbarChangeEventDetail>) => {
@@ -98,7 +100,7 @@ const Clients: React.FC = () => {
     useEffect(() => {
         retrieveClients();
 
-    }, [isOpen, isEdit]);
+    }, [isOpen, isEdit, Delete]);
 
 
     return (
@@ -109,7 +111,6 @@ const Clients: React.FC = () => {
                         <IonButtons slot='start'>
                             <IonBackButton defaultHref='/home'/>
                         </IonButtons>
-
                         <IonTitle>Clients</IonTitle>
                     </IonItem>
                 </IonToolbar>

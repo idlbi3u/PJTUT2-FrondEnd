@@ -16,6 +16,7 @@ const ClientDetails = () => {
     const params = useParams<ParamsInterface>();
     const [client, setClient] = useState<IClientData>();
     const [isEdit, setIsEdit] = useState(false);
+    const [Delete, setDelete] = useState(false);
     const [present] = useIonAlert();
     const [selectedClient, setSelectedClient] = useState<IClientData>();
 
@@ -28,9 +29,11 @@ const ClientDetails = () => {
             .catch((e: Error) => {
                 console.log(e)
             })
+        setDelete(false);
     }
 
     const handleDeleteClient = (id: string) => {
+        setDelete(true);
         deleteClient(id);
     }
 
@@ -47,7 +50,7 @@ const ClientDetails = () => {
             .catch((e: Error) => {
                 console.log(e);
             });
-    }, [params.id, isEdit]);
+    }, [params.id, isEdit, Delete]);
 
     return (
         <IonPage>
@@ -56,9 +59,9 @@ const ClientDetails = () => {
                     <IonButtons slot='start'>
                         <IonBackButton defaultHref='/clients'></IonBackButton>
                     </IonButtons>
-                    <IonTitle>Détail Client </IonTitle>
+                    <IonTitle>Clients {' > '+ client?.name + ' ' + client?.firstname } </IonTitle>
                 </IonToolbar>
-                <IonItem  lines="none">
+                <IonItem lines="none">
                     <IonButtons slot="end">
                         <IonButton 
                         color="primary" 
@@ -89,7 +92,12 @@ const ClientDetails = () => {
                 </IonItem>
             </IonHeader>
             <IonContent>
-                {client ? <ClientCard client={client}/> : <IonText color="danger">Erreur, ce client n'existe pas!</IonText>}
+                {client ? 
+                <ClientCard client={client}/> : 
+                <IonItem>
+                    <IonText color="danger">Ce client n'existe pas!</IonText>
+                </IonItem>
+                }
             </IonContent>
 
             {selectedClient ? (
