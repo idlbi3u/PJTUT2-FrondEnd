@@ -40,6 +40,7 @@ const AddRecord = (props: ModalProps) => {
             .catch((e: Error) => {
             console.log(e)
         })
+        setIsOpen(false)
     }
 
     return(

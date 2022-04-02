@@ -155,6 +155,7 @@ const Clients: React.FC = () => {
                                             <IonIcon ios={eyedropOutline} md={eyeSharp}/>
                                         </IonButton>
                                         <IonButton color='primary' onClick={() => {
+                                            console.log(client)
                                             handleModifyClient(client)
                                         }}>
                                             <IonIcon ios={pencilOutline} md={pencilSharp}/>

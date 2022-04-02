@@ -5,7 +5,6 @@ import Home from './pages/Home/Home';
 import Clients from './pages/Clients/Clients';
 import Records from './pages/Records/Records';
 import Layout from './components/Layout/Layout';
-import DetailsRecord from './pages/Records/DetailsRecord';
 
 
 /* Core CSS required for Ionic components to work properly */
@@ -27,6 +26,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import ClientDetails from './pages/Clients/ClientDetails';
+import RecordDetails from './pages/Records/RecordDetails';
 
 
 setupIonicReact();
@@ -40,7 +40,7 @@ const App: React.FC = () => (
           <Route exact path="/home" component={Home} />
           <Route exact path="/clients" component={Clients} />
           <Route exact path="/records" component={Records} />
-          <Route exact path="/records/view/:id" component={DetailsRecord} />
+          <Route exact path="/records/view/:id" component={RecordDetails} />
           <Route path="/clients/view/:id" component={ClientDetails} />
           <Route exact path="/" render={() => <Redirect to="/home" />} />
         </IonRouterOutlet>

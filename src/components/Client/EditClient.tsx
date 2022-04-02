@@ -67,9 +67,10 @@ const EditClient = (props: ModalProps) => {
     }
 
     useEffect(() => {
+        setStates(client);
         setDate(client.birthdate);
         
-    }, [client.birthdate]);
+    }, [client.birthdate,client]);
 
     return (
         <IonModal isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>

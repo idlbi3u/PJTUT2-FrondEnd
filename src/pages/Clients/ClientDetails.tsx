@@ -70,7 +70,7 @@ const ClientDetails = () => {
                             handleModifyClient(client)
                         }}
                         
-                        >Modifier<IonIcon ios={pencilOutline} md={pencilSharp}/></IonButton>
+                        >Modifier Client<IonIcon ios={pencilOutline} md={pencilSharp}/></IonButton>
                         <IonButton 
                         color="danger" 
                         slot="end"

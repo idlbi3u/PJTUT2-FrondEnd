@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     InputChangeEventDetail,
     IonButton,
@@ -16,31 +16,25 @@ import {
 } from "@ionic/react";
 import {closeOutline, closeSharp} from "ionicons/icons";
 import LawyercaseDataService from "../../services/lawyercase.service";
+import ILawyercase from "../../types/lawyercase.type";
 
 interface ModalProps {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    record: IRecord
+    record: ILawyercase
 }
 
-interface IRecord {
-    id?: any|null,
-    ref: string,
-    description: string,
-    state: boolean,
-    closedAt? : any|null
-}
 
 const EditRecord = (props: ModalProps) => {
 
     const {isOpen, record, setIsOpen} = props;
 
-    const [states, setStates] = useState<IRecord>({
+    const [states, setStates] = useState<ILawyercase>({
         id: record.id,
         ref: record.ref,
         description: record.description,
         state: record.state,
-        closedAt : record.closedAt
+        closed_at : record.closed_at
     });
 
     console.log(states)
@@ -53,12 +47,12 @@ const EditRecord = (props: ModalProps) => {
 
     const updateRecord = () => {
         console.log("Updating....")
-        const record: IRecord = {
+        const record: ILawyercase = {
             id: states.id,
             ref: states.ref,
             description: states.description,
             state: states.state,
-            closedAt : states.closedAt || null
+            closed_at : states.closed_at || null
         }
         console.log(record)
 
@@ -69,9 +63,13 @@ const EditRecord = (props: ModalProps) => {
             .catch((e: Error) => {
                 console.log(e)
             })
-        /*setIsOpen(false);*/
-        /*window.location.reload();*/
+            setIsOpen(false)
     }
+
+    useEffect(() => {
+        setStates(record);
+        
+    }, [record]);
 
 
     return (

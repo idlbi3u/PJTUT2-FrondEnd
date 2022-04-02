@@ -15,12 +15,14 @@ const Records: React.FC = () =>
     const [isOpen, setIsOpen] = useState(false);
     const [present] = useIonAlert();
     const [isEdit, setIsEdit] = useState(false);
+    const [Delete, setDelete] = useState(false);
     const [selectedRecord, setSelectedRecord] = useState<ILawyercase>();
 
     const [filter, setFilter] = useState<string>("AllBusiness");
 
-    const handleDeleteRecord = (id: number) => {
-        
+    const handleDeleteRecord = (id: string) => {
+        setDelete(true);
+        deleteRecord(id);
     }
 
     const handleModifyRecord = (record: any) => {
@@ -78,7 +80,7 @@ const Records: React.FC = () =>
     useEffect(() => {
         retrieveRecords();  
 
-    }, []);
+    }, [isOpen,isEdit,Delete]);
 
     const [filteredRecords, setFilteredRecords] = useState<ILawyercase[]>(records);
 
@@ -90,20 +92,20 @@ const Records: React.FC = () =>
         } else {
             setFilteredRecords(records.filter(record => record.state));
         }
-    });
+    },[filter,records]);
   
 
     return (
         <IonPage>
             <IonHeader>      
                 <IonToolbar>
-                <IonItem lines='none' slot='start'>
-                        <IonButtons slot='start'>
+                    <IonItem lines='none'>
+                    <IonButtons slot='start'>
                             <IonBackButton defaultHref='/home' ></IonBackButton>
                         </IonButtons>
+                        <IonTitle>Dossiers</IonTitle>
                     </IonItem>
                     <IonItem>
-                        <IonTitle>Dossiers</IonTitle>
                         <IonItem className='Business' lines='none'>   
                                 <IonSelect placeholder="Selectionnez une catégorie d'affaire" value={filter} onIonChange={e => setFilter(e.detail.value)}>
                                     <IonSelectOption value="AllBusiness">Toutes les affaires</IonSelectOption>
@@ -125,7 +127,7 @@ const Records: React.FC = () =>
             <IonContent>
                 <IonItem lines='none'>
                     <IonButtons slot='end'>
-                        <IonButton onClick={() => {setIsOpen(true)}} >
+                        <IonButton color='primary' onClick={() => {setIsOpen(true)}} >
                             <IonIcon icon={addOutline}></IonIcon>Ajouter
                         </IonButton>
                     </IonButtons>
@@ -155,6 +157,7 @@ const Records: React.FC = () =>
                                                 <IonIcon ios={eyedropOutline} md={eyeSharp}/>
                                         </IonButton>
                                         <IonButton color='primary' onClick={() => {
+                                            console.log(record)
                                             handleModifyRecord(record)
                                         }}>
                                             <IonIcon ios={pencilOutline} md={pencilSharp}/>
@@ -163,7 +166,7 @@ const Records: React.FC = () =>
                                             present({
                                                 cssClass: 'my-css',
                                                 header: 'Suppression d\'un client',
-                                                message: 'êtes-vous sûr de vouloir supprimer ce client ?',
+                                                message: 'êtes-vous sûr de vouloir supprimer ce dossier ?',
                                                 buttons: [
                                                     {text: 'Annuler', role: 'cancel'},
                                                     { text: 'Oui', handler: () => handleDeleteRecord(record.id)}
