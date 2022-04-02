@@ -27,6 +27,7 @@ import ILawyercase from "../../types/lawyercase.type";
 // CSS FILES
 import './RecordCard.css';
 import { useState } from "react";
+import AddEvent from "../Évènement/AddEvent";
 
 
 interface RecordCardProps{
@@ -125,6 +126,7 @@ const RecordCard = (props: RecordCardProps) => {
                     </IonText>
                 </IonCardContent>
             </IonCard>
+            <AddEvent  isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
             </>
         ) : null}
             
