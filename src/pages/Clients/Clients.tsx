@@ -1,4 +1,3 @@
-
 import {
     IonBackButton,
     IonButton,
@@ -29,9 +28,7 @@ import AddClient from '../../components/Client/AddClient';
 import EditClient from '../../components/Client/EditClient';
 
 
-
 const Clients: React.FC = () => {
-
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [Delete, setDelete] = useState(false);
@@ -110,7 +107,6 @@ const Clients: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-
                     <IonItem lines='none' slot='start'>
                         <IonButtons slot='start'>
                             <IonBackButton defaultHref='/home'/>
@@ -148,7 +144,6 @@ const Clients: React.FC = () => {
                         <IonCol>Affaires Associées</IonCol>
                         <IonCol>Actions</IonCol>
                     </IonRow>
-
                     {clients.map((client: IClientData, index: number) => {
                         return (
                             <IonRow key={index}>
@@ -160,6 +155,7 @@ const Clients: React.FC = () => {
                                             <IonIcon ios={eyedropOutline} md={eyeSharp}/>
                                         </IonButton>
                                         <IonButton color='primary' onClick={() => {
+                                            console.log(client)
                                             handleModifyClient(client)
                                         }}>
                                             <IonIcon ios={pencilOutline} md={pencilSharp}/>
