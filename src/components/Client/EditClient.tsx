@@ -29,14 +29,15 @@ interface ModalProps {
 
 const EditClient = (props: ModalProps) => {
     const {isOpen, client, setIsOpen} = props;
+    console.log(client);
     const [date, setDate] = useState<string>("");
 
     const [states, setStates] = useState<IClientData>({
-        id: client.id,
-        name: client.name,
-        firstname: client.firstname,
-        address: client.address,
-        birthdate: client.birthdate,
+        id: '',
+        name: '',
+        firstname: '',
+        address: '',
+        birthdate: '',
     });
 
     const handleChange = (e: CustomEvent<InputChangeEventDetail>, inputName: string) => {
@@ -67,9 +68,10 @@ const EditClient = (props: ModalProps) => {
     }
 
     useEffect(() => {
+        setStates(client);
         setDate(client.birthdate);
         
-    }, [client.birthdate]);
+    }, [client.birthdate, client]);
 
     return (
         <IonModal isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
