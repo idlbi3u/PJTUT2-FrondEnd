@@ -22,9 +22,10 @@ import {
     } from "ionicons/icons";
     
 import {format, parseISO} from 'date-fns';
-
-
 import IClientData from "../../types/client.type";
+import ILawyercase from "../../types/lawyercase.type";
+
+
 // CSS FILES
 import './ClientCard.css';
 
@@ -37,7 +38,7 @@ const ClientCard = (props: ClientCardProps) => {
 
     const formatDate = (value: string) => {
         return format(parseISO(value), 'dd/MM/yyyy');
-    };
+    };   
 
     return(
         <>
@@ -51,18 +52,18 @@ const ClientCard = (props: ClientCardProps) => {
                         <IonIcon ios={personOutline} md={personSharp}/>
                         <IonTitle>{client.name + ' ' + client.firstname}</IonTitle>
                     </IonItem>
-                    <IonItem lines="none">
-                        <IonIcon ios={calendarClearOutline} md={calendarClearSharp}/>
                         {client.createdAt ? (
-                            <IonTitle>Client depuis le {formatDate(client.createdAt)}</IonTitle>
-
+                            <IonItem lines="none">
+                                <IonIcon ios={calendarClearOutline} md={calendarClearSharp}/>
+                                <IonTitle>Client depuis le {formatDate(client.createdAt)}</IonTitle>
+                            </IonItem>
                         ) : null}
-                    </IonItem>
-                    <IonItem lines="none">
-                        <IonIcon ios={giftOutline} md={giftSharp}/>
-                        <IonTitle>{client.birthdate}</IonTitle>
-                    </IonItem>
-
+                        {client.birthdate ? (
+                            <IonItem lines="none">
+                                <IonIcon ios={giftOutline} md={giftSharp}/>
+                                <IonTitle>{client.birthdate}</IonTitle>
+                            </IonItem>
+                        ): null}                    
                 </IonCardContent>
             </IonCard>
 
@@ -88,6 +89,14 @@ const ClientCard = (props: ClientCardProps) => {
                         <IonTitle>Dossiers</IonTitle>
                     </IonItem>
                 </IonCardHeader>
+
+                <IonCardContent>
+                    {client.cases?.map((lawyercase: ILawyercase, index: number) => (
+                        <IonItem lines="none" key={index}>                            
+                            <IonText>{lawyercase.ref}</IonText>
+                        </IonItem>
+                    ))} 
+                </IonCardContent>
             </IonCard>
             </>
         ) : null}

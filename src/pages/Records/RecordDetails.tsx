@@ -13,6 +13,7 @@ const RecordDetails: React.FC = () =>
     interface ParamsInterface{
         id: string;
     }
+
     const params = useParams<ParamsInterface>();
     const [record, setRecord] = useState<ILawyercase>();
     const [isEdit, setIsEdit] = useState(false);
@@ -45,6 +46,7 @@ const RecordDetails: React.FC = () =>
     useEffect(() => {
         LawyercaseDataService.get(params.id)
             .then((response: any) => {
+                console.log(response.data);
                 setRecord(response.data);
             })
             .catch((e: Error) => {

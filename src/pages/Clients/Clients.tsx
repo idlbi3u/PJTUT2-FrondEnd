@@ -13,6 +13,7 @@ import {
     IonRefresherContent,
     IonRow,
     IonSearchbar,
+    IonText,
     IonTitle,
     IonToolbar,
     RefresherEventDetail,
@@ -24,6 +25,7 @@ import React, {useEffect, useState} from 'react';
 import './Clients.css';
 import ClientDataService from "../../services/client.service"
 import IClientData from "../../types/client.type";
+import ILawyercase from "../../types/lawyercase.type";
 import AddClient from '../../components/Client/AddClient';
 import EditClient from '../../components/Client/EditClient';
 
@@ -51,6 +53,7 @@ const Clients: React.FC = () => {
         ClientDataService.getAll()
             .then((response: any) => {
                 setClients(response.data)
+                console.log(clients)
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -148,7 +151,13 @@ const Clients: React.FC = () => {
                         return (
                             <IonRow key={index}>
                                 <IonCol>{client.name + ' ' + client.firstname}</IonCol>
-                                <IonCol>12/333</IonCol>                                
+                                <IonCol>
+                                    {client.cases?.map((value: ILawyercase) => {                                        
+                                        return(
+                                            <IonText key={index}>{value.ref + ' /'}</IonText>
+                                        )                                        
+                                    })}
+                                </IonCol>                                
                                 <IonCol>
                                     <IonButtons>
                                         <IonButton href={'/clients/view/'+ client.id} color='success'>

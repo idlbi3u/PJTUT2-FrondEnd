@@ -12,12 +12,21 @@ import {
 } from "@ionic/react";
 import {     
     addOutline,
+    addSharp,
+    alertOutline,
+    alertSharp,
+    calendarClearOutline,
+    calendarClearSharp,
+    ellipse,
     fileTrayFullOutline,
-    fileTrayFullSharp,
-    
+    fileTrayFullSharp,    
+    fileTrayOutline,    
+    personAddOutline,    
+    personAddSharp,    
     personOutline, 
     personSharp, 
-    pinOutline, 
+    timeOutline,
+    timeSharp,    
     } from "ionicons/icons";
     
 import {format, parseISO} from 'date-fns';
@@ -47,23 +56,28 @@ const RecordCard = (props: RecordCardProps) => {
             <>    
             <IonCard>
                 <IonCardContent>
-                <IonItem lines="none">
-                    <IonIcon class="icon" ios={personOutline} md={personSharp}/> 
-                        <IonTitle>{record.ref}</IonTitle>
-                        <IonTitle>{record.state ? "Clôturé" : "En cours"}</IonTitle>
+                    <IonIcon class="icon" ios={fileTrayOutline} md={fileTrayFullSharp}/> 
+                    <IonItem lines="none">
+                            <IonIcon />
+                            <IonTitle>{record.ref}</IonTitle>
                     </IonItem>
                     <IonItem lines="none">
-                        {record.createdAt ? (
-                            <IonLabel>Affaire ouverte le {formatDate(record.createdAt)}</IonLabel>
-                        ) : null}
+                        <IonIcon color={record.state ? "danger" : "success"} ios={ellipse} md={ellipse} />
+                        <IonTitle>{record.state ? "Clôturé" : "En cours"}</IonTitle>
                     </IonItem>
+                    {record.createdAt ? (
+                        <IonItem lines="none">
+                                <IonIcon ios={calendarClearOutline} md={calendarClearSharp}/>
+                                <IonTitle>{formatDate(record.createdAt)}</IonTitle>
+                        </IonItem>
+                    ) : null}
                 </IonCardContent>
             </IonCard>
 
             <IonCard>
                 <IonCardHeader>
                     <IonItem lines="none">
-                        <IonIcon ios={pinOutline} md={fileTrayFullSharp}/>
+                        <IonIcon ios={fileTrayFullOutline} md={fileTrayFullSharp}/>
                         <IonTitle>Description</IonTitle>
                     </IonItem>
                 </IonCardHeader>
@@ -78,15 +92,22 @@ const RecordCard = (props: RecordCardProps) => {
             <IonCard>
                 <IonCardHeader>
                     <IonItem lines="none">
-                        <IonIcon ios={fileTrayFullOutline} md={personSharp}/>
+                        <IonIcon ios={personOutline} md={personSharp}/>
                         <IonTitle>Clients concernés</IonTitle>
+                        <IonButtons slot='end'>
+                            <IonButton color='primary' onClick={() => {setIsOpen(true)}} >
+                                <IonIcon color="primary" ios={personAddOutline} md={personAddSharp} />
+                            </IonButton>
+                        </IonButtons>
                     </IonItem>
                 </IonCardHeader>
 
                 <IonCardContent>
-                    <IonText>
-                        <h2>{record.clients}</h2>
-                    </IonText>
+                    {record.clients?.map((client, index) => (
+                        <IonItem lines="none" key={index}>                            
+                            <IonLabel>{client.name + ' ' + client.firstname}</IonLabel>
+                        </IonItem>
+                    ))}                    
                 </IonCardContent>
             </IonCard>
 
@@ -94,36 +115,34 @@ const RecordCard = (props: RecordCardProps) => {
             <IonCard>
                 <IonCardHeader>
                     <IonItem lines="none">
-                        <IonIcon ios={fileTrayFullOutline} md={personSharp}/>
+                        <IonIcon ios={alertOutline} md={alertSharp}/>
                         <IonTitle>Évènements</IonTitle>
+                        <IonButtons slot='end'>
+                            <IonButton color='primary' onClick={() => {setIsOpen(true)}} >
+                                <IonIcon color="primary" ios={addOutline} md={addSharp} />
+                            </IonButton>
+                        </IonButtons>
+                    </IonItem>
+                    <IonItem lines='none'>
                     </IonItem>
                 </IonCardHeader>
 
                 <IonCardContent>
                     <IonText>
-                        <h2>{record.ref}</h2>
                     </IonText>
                 </IonCardContent>
             </IonCard>
-            <IonItem lines='none'>
-                <IonButtons slot='start'>
-                    <IonButton color='primary' onClick={() => {setIsOpen(true)}} >
-                        <IonIcon icon={addOutline}></IonIcon>Ajouter un évènement
-                    </IonButton>
-                </IonButtons>
-            </IonItem>
+            
             <IonCard>
                 <IonCardHeader>
                     <IonItem lines="none">
-                        <IonIcon ios={fileTrayFullOutline} md={personSharp}/>
-                        <IonTitle>Total :</IonTitle>
+                        <IonIcon ios={timeOutline} md={timeSharp}/>
+                        <IonTitle>Total : Temps en heures</IonTitle>
                     </IonItem>
                 </IonCardHeader>
 
                 <IonCardContent>
-                    <IonText>
-                        <h2>{record.ref}</h2>
-                    </IonText>
+                    
                 </IonCardContent>
             </IonCard>
             <AddEvent  isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>

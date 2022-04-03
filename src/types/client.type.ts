@@ -1,3 +1,5 @@
+import ILawyercase from "./lawyercase.type";
+
 export default interface IClientData {
     id?: any,
     name: string,
@@ -6,4 +8,5 @@ export default interface IClientData {
     birthdate: string,
     createdAt?: string,
     updatedAt?: string,
+    cases?: ILawyercase[],
 }
