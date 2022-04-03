@@ -100,7 +100,7 @@ const Clients: React.FC = () => {
     useEffect(() => {
         retrieveClients();
 
-    }, [isOpen, isEdit, Delete]);
+    }, [isOpen, isEdit, Delete, setClients]);
 
 
     return (
@@ -155,7 +155,6 @@ const Clients: React.FC = () => {
                                             <IonIcon ios={eyedropOutline} md={eyeSharp}/>
                                         </IonButton>
                                         <IonButton color='primary' onClick={() => {
-                                            console.log(client)
                                             handleModifyClient(client)
                                         }}>
                                             <IonIcon ios={pencilOutline} md={pencilSharp}/>
@@ -191,6 +190,15 @@ const Clients: React.FC = () => {
                     setIsOpen={() => setIsEdit(false)}
                 />
             ) : null}
+            <IonItem>
+                <IonButtons slot="end">
+                <IonButton className='Pages' color="black">Previous</IonButton>
+                <IonButton color="black">1</IonButton>
+                <IonButton color="black">2</IonButton>
+                <IonButton color="black">3</IonButton>
+                <IonButton className='Pages' color="black">Next</IonButton>
+                </IonButtons>
+            </IonItem>
         </IonPage>
     );
 }

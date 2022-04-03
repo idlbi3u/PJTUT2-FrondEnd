@@ -17,8 +17,10 @@ const Records: React.FC = () =>
     const [isEdit, setIsEdit] = useState(false);
     const [Delete, setDelete] = useState(false);
     const [selectedRecord, setSelectedRecord] = useState<ILawyercase>();
-
+    const [records, setRecords] = useState<ILawyercase[]>([]);
+    const [filteredRecords, setFilteredRecords] = useState<ILawyercase[]>(records);
     const [filter, setFilter] = useState<string>("AllBusiness");
+    
 
     const handleDeleteRecord = (id: string) => {
         setDelete(true);
@@ -29,8 +31,7 @@ const Records: React.FC = () =>
         setSelectedRecord(record)
         setIsEdit(true)
     }
-
-    const [records, setRecords] = useState<ILawyercase[]>([]);
+    
 
     const retrieveRecords = () => {
         LawyercaseDataService.getAll()
@@ -80,9 +81,8 @@ const Records: React.FC = () =>
     useEffect(() => {
         retrieveRecords();  
 
-    }, [isOpen,isEdit,Delete]);
+    }, [isOpen, isEdit, Delete, setRecords]);
 
-    const [filteredRecords, setFilteredRecords] = useState<ILawyercase[]>(records);
 
     useEffect(() => {
         if (filter === "AllBusiness") {
@@ -92,7 +92,7 @@ const Records: React.FC = () =>
         } else {
             setFilteredRecords(records.filter(record => record.state));
         }
-    },[filter,records]);
+    },[filter, records]);
   
 
     return (
@@ -106,20 +106,20 @@ const Records: React.FC = () =>
                         <IonTitle>Dossiers</IonTitle>
                     </IonItem>
                     <IonItem>
-                        <IonItem className='Business' lines='none'>   
+                        <IonItem slot='start' className='Business' lines='none'>   
                                 <IonSelect placeholder="Selectionnez une catégorie d'affaire" value={filter} onIonChange={e => setFilter(e.detail.value)}>
                                     <IonSelectOption value="AllBusiness">Toutes les affaires</IonSelectOption>
                                     <IonSelectOption value="OnGoingBusiness">Affaires en cours</IonSelectOption>
                                     <IonSelectOption value="CompletedBusiness">Affaires cloturées</IonSelectOption>
                                 </IonSelect>
-                            </IonItem>
-                            <IonItem className='SearchBar' lines='none'>   
+                        </IonItem>
+                        <IonItem slot='end' className='SearchBar' lines='none'>   
                             <IonSearchbar
                                 onIonChange={(e) => handleSearchRecord(e)}
                                 class='search-bar'
                                 type='text'
                                 placeholder="Rechercher par nom de dossier"/>
-                            </IonItem>
+                        </IonItem>
                     </IonItem>
 
                 </IonToolbar>

@@ -28,7 +28,7 @@ interface ModalProps {
 
 
 const EditClient = (props: ModalProps) => {
-    const {isOpen, client, setIsOpen} = props;
+    const {isOpen, client, setIsOpen} = props;    
     const [date, setDate] = useState<string>("");
 
     const [states, setStates] = useState<IClientData>({

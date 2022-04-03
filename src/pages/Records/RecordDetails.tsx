@@ -51,8 +51,7 @@ const RecordDetails: React.FC = () =>
                 console.log(e);
             });
     }, [params.id, isEdit, Delete]);
-
-
+    
      return (
         <IonPage>
             <IonHeader>
