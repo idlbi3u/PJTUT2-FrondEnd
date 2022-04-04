@@ -20,7 +20,6 @@ import IClientData from '../../types/client.type';
 import ClientDataService from "../../services/client.service";
 import {format, parseISO} from 'date-fns';
 
-
 interface ModalProps {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,7 +29,7 @@ const AddClient = (props: ModalProps) => {
     const {isOpen, setIsOpen} = props;
     const [date, setDate] = useState("");
     const [states, setStates] = useState<IClientData>({
-        id:"",
+        id: "",
         name: "",
         firstname: "",
         address: "",

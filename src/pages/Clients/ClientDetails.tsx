@@ -1,14 +1,27 @@
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonPage, IonText, IonTitle, IonToolbar, useIonAlert } from "@ionic/react";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import {
+    IonBackButton,
+    IonButton,
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonIcon,
+    IonItem,
+    IonPage,
+    IonText,
+    IonTitle,
+    IonToolbar,
+    useIonAlert
+} from "@ionic/react";
+import {useEffect, useState} from "react";
+import {useParams} from "react-router";
 import ClientCard from "../../components/Client/ClientCard";
 import IClientData from "../../types/client.type";
 import ClientDataService from "../../services/client.service"
 import './ClientDetails.css';
-import { pencilOutline, pencilSharp, trashBinOutline, trashBinSharp } from "ionicons/icons";
+import {pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from "ionicons/icons";
 import EditClient from "../../components/Client/EditClient";
 
-interface ParamsInterface{
+interface ParamsInterface {
     id: string;
 }
 
@@ -37,12 +50,13 @@ const ClientDetails = () => {
         deleteClient(id);
     }
 
-    const handleModifyClient = (client: any) => {        
+    const handleModifyClient = (client: any) => {
         setSelectedClient(client)
         setIsEdit(true)
     }
 
     useEffect(() => {
+
         ClientDataService.get(params.id)
             .then((response: any) => {
                 setClient(response.data);
@@ -50,7 +64,7 @@ const ClientDetails = () => {
             .catch((e: Error) => {
                 console.log(e);
             });
-    }, [params.id, isEdit, Delete]);
+    }, [params.id]);
 
     return (
         <IonPage>
@@ -59,44 +73,43 @@ const ClientDetails = () => {
                     <IonButtons slot='start'>
                         <IonBackButton defaultHref='/clients'></IonBackButton>
                     </IonButtons>
-                    <IonTitle>Clients {' > '+ client?.name + ' ' + client?.firstname } </IonTitle>
+                    <IonTitle>Clients {' > ' + client?.name + ' ' + client?.firstname} </IonTitle>
                 </IonToolbar>
                 <IonItem lines="none">
                     <IonButtons slot="end">
-                        <IonButton 
-                        color="primary" 
-                        slot="start"
-                        onClick={() => {
-                            handleModifyClient(client)
-                        }}
-                        
+                        <IonButton
+                            color="primary"
+                            slot="start"
+                            onClick={() => {
+                                handleModifyClient(client)
+                            }}
                         >Modifier<IonIcon ios={pencilOutline} md={pencilSharp}/></IonButton>
-                        <IonButton 
-                        color="danger" 
-                        slot="end"
-                        onClick={() => {
-                            present({
-                                cssClass: 'my-css',
-                                header: 'Suppression d\'un Client',
-                                message: 'êtes-vous sûr de vouloir supprimer ce Client ?',
-                                buttons: [
-                                    {text: 'Annuler', role: 'cancel'},
-                                    { text: 'Confirmer', handler: () => handleDeleteClient(client?.id)}
-                                ],                        
+                        <IonButton
+                            color="danger"
+                            slot="end"
+                            onClick={() => {
+                                present({
+                                    cssClass: 'my-css',
+                                    header: 'Suppression d\'un Client',
+                                    message: 'êtes-vous sûr de vouloir supprimer ce Client ?',
+                                    buttons: [
+                                        {text: 'Annuler', role: 'cancel'},
+                                        {text: 'Confirmer', handler: () => handleDeleteClient(client?.id)}
+                                    ],
                                 })
-                            
-                        }}
-                        
+
+                            }}
+
                         >Supprimer<IonIcon ios={trashBinOutline} md={trashBinSharp}/></IonButton>
                     </IonButtons>
                 </IonItem>
             </IonHeader>
             <IonContent>
-                {client ? 
-                <ClientCard client={client}/> : 
-                <IonItem>
-                    <IonText color="danger">Ce client n'existe pas!</IonText>
-                </IonItem>
+                {client ?
+                    <ClientCard client={client}/> :
+                    <IonItem>
+                        <IonText color="danger">Ce client n'existe pas!</IonText>
+                    </IonItem>
                 }
             </IonContent>
 

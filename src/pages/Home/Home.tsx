@@ -1,7 +1,16 @@
 import {IonContent, IonHeader, IonPage, IonTitle, IonToolbar} from '@ionic/react';
 import './Home.css';
 
+let isElectron = require('is-electron');
+
 const Home: React.FC = () => {
+
+    if (isElectron()) {
+        console.log("On est sur Electron")
+    } else {
+        console.log(' On est en Web / ionic')
+    }
+
     return (
         <IonPage>
             <IonHeader>

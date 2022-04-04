@@ -1,7 +1,23 @@
-
-import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonPage, IonRoute, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
-import {   addOutline, pencil,  trash,  } from 'ionicons/icons';
-import React, { useEffect, useState } from 'react';
+import {
+    IonBackButton,
+    IonButton,
+    IonButtons,
+    IonCol,
+    IonContent,
+    IonGrid,
+    IonHeader,
+    IonIcon,
+    IonItem,
+    IonPage,
+    IonRow,
+    IonSearchbar,
+    IonSelect,
+    IonSelectOption,
+    IonTitle,
+    IonToolbar
+} from '@ionic/react';
+import {addOutline, pencil, trash,} from 'ionicons/icons';
+import React, {useEffect, useState} from 'react';
 import './Records.css';
 import LawyercaseDataService from "../../services/lawyercase.service"
 import ILawyercase from '../../types/lawyercase.type';
@@ -9,14 +25,13 @@ import AddRecord from '../../components/Dossier/AddRecord'
 import IClientData from '../../types/client.type';
 
 
-const Records: React.FC = () =>
-{
+const Records: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const [filter, setFilter] = useState<string>("AllBusiness");
 
     const handleDeleteRecord = (id: number) => {
-        
+
     }
 
     const handleModifyRecord = (id: string) => {
@@ -35,18 +50,18 @@ const Records: React.FC = () =>
                 console.log(e);
             });
     }
-    const deleteRecord = (id:string) => {
+    const deleteRecord = (id: string) => {
         LawyercaseDataService.delete(id)
-            .then((res:any) => {
+            .then((res: any) => {
                 console.log(res + "A bien été supprimé de la BDD");
-        })
-            .catch((e:Error) => {
+            })
+            .catch((e: Error) => {
                 console.log(e)
             })
     }
 
     useEffect(() => {
-        retrieveRecords();  
+        retrieveRecords();
 
     }, []);
 
@@ -61,28 +76,29 @@ const Records: React.FC = () =>
             setFilteredRecords(records.filter(record => record.state));
         }
     });
-  
+
     return (
         <IonPage>
-            <IonHeader>      
+            <IonHeader>
                 <IonToolbar>
-                <IonItem lines='none' slot='start'>
+                    <IonItem lines='none' slot='start'>
                         <IonButtons slot='start'>
-                            <IonBackButton defaultHref='/home' ></IonBackButton>
+                            <IonBackButton defaultHref='/home'/>
                         </IonButtons>
                     </IonItem>
                     <IonItem>
                         <IonTitle>Dossiers</IonTitle>
-                        <IonItem className='Business' lines='none'>   
-                                <IonSelect placeholder="Selectionnez une catégorie d'affaire" value={filter} onIonChange={e => setFilter(e.detail.value)}>
-                                    <IonSelectOption value="AllBusiness">Toutes les affaires</IonSelectOption>
-                                    <IonSelectOption value="OnGoingBusiness">Affaires en cours</IonSelectOption>
-                                    <IonSelectOption value="CompletedBusiness">Affaires cloturées</IonSelectOption>
-                                </IonSelect>
-                            </IonItem>
-                            <IonItem className='SearchBar' lines='none'>   
-                                <IonSearchbar class='search-bar' type='text' animated={true}></IonSearchbar>
-                            </IonItem>
+                        <IonItem className='Business' lines='none'>
+                            <IonSelect placeholder="Selectionnez une catégorie d'affaire" value={filter}
+                                       onIonChange={e => setFilter(e.detail.value)}>
+                                <IonSelectOption value="AllBusiness">Toutes les affaires</IonSelectOption>
+                                <IonSelectOption value="OnGoingBusiness">Affaires en cours</IonSelectOption>
+                                <IonSelectOption value="CompletedBusiness">Affaires cloturées</IonSelectOption>
+                            </IonSelect>
+                        </IonItem>
+                        <IonItem className='SearchBar' lines='none'>
+                            <IonSearchbar class='search-bar' type='text' animated={true}></IonSearchbar>
+                        </IonItem>
                     </IonItem>
 
                 </IonToolbar>
@@ -90,8 +106,10 @@ const Records: React.FC = () =>
             <IonContent>
                 <IonItem lines='none'>
                     <IonButtons slot='end'>
-                        <IonButton onClick={() => {setIsOpen(true)}} >
-                            <IonIcon icon={addOutline}></IonIcon>Ajouter
+                        <IonButton onClick={() => {
+                            setIsOpen(true)
+                        }}>
+                            <IonIcon icon={addOutline}/>Ajouter
                         </IonButton>
                     </IonButtons>
                 </IonItem>
@@ -116,13 +134,13 @@ const Records: React.FC = () =>
                                 </IonCol>
                                 <IonCol className='Col'>
                                     <IonButtons>
-                                        <IonButton >
-                                            <IonIcon slot="icon-only" icon={pencil} />
+                                        <IonButton>
+                                            <IonIcon slot="icon-only" icon={pencil}/>
                                         </IonButton>
                                         <IonButton>
-                                            <IonIcon slot="icon-only" icon={trash} />
+                                            <IonIcon slot="icon-only" icon={trash}/>
                                         </IonButton>
-                                    </IonButtons>             
+                                    </IonButtons>
                                 </IonCol>
                             </IonRow>
                         )
@@ -132,11 +150,11 @@ const Records: React.FC = () =>
             <AddRecord isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
             <IonItem>
                 <IonButtons slot="end">
-                <IonButton className='Pages' color="black">Previous</IonButton>
-                <IonButton color="black">1</IonButton>
-                <IonButton color="black">2</IonButton>
-                <IonButton color="black">3</IonButton>
-                <IonButton className='Pages' color="black">Next</IonButton>
+                    <IonButton className='Pages' color="black">Previous</IonButton>
+                    <IonButton color="black">1</IonButton>
+                    <IonButton color="black">2</IonButton>
+                    <IonButton color="black">3</IonButton>
+                    <IonButton className='Pages' color="black">Next</IonButton>
                 </IonButtons>
             </IonItem>
         </IonPage>

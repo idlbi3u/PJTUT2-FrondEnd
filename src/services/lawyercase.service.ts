@@ -1,25 +1,25 @@
 import http from "../http-common";
-import  ILawyercase from "../types/lawyercase.type";
+import ILawyercase from "../types/lawyercase.type";
 
 class LawyercaseDataService {
 
-    getAll(){
+    getAll() {
         return http.get<ILawyercase[]>("/lawyercases")
     }
 
-    create(data:Object) {
+    create(data: ILawyercase) {
         return http.post<ILawyercase[]>("/lawyercases", data);
     }
 
-    get(id:string) {
+    get(id: string) {
         return http.get(`/lawyercases/${id}`);
     }
 
-    delete(id:string) {
+    delete(id: string) {
         return http.delete(`/lawyercases/${id}`);
     }
 
-    update(id:string, data:Object) {
+    update(id: string, data: Object) {
         return http.put(`/lawyercases/${id}`, data);
     }
 
@@ -27,9 +27,9 @@ class LawyercaseDataService {
         return http.delete(`/lawyercases`);
     }
 
-    findByRef(ref:string) {
+    findByRef(ref: string) {
         return http.get(`/lawyercases?title=${ref}`);
     }
 }
 
-export default  new LawyercaseDataService();
+export default new LawyercaseDataService();

@@ -1,9 +1,19 @@
 import http from "../http-common";
 import IClientData from "../types/client.type";
 
+const isElectron = require('is-electron');
+
+/*Soit in If soit une interface avec un nouveau middlewear  qui call un ClientDataServiceElectron*/
+
 class ClientDataService {
+
     getAll() {
-        return http.get<IClientData[]>("/clients")
+        if (isElectron()) {
+            console.log('On est en Electron, on doit stocker les data en Local')
+            return http.get<IClientData[]>("/clients")
+        } else {
+            return http.get<IClientData[]>("/clients")
+        }
     }
 
     create(data: Object) {
