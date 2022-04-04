@@ -37,6 +37,7 @@ import ILawyercase from "../../types/lawyercase.type";
 import './RecordCard.css';
 import { useState } from "react";
 import AddEvent from "../Évènement/AddEvent";
+import AddClientToCaseModal from "./AddClientToCase";
 
 
 interface RecordCardProps{
@@ -44,6 +45,7 @@ interface RecordCardProps{
 }
 const RecordCard = (props: RecordCardProps) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [addClientModal, setAddClientModal] = useState(false)
     const {record} = props;
 
     const formatDate = (value: string) => {
@@ -62,8 +64,8 @@ const RecordCard = (props: RecordCardProps) => {
                             <IonTitle>{record.ref}</IonTitle>
                     </IonItem>
                     <IonItem lines="none">
-                        <IonIcon color={record.state ? "danger" : "success"} ios={ellipse} md={ellipse} />
-                        <IonTitle>{record.state ? "Clôturé" : "En cours"}</IonTitle>
+                        <IonIcon color={record.closed_at ? "danger" : "success"} ios={ellipse} md={ellipse} />
+                        <IonTitle>{record.closed_at ? "Clôturé" : "En cours"}</IonTitle>
                     </IonItem>
                     {record.createdAt ? (
                         <IonItem lines="none">
@@ -95,7 +97,7 @@ const RecordCard = (props: RecordCardProps) => {
                         <IonIcon ios={personOutline} md={personSharp}/>
                         <IonTitle>Clients concernés</IonTitle>
                         <IonButtons slot='end'>
-                            <IonButton color='primary' onClick={() => {setIsOpen(true)}} >
+                            <IonButton color='primary' onClick={() => {setAddClientModal(true)}} >
                                 <IonIcon color="primary" ios={personAddOutline} md={personAddSharp} />
                             </IonButton>
                         </IonButtons>
@@ -145,6 +147,7 @@ const RecordCard = (props: RecordCardProps) => {
                     
                 </IonCardContent>
             </IonCard>
+            <AddClientToCaseModal record={record} isOpen={addClientModal} setIsOpen={setAddClientModal}/>
             <AddEvent  isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
             </>
         ) : null}

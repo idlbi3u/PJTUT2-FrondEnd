@@ -7,6 +7,7 @@ import LawyercaseDataService from "../../services/lawyercase.service"
 import './Records.css';
 import RecordCard from '../../components/Dossier/RecordCard';
 import EditRecord from '../../components/Dossier/EditRecord';
+import AddClientToCaseModal from '../../components/Dossier/AddClientToCase';
 
 const RecordDetails: React.FC = () =>
 {
@@ -99,7 +100,6 @@ const RecordDetails: React.FC = () =>
                 </IonItem>
                 }
             </IonContent>
-
             {selectedRecord ? (
                 <EditRecord
                     record={selectedRecord}

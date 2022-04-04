@@ -9,7 +9,6 @@ import AddRecord from '../../components/Dossier/AddRecord'
 import EditRecord from '../../components/Dossier/EditRecord';
 import IClientData from '../../types/client.type';
 
-
 const Records: React.FC = () =>
 {
     const [isOpen, setIsOpen] = useState(false);
@@ -143,7 +142,7 @@ const Records: React.FC = () =>
                         return (
                             <IonRow className='Row' key={index}>
                                 <IonCol className='Col'>{record.ref}</IonCol>
-                                <IonCol className='Col'>{record.state ? "Clôturé" : "En cours"}</IonCol>
+                                <IonCol className='Col'>{record.closed_at ? "Clôturé" : "En cours"}</IonCol>
                                 <IonCol className='Col'>
                                     {record.clients ? record.clients.map((client: IClientData, index: number) => {
                                         return (
@@ -157,7 +156,6 @@ const Records: React.FC = () =>
                                                 <IonIcon ios={eyedropOutline} md={eyeSharp}/>
                                         </IonButton>
                                         <IonButton color='primary' onClick={() => {
-                                            console.log(record)
                                             handleModifyRecord(record)
                                         }}>
                                             <IonIcon ios={pencilOutline} md={pencilSharp}/>

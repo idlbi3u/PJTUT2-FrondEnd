@@ -129,7 +129,7 @@ const EditClient = (props: ModalProps) => {
                         name='date'
                         presentation="date"
                         value={date}
-                        onIonChange={(e) => handleChangeDate(e)}
+                        onIonChange={handleChangeDate}
 
                         />
                     </IonItem>
