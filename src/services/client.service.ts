@@ -5,6 +5,7 @@ const isElectron = require('is-electron');
 
 /*Soit in If soit une interface avec un nouveau middlewear  qui call un ClientDataServiceElectron*/
 
+
 class ClientDataService {
 
     getAll() {

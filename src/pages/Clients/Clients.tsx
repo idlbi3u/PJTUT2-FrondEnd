@@ -15,7 +15,6 @@ import {
     IonSearchbar,
     IonTitle,
     IonToolbar,
-    RefresherEventDetail,
     SearchbarChangeEventDetail,
     useIonAlert
 } from '@ionic/react';
@@ -30,12 +29,11 @@ import {
 } from 'ionicons/icons';
 import React, {useEffect, useState} from 'react';
 import './Clients.css';
-import ClientDataService from "../../services/client.service"
 import IClientData from "../../types/client.type";
 import AddClient from '../../components/Client/AddClient';
 import EditClient from '../../components/Client/EditClient';
 import {useAppDispatch, useAppSelector} from "../../redux/hooks";
-import {getAllClients, setClientsList} from "../../redux/clients.reducer";
+import {deleteClientReducer, getAllClientsReducer, setClientsList} from "../../redux/clients.reducer";
 
 const Clients: React.FC = () => {
 
@@ -60,17 +58,11 @@ const Clients: React.FC = () => {
     }
 
     const retrieveClients = () => {
-        dispatch(getAllClients())
+        dispatch(getAllClientsReducer())
     }
 
     const deleteClient = (id: string) => {
-        ClientDataService.delete(id)
-            .then((res: any) => {
-                console.log(res + "A bien été supprimé de la BDD");
-            })
-            .catch((e: Error) => {
-                console.log(e)
-            })
+        dispatch(deleteClientReducer(id))
         setDelete(false);
     }
 
@@ -80,28 +72,16 @@ const Clients: React.FC = () => {
         }
         if (e.detail.value) {
             let tlc = e.detail.value.toLocaleLowerCase();
-            console.log(tlc)
             let filterData = clientsList.filter((e: IClientData) => {
                 let nameTlc = e.name.toLocaleLowerCase();
                 return nameTlc.indexOf(tlc) !== -1
             })
-
-            console.log(filterData);
             dispatch(setClientsList(filterData))
         }
     }
 
-    //TODO : A remove?
-    const handleRefresh = (event: CustomEvent<RefresherEventDetail>) => {
-        setTimeout(() => {
-            retrieveClients();
-            event.detail.complete();
-        }, 2000);
-    }
-
     useEffect(() => {
-        dispatch(getAllClients())
-
+        dispatch(getAllClientsReducer())
     }, [isOpen, isEdit, Delete]);
 
     console.log(clientsList);
@@ -128,15 +108,17 @@ const Clients: React.FC = () => {
             <IonContent>
                 <IonItem lines='none'>
                     <IonButtons slot='end'>
-                        <IonButton color='primary' onClick={() => {
-                            setIsOpen(true)
-                        }}>
+                        <IonButton color='primary'
+                                   onClick={() => {
+                                       setIsOpen(true)
+                                   }}>
                             <IonIcon icon={addOutline}/>Ajouter
                         </IonButton>
                     </IonButtons>
                 </IonItem>
 
-                <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+                <IonRefresher slot="fixed"
+                              onIonRefresh={handleRefresh}>
                     <IonRefresherContent>
 
                     </IonRefresherContent>

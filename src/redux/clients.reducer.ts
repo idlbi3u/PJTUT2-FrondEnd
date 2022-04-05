@@ -6,7 +6,6 @@ import axios from "axios";
 const api = {
     getAll: "http://localhost:8080/api/clients/",
 
-
 }
 
 // Var dans le redux loading Boolean
@@ -80,7 +79,7 @@ export const {
     setClientsList
 } = clientsSlice.actions;
 
-export const getAllClients = () => (dispatch: AppDispatch) => {
+export const getAllClientsReducer = () => (dispatch: AppDispatch) => {
 
     axios.get(api.getAll)
         .then((response: any) => {
@@ -91,6 +90,18 @@ export const getAllClients = () => (dispatch: AppDispatch) => {
         });
 
 }
+
+//delete client
+export const deleteClientReducer = (id: string) => (dispatch: AppDispatch) => {
+    axios.delete(api.getAll + id)
+        .then(() => {
+            dispatch(getAllClientsReducer())
+        })
+        .catch((e: Error) => {
+            console.log(e);
+        });
+}
+
 
 export default clientsSlice.reducer
 

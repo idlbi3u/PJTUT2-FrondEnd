@@ -26,7 +26,6 @@ interface ModalProps {
 }
 
 
-
 const EditClient = (props: ModalProps) => {
     const {isOpen, client, setIsOpen} = props;
     const [date, setDate] = useState<string>("");
@@ -44,7 +43,7 @@ const EditClient = (props: ModalProps) => {
     }
 
     const handleChangeDate = (e: CustomEvent<DatetimeChangeEventDetail>) => {
-        setDate(e.detail.value!);        
+        setDate(e.detail.value!);
     }
 
     const updateClient = () => {
@@ -67,8 +66,9 @@ const EditClient = (props: ModalProps) => {
     }
 
     useEffect(() => {
+        setStates(client);
         setDate(client.birthdate);
-        
+
     }, [client.birthdate]);
 
     return (
@@ -85,44 +85,44 @@ const EditClient = (props: ModalProps) => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-                    <IonItem>
-                        <IonLabel position="floating">Nom</IonLabel>
-                        <IonInput type='text'
-                                  id='name'
-                                  required
-                                  name='nom'
-                                  value={states.name}
-                                  onIonChange={e => handleChange(e, "name")}/>
-                    </IonItem>
-                    <IonItem>
-                        <IonLabel position="floating">Prénom</IonLabel>
-                        <IonInput type='text'
-                                  id='firstname'
-                                  required
-                                  value={states.firstname}
-                                  name='firstname'
-                                  onIonChange={e => handleChange(e, "firstname")}/>
-                    </IonItem>
-                    <IonItem>
-                        <IonLabel position="floating">Adresse</IonLabel>
-                        <IonInput type='text'
-                                  id='name'
-                                  required
-                                  name='address'
-                                  value={states.address}
-                                  onIonChange={e => handleChange(e, "address")}/>
-                    </IonItem>
-                    <IonItem>
-                        <IonLabel position="floating">Date de naissance</IonLabel>
-                        <IonInput type='text'
-                                  id='bd'
-                                  readonly={true}
-                                  name='bd'
-                                  value={states.birthdate}/>
-                        </IonItem>
+                <IonItem>
+                    <IonLabel position="floating">Nom</IonLabel>
+                    <IonInput type='text'
+                              id='name'
+                              required
+                              name='nom'
+                              value={states.name}
+                              onIonChange={e => handleChange(e, "name")}/>
+                </IonItem>
+                <IonItem>
+                    <IonLabel position="floating">Prénom</IonLabel>
+                    <IonInput type='text'
+                              id='firstname'
+                              required
+                              value={states.firstname}
+                              name='firstname'
+                              onIonChange={e => handleChange(e, "firstname")}/>
+                </IonItem>
+                <IonItem>
+                    <IonLabel position="floating">Adresse</IonLabel>
+                    <IonInput type='text'
+                              id='name'
+                              required
+                              name='address'
+                              value={states.address}
+                              onIonChange={e => handleChange(e, "address")}/>
+                </IonItem>
+                <IonItem>
+                    <IonLabel position="floating">Date de naissance</IonLabel>
+                    <IonInput type='text'
+                              id='bd'
+                              readonly={true}
+                              name='bd'
+                              value={states.birthdate}/>
+                </IonItem>
 
-                    <IonItem>
-                        <IonDatetime
+                <IonItem>
+                    <IonDatetime
                         size="cover"
                         id='date'
                         name='date'
@@ -130,14 +130,14 @@ const EditClient = (props: ModalProps) => {
                         value={date}
                         onIonChange={(e) => handleChangeDate(e)}
 
-                        />
-                    </IonItem>
+                    />
+                </IonItem>
 
-                    <IonButton expand='block'
-                               type='submit'
-                               onClick={updateClient}>
-                        Mettre à jour
-                    </IonButton>
+                <IonButton expand='block'
+                           type='submit'
+                           onClick={updateClient}>
+                    Mettre à jour
+                </IonButton>
             </IonContent>
         </IonModal>
     )
