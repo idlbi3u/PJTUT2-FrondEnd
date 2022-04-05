@@ -32,7 +32,6 @@ const AddRecord = (props: ModalProps) => {
             state: states.state,
             closed_at: states.closed_at
         }
-        console.log(record)
         LawyercaseDataService.create(record)
             .then((res: any) => {
                 console.log(res);

@@ -30,3 +30,8 @@
     background-color: #3880ff;
     text-transform: capitalize;
 }
+
+.link{
+    color: white;
+    text-decoration: none;
+}

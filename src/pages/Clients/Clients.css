@@ -1,4 +1,12 @@
 .delete-button{
     background-color: red;
+}
 
+.center-text{
+    text-align: center;
+}
+
+.link{
+    color: white;
+    text-decoration: none;
 }

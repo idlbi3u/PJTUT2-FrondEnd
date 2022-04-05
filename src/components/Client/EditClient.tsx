@@ -28,7 +28,7 @@ interface ModalProps {
 
 
 const EditClient = (props: ModalProps) => {
-    const {isOpen, client, setIsOpen} = props;
+    const {isOpen, client, setIsOpen} = props;    
     const [date, setDate] = useState<string>("");
 
     const [states, setStates] = useState<IClientData>({
@@ -129,7 +129,7 @@ const EditClient = (props: ModalProps) => {
                         name='date'
                         presentation="date"
                         value={date}
-                        onIonChange={(e) => handleChangeDate(e)}
+                        onIonChange={handleChangeDate}
 
                         />
                     </IonItem>

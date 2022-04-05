@@ -1,14 +1,12 @@
 
-import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonPage, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar, SearchbarChangeEventDetail, useIonAlert } from '@ionic/react';
-import {   addOutline, eyedropOutline, eyeSharp,   pencilOutline,  pencilSharp,   trashBinOutline, trashBinSharp,  } from 'ionicons/icons';
+import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonPage, IonRouterLink, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar, SearchbarChangeEventDetail, useIonAlert } from '@ionic/react';
+import {   addOutline, ellipse, eyedropOutline, eyeSharp,   pencilOutline,  pencilSharp,   trashBinOutline, trashBinSharp,  } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import './Records.css';
 import LawyercaseDataService from "../../services/lawyercase.service"
 import ILawyercase from '../../types/lawyercase.type';
 import AddRecord from '../../components/Dossier/AddRecord'
 import EditRecord from '../../components/Dossier/EditRecord';
-import IClientData from '../../types/client.type';
-
 
 const Records: React.FC = () =>
 {
@@ -17,8 +15,10 @@ const Records: React.FC = () =>
     const [isEdit, setIsEdit] = useState(false);
     const [Delete, setDelete] = useState(false);
     const [selectedRecord, setSelectedRecord] = useState<ILawyercase>();
-
+    const [records, setRecords] = useState<ILawyercase[]>([]);
+    const [filteredRecords, setFilteredRecords] = useState<ILawyercase[]>(records);
     const [filter, setFilter] = useState<string>("AllBusiness");
+    
 
     const handleDeleteRecord = (id: string) => {
         setDelete(true);
@@ -29,14 +29,12 @@ const Records: React.FC = () =>
         setSelectedRecord(record)
         setIsEdit(true)
     }
-
-    const [records, setRecords] = useState<ILawyercase[]>([]);
+    
 
     const retrieveRecords = () => {
         LawyercaseDataService.getAll()
             .then((response: any) => {
                 setRecords(response.data)
-                console.log(response.data);
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -80,9 +78,8 @@ const Records: React.FC = () =>
     useEffect(() => {
         retrieveRecords();  
 
-    }, [isOpen,isEdit,Delete]);
+    }, [isOpen, isEdit, Delete, setRecords]);
 
-    const [filteredRecords, setFilteredRecords] = useState<ILawyercase[]>(records);
 
     useEffect(() => {
         if (filter === "AllBusiness") {
@@ -92,7 +89,7 @@ const Records: React.FC = () =>
         } else {
             setFilteredRecords(records.filter(record => record.state));
         }
-    },[filter,records]);
+    },[filter, records]);
   
 
     return (
@@ -106,20 +103,20 @@ const Records: React.FC = () =>
                         <IonTitle>Dossiers</IonTitle>
                     </IonItem>
                     <IonItem>
-                        <IonItem className='Business' lines='none'>   
+                        <IonItem slot='start' className='Business' lines='none'>   
                                 <IonSelect placeholder="Selectionnez une catégorie d'affaire" value={filter} onIonChange={e => setFilter(e.detail.value)}>
                                     <IonSelectOption value="AllBusiness">Toutes les affaires</IonSelectOption>
                                     <IonSelectOption value="OnGoingBusiness">Affaires en cours</IonSelectOption>
                                     <IonSelectOption value="CompletedBusiness">Affaires cloturées</IonSelectOption>
                                 </IonSelect>
-                            </IonItem>
-                            <IonItem className='SearchBar' lines='none'>   
+                        </IonItem>
+                        <IonItem slot='end' className='SearchBar' lines='none'>   
                             <IonSearchbar
                                 onIonChange={(e) => handleSearchRecord(e)}
                                 class='search-bar'
                                 type='text'
                                 placeholder="Rechercher par nom de dossier"/>
-                            </IonItem>
+                        </IonItem>
                     </IonItem>
 
                 </IonToolbar>
@@ -132,7 +129,7 @@ const Records: React.FC = () =>
                         </IonButton>
                     </IonButtons>
                 </IonItem>
-                <IonGrid>
+                <IonGrid text-center>
                     <IonRow className='Row'>
                         <IonCol className='Col'>Code</IonCol>
                         <IonCol className='Col'>Statut</IonCol>
@@ -141,43 +138,39 @@ const Records: React.FC = () =>
                     </IonRow>
                     {filteredRecords.map((record: ILawyercase, index: number) => {
                         return (
-                            <IonRow className='Row' key={index}>
-                                <IonCol className='Col'>{record.ref}</IonCol>
-                                <IonCol className='Col'>{record.state ? "Clôturé" : "En cours"}</IonCol>
-                                <IonCol className='Col'>
-                                    {record.clients ? record.clients.map((client: IClientData, index: number) => {
-                                        return (
-                                            client.name + " " + client.firstname + " / "
-                                        )
-                                    }) : "Aucun client"}
-                                </IonCol>
-                                <IonCol className='Col'>
-                                <IonButtons>
-                                        <IonButton href={'/records/view/'+record.id} color='success'>
-                                                <IonIcon ios={eyedropOutline} md={eyeSharp}/>
-                                        </IonButton>
-                                        <IonButton color='primary' onClick={() => {
-                                            console.log(record)
-                                            handleModifyRecord(record)
-                                        }}>
-                                            <IonIcon ios={pencilOutline} md={pencilSharp}/>
-                                        </IonButton>
-                                        <IonButton color='danger' onClick={() => {
-                                            present({
-                                                cssClass: 'my-css',
-                                                header: 'Suppression d\'un client',
-                                                message: 'êtes-vous sûr de vouloir supprimer ce dossier ?',
-                                                buttons: [
-                                                    {text: 'Annuler', role: 'cancel'},
-                                                    { text: 'Oui', handler: () => handleDeleteRecord(record.id)}
-                                                ],                        
-                                            })               
-                                        }}>                                        
-                                            <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
-                                        </IonButton>
-                                    </IonButtons>        
-                                </IonCol>
-                            </IonRow>
+                            <IonRow key={index}>
+                                    <IonCol className='Col'>
+                                        <IonRouterLink class='link' routerLink={'/records/view/'+record.id}>
+                                            {record.ref}
+                                        </IonRouterLink>
+                                    </IonCol>
+                                    <IonCol className='Col'><IonIcon color={record.closed_at ? "danger" : "success"} ios={ellipse} md={ellipse} /></IonCol>
+                                    <IonCol className='Col'>
+                                        { record.clients?.length }
+                                    </IonCol>
+                                    <IonCol className='Col'>
+                                    <IonButtons>                                        
+                                            <IonButton color='primary' onClick={() => {
+                                                handleModifyRecord(record)
+                                            }}>
+                                                <IonIcon ios={pencilOutline} md={pencilSharp}/>
+                                            </IonButton>
+                                            <IonButton color='danger' onClick={() => {
+                                                present({
+                                                    cssClass: 'my-css',
+                                                    header: 'Suppression d\'un client',
+                                                    message: 'êtes-vous sûr de vouloir supprimer ce dossier ?',
+                                                    buttons: [
+                                                        {text: 'Annuler', role: 'cancel'},
+                                                        { text: 'Oui', handler: () => handleDeleteRecord(record.id)}
+                                                    ],
+                                                })
+                                            }}>
+                                                <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
+                                            </IonButton>
+                                        </IonButtons>
+                                    </IonCol>
+                                </IonRow>
                         )
                     })}
                 </IonGrid>
