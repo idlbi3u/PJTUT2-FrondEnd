@@ -19,6 +19,7 @@ import {
 import {   addOutline, addSharp, alertOutline, alertSharp, calendarClearOutline, calendarClearSharp, ellipse, fileTrayFullOutline, fileTrayFullSharp, fileTrayOutline, pencilOutline, pencilSharp, personAddOutline, personAddSharp, personOutline, personSharp, timeOutline, timeSharp, trashBinOutline, trashBinSharp } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+
 import ILawyercase from '../../types/lawyercase.type';
 import LawyercaseDataService from "../../services/lawyercase.service"
 import './Records.css';
@@ -28,9 +29,8 @@ import AddClientToCaseModal from '../../components/Dossier/AddClientToCase';
 import {format, parseISO} from 'date-fns';
 import lawyercaseService from '../../services/lawyercase.service';
 
-const RecordDetails: React.FC = () =>
-{
-    interface ParamsInterface{
+const RecordDetails: React.FC = () => {
+    interface ParamsInterface {
         id: string;
     }
 
@@ -43,13 +43,12 @@ const RecordDetails: React.FC = () =>
     const [selectedRecord, setSelectedRecord] = useState<ILawyercase>();
     const [present] = useIonAlert();
 
-
-    const deleteRecord = (id:string) => {
+    const deleteRecord = (id: string) => {
         LawyercaseDataService.delete(id)
-            .then((res:any) => {
+            .then((res: any) => {
                 console.log(res + "A bien été supprimé de la BDD");
-        })
-            .catch((e:Error) => {
+            })
+            .catch((e: Error) => {
                 console.log(e)
             })
     }
@@ -82,164 +81,164 @@ const RecordDetails: React.FC = () =>
             });
         setDelete(false);
         
-    }, [params.id, isEdit, Delete, isOpen, addClientModal, present]);
-    
+    }, [params.id, isEdit, Delete, isOpen, addClientModal, present]);   
+
      return (
+
         <IonPage>
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='start'>
                         <IonBackButton defaultHref='/records'></IonBackButton>
                     </IonButtons>
-                    <IonTitle>Dossier {' > '+ record?.ref  } </IonTitle>
+                    <IonTitle>Dossier {' > ' + record?.ref} </IonTitle>
                 </IonToolbar>
                 <IonItem lines="none">
                     <IonButtons slot="end">
-                        <IonButton 
-                        color="primary" 
-                        slot="start"
-                        onClick={() => {
-                            handleModifyRecord(record)
-                        }}
-                        
+                        <IonButton
+                            color="primary"
+                            slot="start"
+                            onClick={() => {
+                                handleModifyRecord(record)
+                            }}
+
                         >Modifier Dossier<IonIcon ios={pencilOutline} md={pencilSharp}/></IonButton>
-                        <IonButton 
-                        color="danger" 
-                        slot="end"
-                        onClick={() => {
-                            present({
-                                cssClass: 'my-css',
-                                header: 'Suppression d\'un Dossier',
-                                message: 'êtes-vous sûr de vouloir supprimer ce Dossier ?',
-                                buttons: [
-                                    {text: 'Annuler', role: 'cancel'},
-                                    { text: 'Confirmer', handler: () => handleDeleteRecord(record?.id)}
-                                ],                        
-                                })     
-                        }}
+                        <IonButton
+                            color="danger"
+                            slot="end"
+                            onClick={() => {
+                                present({
+                                    cssClass: 'my-css',
+                                    header: 'Suppression d\'un Dossier',
+                                    message: 'êtes-vous sûr de vouloir supprimer ce Dossier ?',
+                                    buttons: [
+                                        {text: 'Annuler', role: 'cancel'},
+                                        {text: 'Confirmer', handler: () => handleDeleteRecord(record?.id)}
+                                    ],
+                                })
+                            }}
                         >Supprimer<IonIcon ios={trashBinOutline} md={trashBinSharp}/></IonButton>
                     </IonButtons>
                 </IonItem>
             </IonHeader>
             <IonContent>
-                {record ? 
-                 <>
-                 {record ? (
-                     <>    
-                     <IonCard>
-                         <IonCardContent>
-                             <IonItem lines="none">
-                                     <IonIcon />
-                                     <IonTitle>{record.ref}</IonTitle>
-                             </IonItem>
-                             <IonItem lines="none">
-                                 <IonIcon color={record.closed_at ? "danger" : "success"} ios={ellipse} md={ellipse} />
-                                 <IonTitle>{record.closed_at ? "Clôturé" : "En cours"}</IonTitle>
-                             </IonItem>
-                             {record.createdAt ? (
-                                 <IonItem lines="none">
-                                         <IonIcon ios={calendarClearOutline} md={calendarClearSharp}/>
-                                         <IonTitle>{formatDate(record.createdAt)}</IonTitle>
-                                 </IonItem>
-                             ) : null}
-                         </IonCardContent>
-                     </IonCard>
-         
-                     <IonCard>
-                         <IonCardHeader>
-                             <IonItem lines="none">
-                                 <IonIcon ios={fileTrayFullOutline} md={fileTrayFullSharp}/>
-                                 <IonTitle>Description</IonTitle>
-                             </IonItem>
-                         </IonCardHeader>
-         
-                         <IonCardContent>
-                             <IonText>
-                                 <h2>{record.description}</h2>
-                             </IonText>
-                         </IonCardContent>
-                     </IonCard>
-         
-                     <IonCard>
-                         <IonCardHeader>
-                             <IonItem lines="none">
-                                 <IonIcon ios={personOutline} md={personSharp}/>
-                                 <IonTitle>Clients concernés</IonTitle>
-                                 <IonButtons slot='end'>
-                                     <IonButton color='primary' onClick={() => {setAddClientModal(true)}} >
-                                         <IonIcon color="primary" ios={personAddOutline} md={personAddSharp} />
-                                     </IonButton>
-                                 </IonButtons>
-                             </IonItem>
-                         </IonCardHeader>
-         
-                         <IonCardContent>
-                             {record.clients?.map((client, index) => (
-                                 <IonItem lines="none" key={index}>   
-                                     <IonItem lines="none">
-                                         <IonButton color="danger" onClick={() => {
-                                             present({
-                                                 cssClass: 'my-css',
-                                                 header: 'Suppression d\'un client',
-                                                 message: 'êtes-vous sûr de vouloir supprimer ce client ?',
-                                                 buttons: [
-                                                   {text: 'Annuler', role: 'cancel'},
-                                                   { text: 'Confirmer', handler: () => handleDeleteClient(client.id)}
-                                                 ],                        
-                                               }) 
-                                             }}>
-                                             <IonIcon ios={trashBinOutline} md={trashBinSharp} />
-                                         </IonButton>
-                                     </IonItem>
-                                     <IonLabel>{client.name + ' ' + client.firstname}</IonLabel>
-                                 </IonItem>
-                             ))}                    
-                         </IonCardContent>
-                     </IonCard>
-         
-         
-                     <IonCard>
-                         <IonCardHeader>
-                             <IonItem lines="none">
-                                 <IonIcon ios={alertOutline} md={alertSharp}/>
-                                 <IonTitle>Évènements</IonTitle>
-                                 <IonButtons slot='end'>
-                                     <IonButton color='primary' onClick={() => {setIsOpen(true)}} >
-                                         <IonIcon color="primary" ios={addOutline} md={addSharp} />
-                                     </IonButton>
-                                 </IonButtons>
-                             </IonItem>
-                             <IonItem lines='none'>
-                             </IonItem>
-                         </IonCardHeader>
-         
-                         <IonCardContent>
-                             <IonText>
-                             </IonText>
-                         </IonCardContent>
-                     </IonCard>
-                     
-                     <IonCard>
-                         <IonCardHeader>
-                             <IonItem lines="none">
-                                 <IonIcon ios={timeOutline} md={timeSharp}/>
-                                 <IonTitle>Total : Temps en heures</IonTitle>
-                             </IonItem>
-                         </IonCardHeader>
-         
-                         <IonCardContent>
-                             
-                         </IonCardContent>
-                     </IonCard>                     
-                     </>
-                 ) : null}                     
-                 </>
-                 : 
-                <IonItem>
-                    <IonText color="danger">Ce dossier n'existe pas!</IonText>
-                </IonItem>
+                
+                    {record ? (
+                        <>    
+                        <IonCard>
+                            <IonCardContent>
+                                <IonItem lines="none">
+                                        <IonIcon />
+                                        <IonTitle>{record.ref}</IonTitle>
+                                </IonItem>
+                                <IonItem lines="none">
+                                    <IonIcon color={record.closed_at ? "danger" : "success"} ios={ellipse} md={ellipse} />
+                                    <IonTitle>{record.closed_at ? "Clôturé" : "En cours"}</IonTitle>
+                                </IonItem>
+                                {record.createdAt ? (
+                                    <IonItem lines="none">
+                                            <IonIcon ios={calendarClearOutline} md={calendarClearSharp}/>
+                                            <IonTitle>{formatDate(record.createdAt)}</IonTitle>
+                                    </IonItem>
+                                ) : null}
+                            </IonCardContent>
+                        </IonCard>
+            
+                        <IonCard>
+                            <IonCardHeader>
+                                <IonItem lines="none">
+                                    <IonIcon ios={fileTrayFullOutline} md={fileTrayFullSharp}/>
+                                    <IonTitle>Description</IonTitle>
+                                </IonItem>
+                            </IonCardHeader>
+            
+                            <IonCardContent>
+                                <IonText>
+                                    <h2>{record.description}</h2>
+                                </IonText>
+                            </IonCardContent>
+                        </IonCard>
+            
+                        <IonCard>
+                            <IonCardHeader>
+                                <IonItem lines="none">
+                                    <IonIcon ios={personOutline} md={personSharp}/>
+                                    <IonTitle>Clients concernés</IonTitle>
+                                    <IonButtons slot='end'>
+                                        <IonButton color='primary' onClick={() => {setAddClientModal(true)}} >
+                                            <IonIcon color="primary" ios={personAddOutline} md={personAddSharp} />
+                                        </IonButton>
+                                    </IonButtons>
+                                </IonItem>
+                            </IonCardHeader>
+            
+                            <IonCardContent>
+                                {record.clients?.map((client, index) => (
+                                    <IonItem lines="none" key={index}>   
+                                        <IonItem lines="none">
+                                            <IonButton color="danger" onClick={() => {
+                                                present({
+                                                    cssClass: 'my-css',
+                                                    header: 'Suppression d\'un client',
+                                                    message: 'êtes-vous sûr de vouloir supprimer ce client ?',
+                                                    buttons: [
+                                                    {text: 'Annuler', role: 'cancel'},
+                                                    { text: 'Confirmer', handler: () => handleDeleteClient(client.id)}
+                                                    ],                        
+                                                }) 
+                                                }}>
+                                                <IonIcon ios={trashBinOutline} md={trashBinSharp} />
+                                            </IonButton>
+                                        </IonItem>
+                                        <IonLabel>{client.name + ' ' + client.firstname}</IonLabel>
+                                    </IonItem>
+                                ))}                    
+                            </IonCardContent>
+                        </IonCard>
+            
+            
+                        <IonCard>
+                            <IonCardHeader>
+                                <IonItem lines="none">
+                                    <IonIcon ios={alertOutline} md={alertSharp}/>
+                                    <IonTitle>Évènements</IonTitle>
+                                    <IonButtons slot='end'>
+                                        <IonButton color='primary' onClick={() => {setIsOpen(true)}} >
+                                            <IonIcon color="primary" ios={addOutline} md={addSharp} />
+                                        </IonButton>
+                                    </IonButtons>
+                                </IonItem>
+                                <IonItem lines='none'>
+                                </IonItem>
+                            </IonCardHeader>
+            
+                            <IonCardContent>
+                                <IonText>
+                                </IonText>
+                            </IonCardContent>
+                        </IonCard>
+                        
+                        <IonCard>
+                            <IonCardHeader>
+                                <IonItem lines="none">
+                                    <IonIcon ios={timeOutline} md={timeSharp}/>
+                                    <IonTitle>Total : Temps en heures</IonTitle>
+                                </IonItem>
+                            </IonCardHeader>
+            
+                            <IonCardContent>
+                                
+                            </IonCardContent>
+                        </IonCard>                     
+                        </>
+                    ) 
+                    : 
+                    <IonItem>
+                        <IonText color="danger">Ce dossier n'existe pas!</IonText>
+                    </IonItem>
                 }
             </IonContent>
+
             {selectedRecord ? (
                 <EditRecord
                     record={selectedRecord}
@@ -247,10 +246,13 @@ const RecordDetails: React.FC = () =>
                     setIsOpen={() => setIsEdit(false)}
                 />
             ) : null}
+
             {record ? (
-                <AddClientToCaseModal recordClients={record.clients ?? []} record={record} isOpen={addClientModal} setIsOpen={setAddClientModal}/>
+                <>
+                    <AddClientToCaseModal recordClients={record.clients ?? []} record={record} isOpen={addClientModal} setIsOpen={setAddClientModal}/>
+                    <AddEvent record={record}  isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
+                </>
             )  : null}
-            <AddEvent  isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
         </IonPage>
     );
 }
