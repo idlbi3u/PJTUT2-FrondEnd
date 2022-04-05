@@ -18,6 +18,7 @@ import {
 import {closeOutline, closeSharp} from "ionicons/icons";
 import ClientDataService from "../../services/client.service";
 import IClientData from "../../types/client.type";
+import {format, parseISO} from 'date-fns';
 
 interface ModalProps {
     isOpen: boolean;
@@ -65,6 +66,10 @@ const EditClient = (props: ModalProps) => {
             })
         setIsOpen(false);
     }
+
+    const formatDate = (value: string) => {
+        return format(parseISO(value), 'yyyy-MM-dd');
+    };
 
     useEffect(() => {
         setStates(client);

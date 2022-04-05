@@ -14,26 +14,48 @@ import {
     IonCard, 
     IonCardContent, 
     IonCardHeader, 
-    IonLabel,     
+    IonLabel,
+    IonGrid,
+    IonRow,
+    IonCol,     
 } from '@ionic/react';
-import {   addOutline, addSharp, alertOutline, alertSharp, calendarClearOutline, calendarClearSharp, ellipse, fileTrayFullOutline, fileTrayFullSharp, fileTrayOutline, pencilOutline, pencilSharp, personAddOutline, personAddSharp, personOutline, personSharp, timeOutline, timeSharp, trashBinOutline, trashBinSharp } from 'ionicons/icons';
+import {   
+    addOutline, 
+    addSharp, 
+    alertOutline, 
+    alertSharp, 
+    calendarClearOutline, 
+    calendarClearSharp, 
+    ellipse, 
+    fileTrayFullOutline, 
+    fileTrayFullSharp, 
+    pencilOutline, 
+    pencilSharp, 
+    personAddOutline,
+    personAddSharp, 
+    personOutline, 
+    personSharp, 
+    timeOutline, 
+    timeSharp, 
+    trashBinOutline, 
+    trashBinSharp 
+} from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-
 import ILawyercase from '../../types/lawyercase.type';
 import LawyercaseDataService from "../../services/lawyercase.service"
-import './Records.css';
 import EditRecord from '../../components/Dossier/EditRecord';
 import AddEvent from '../../components/Évènement/AddEvent';
 import AddClientToCaseModal from '../../components/Dossier/AddClientToCase';
 import {format, parseISO} from 'date-fns';
 import lawyercaseService from '../../services/lawyercase.service';
+import './Records.css';
+import IEventData from '../../types/event.type';
 
+interface ParamsInterface {
+    id: string;
+}
 const RecordDetails: React.FC = () => {
-    interface ParamsInterface {
-        id: string;
-    }
-
     const params = useParams<ParamsInterface>();
     const [record, setRecord] = useState<ILawyercase>();
     const [isEdit, setIsEdit] = useState(false);
@@ -54,7 +76,7 @@ const RecordDetails: React.FC = () => {
     }
 
     const handleDeleteRecord = (id: string) => {
-        deleteRecord(id);
+        deleteRecord(id);        
     }
 
     const handleModifyRecord = (record: any) => {
@@ -62,13 +84,15 @@ const RecordDetails: React.FC = () => {
         setIsEdit(true)
     }
 
-    const formatDate = (value: string) => {
-        return format(parseISO(value), 'dd/MM/yyyy');
+    const formatDate = (value?: string) => {
+        if(value){
+            return format(parseISO(value), 'dd/MM/yyyy');
+        }
     };
 
     const handleDeleteClient = (clientId: string) => {
-        setDelete(true);
         lawyercaseService.removeClient(record?.id, clientId)
+        setDelete(true);
     }   
 
     useEffect(() => {
@@ -81,8 +105,9 @@ const RecordDetails: React.FC = () => {
             });
         setDelete(false);
         
-    }, [params.id, isEdit, Delete, isOpen, addClientModal, present]);   
+    }, [params.id, isEdit, Delete, isOpen, addClientModal]);   
 
+    console.log(record);
      return (
 
         <IonPage>
@@ -210,11 +235,19 @@ const RecordDetails: React.FC = () => {
                                 </IonItem>
                                 <IonItem lines='none'>
                                 </IonItem>
-                            </IonCardHeader>
-            
+                            </IonCardHeader>                                    
                             <IonCardContent>
-                                <IonText>
-                                </IonText>
+                                <IonGrid>
+                                    {record.events?.map((event: IEventData, index: number) => {
+                                        return(
+                                            <IonRow key={index}>
+                                                <IonCol>{formatDate(event.createdAt)}</IonCol>                                                
+                                                <IonCol>{event.duration}</IonCol>                                           
+                                                <IonCol>{event.description}</IonCol> 
+                                            </IonRow>
+                                        )
+                                    })}                                    
+                                </IonGrid>
                             </IonCardContent>
                         </IonCard>
                         
