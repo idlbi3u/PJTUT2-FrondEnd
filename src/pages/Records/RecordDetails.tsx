@@ -7,7 +7,6 @@ import LawyercaseDataService from "../../services/lawyercase.service"
 import './Records.css';
 import RecordCard from '../../components/Dossier/RecordCard';
 import EditRecord from '../../components/Dossier/EditRecord';
-import AddClientToCaseModal from '../../components/Dossier/AddClientToCase';
 
 const RecordDetails: React.FC = () =>
 {
@@ -18,7 +17,6 @@ const RecordDetails: React.FC = () =>
     const params = useParams<ParamsInterface>();
     const [record, setRecord] = useState<ILawyercase>();
     const [isEdit, setIsEdit] = useState(false);
-    const [Delete, setDelete] = useState(false);
     const [present] = useIonAlert();
     const [selectedRecord, setSelectedRecord] = useState<ILawyercase>();
 
@@ -31,11 +29,9 @@ const RecordDetails: React.FC = () =>
             .catch((e:Error) => {
                 console.log(e)
             })
-            setDelete(false);
     }
 
     const handleDeleteRecord = (id: string) => {
-        setDelete(true);
         deleteRecord(id);
     }
 
@@ -53,7 +49,7 @@ const RecordDetails: React.FC = () =>
             .catch((e: Error) => {
                 console.log(e);
             });
-    }, [params.id, isEdit, Delete]);
+    }, [params.id, isEdit]);
     
      return (
         <IonPage>

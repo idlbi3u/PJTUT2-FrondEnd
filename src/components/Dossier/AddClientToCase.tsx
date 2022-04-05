@@ -26,12 +26,13 @@ interface ModalProps {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     record: ILawyercase;
+    recordClients: IClientData[];
 }
 
 
 
 const AddClientToCaseModal = (props: ModalProps) => {
-    const {isOpen, setIsOpen, record} = props;
+    const {isOpen, setIsOpen, record, recordClients} = props;
     const [clients, setClients] = useState<IClientData[]>();
     const [selectedClient, setSelectedClient] = useState<IClientData>();
 
@@ -48,46 +49,36 @@ const AddClientToCaseModal = (props: ModalProps) => {
 
     const updateRecord = () => {
         console.log("Updating....")
-        if(selectedClient){
-            const newRecord: ILawyercase = {
-                id: record.id,
-                ref: record.ref,
-                description: record.description,
-                state: record.state,
-                closed_at : record.closed_at || null,
-                clients: record.clients
-            }
-            console.log(record)
-    
-            LawyercaseDataService.update(newRecord.id, newRecord)
-                .then((res: any) => {
-                    console.log("Dossier mis à jour avec succès");
-                })
-                .catch((e: Error) => {
-                    console.log(e)
-                })
-                setIsOpen(false)
-        }else{
-            console.log('erreur update')
+        const newRecord: ILawyercase = {
+            id: record.id,
+            ref: record.ref,
+            description: record.description,
+            state: record.state,
+            closed_at: record.closed_at || null,
+            clients: record.clients
         }
+        console.log(newRecord)
+
+        LawyercaseDataService.addClient(newRecord.id, selectedClient?.id)
+            .then((res: any) => {
+                console.log("Dossier mis à jour avec succès");
+            })
+            .catch((e: Error) => {
+                console.log(e)
+            })
+            setIsOpen(false)
     }
     
     const handleAddClientToCase = () => {
-        console.log(record.clients)
-        if(record.clients && selectedClient && selectedClient.cases){
-            record.clients.push(selectedClient!);
-            selectedClient.cases.push(record);
-            updateRecord();
-            setIsOpen(false);
-        }else{
-            setIsOpen(false);
-        }
+        console.log(record.clients)        
+        updateRecord();
+        setIsOpen(false);        
     }
 
     useEffect(() => {
         retrieveClients();
 
-    }, [])
+    }, [setClients, isOpen])
 
 
     return(
@@ -109,11 +100,15 @@ const AddClientToCaseModal = (props: ModalProps) => {
                         setSelectedClient(e.detail.value)
                         }}>
                         {clients?.map((client: IClientData, index: number) => {
-                            return(
-                                <IonSelectOption value={client} key={index} >
-                                    <IonLabel>{client.name + " " + client.firstname}</IonLabel>
-                                </IonSelectOption>
-                            )
+                            if(!recordClients.includes(client)) {
+                                return(
+                                    <IonSelectOption value={client} key={index} >
+                                        <IonLabel>{client.name + " " + client.firstname}</IonLabel>
+                                    </IonSelectOption>
+                                )
+                            }else{
+                                return null;
+                            }
                         })}
                     </IonSelect>
                 </IonItem>

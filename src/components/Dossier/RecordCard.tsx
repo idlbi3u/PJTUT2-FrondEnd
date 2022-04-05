@@ -9,6 +9,7 @@ import {
     IonLabel,     
     IonText,     
     IonTitle,
+    useIonAlert,
 } from "@ionic/react";
 import {     
     addOutline,
@@ -26,7 +27,9 @@ import {
     personOutline, 
     personSharp, 
     timeOutline,
-    timeSharp,    
+    timeSharp,
+    trashBinOutline,
+    trashBinSharp,    
     } from "ionicons/icons";
     
 import {format, parseISO} from 'date-fns';
@@ -35,9 +38,10 @@ import {format, parseISO} from 'date-fns';
 import ILawyercase from "../../types/lawyercase.type";
 // CSS FILES
 import './RecordCard.css';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddEvent from "../Évènement/AddEvent";
 import AddClientToCaseModal from "./AddClientToCase";
+import lawyercaseService from "../../services/lawyercase.service";
 
 
 interface RecordCardProps{
@@ -46,12 +50,18 @@ interface RecordCardProps{
 const RecordCard = (props: RecordCardProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [addClientModal, setAddClientModal] = useState(false)
+    const [present] = useIonAlert();
     const {record} = props;
+
 
     const formatDate = (value: string) => {
         return format(parseISO(value), 'dd/MM/yyyy');
     };
 
+    const handleDeleteClient = (clientId: string) => {
+        lawyercaseService.removeClient(record.id, clientId)
+    }
+    
     return(
         <>
         {record ? (
@@ -106,7 +116,22 @@ const RecordCard = (props: RecordCardProps) => {
 
                 <IonCardContent>
                     {record.clients?.map((client, index) => (
-                        <IonItem lines="none" key={index}>                            
+                        <IonItem lines="none" key={index}>   
+                            <IonItem lines="none">
+                                <IonButton color="danger" onClick={() => {
+                                    present({
+                                        cssClass: 'my-css',
+                                        header: 'Suppression d\'un client',
+                                        message: 'êtes-vous sûr de vouloir supprimer ce client ?',
+                                        buttons: [
+                                          {text: 'Annuler', role: 'cancel'},
+                                          { text: 'Confirmer', handler: () => handleDeleteClient(client.id)}
+                                        ],                        
+                                      }) 
+                                    }}>
+                                    <IonIcon ios={trashBinOutline} md={trashBinSharp} />
+                                </IonButton>
+                            </IonItem>
                             <IonLabel>{client.name + ' ' + client.firstname}</IonLabel>
                         </IonItem>
                     ))}                    
@@ -147,7 +172,7 @@ const RecordCard = (props: RecordCardProps) => {
                     
                 </IonCardContent>
             </IonCard>
-            <AddClientToCaseModal record={record} isOpen={addClientModal} setIsOpen={setAddClientModal}/>
+            <AddClientToCaseModal recordClients={record.clients ?? []} record={record} isOpen={addClientModal} setIsOpen={setAddClientModal}/>
             <AddEvent  isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
             </>
         ) : null}

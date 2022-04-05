@@ -31,9 +31,13 @@ class LawyercaseDataService {
     findByRef(ref:string) {
         return http.get(`/lawyercases?title=${ref}`);
     }
+    
+    addClient(id:string, clientId:string) {
+        return http.put(`/lawyercases/addtolc/${id}/${clientId}`);
+    }
 
-    addClient(client: IClientData, lawyercase: ILawyercase) {
-        return http.post(`/lawyercases/${lawyercase.id}/addClient/${client.id}`);
+    removeClient(id:string, clientId:string) {
+        return http.delete(`/lawyercases/removefromlc/${id}/${clientId}`);
     }
 }
 
