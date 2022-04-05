@@ -59,7 +59,6 @@ const AddEvent = (props: ModalProps) => {
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Temps en heures et minutes</IonLabel>
-                        
                         <IonInput type='text' id='description' required name='description'  onIonChange={e => handleChange(e, "hours")}></IonInput>
                         <IonInput type='text' id='description' required name='description'  onIonChange={e => handleChange(e, "minutes")}></IonInput>
                     </IonItem>
