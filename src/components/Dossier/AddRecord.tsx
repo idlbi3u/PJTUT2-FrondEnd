@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ILawyercase from '../../types/lawyercase.type';
 import LawyercaseDataService from "../../services/lawyercase.service"
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonRadio, IonRadioGroup, IonTitle, IonToolbar } from '@ionic/react';
+import { InputChangeEventDetail, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonModal, IonTitle, IonToolbar } from '@ionic/react';
 import { closeOutline, closeSharp } from 'ionicons/icons';
 
 
@@ -13,16 +13,16 @@ interface ModalProps{
 
 const AddRecord = (props: ModalProps) => {
     const { isOpen, setIsOpen } = props;
-    const [submitted, setSubmitted] = useState<boolean>(false);
     const [states, setStates] = useState<ILawyercase>({
         ref:"",
         description:"",
-        state:true,
+        state:false,
+        closed_at:null
         
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setStates({...states, [e.target.name] : e.target.value.trim()})
+    const handleChange = (e: CustomEvent<InputChangeEventDetail>, inputName: string) => {
+        setStates({...states, [inputName]: e.detail.value});
     }
 
     const saveRecord = () => {
@@ -30,8 +30,9 @@ const AddRecord = (props: ModalProps) => {
             ref: states.ref,
             description: states.description,
             state: states.state,
+            closed_at: states.closed_at
         }
-
+        console.log(record)
         LawyercaseDataService.create(record)
             .then((res: any) => {
                 console.log(res);
@@ -39,43 +40,35 @@ const AddRecord = (props: ModalProps) => {
             .catch((e: Error) => {
             console.log(e)
         })
+        setIsOpen(false)
     }
 
-    const [selected, setSelected] = useState<string>();
     return(
         <IonModal isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='end'>
                         <IonButton onClick={() => setIsOpen(false)}>
-                            <IonIcon ios={closeOutline} md={closeSharp}/>
+                        <IonIcon ios={closeOutline} md={closeSharp}/>                                                                
                         </IonButton>
                     </IonButtons>
                     <IonTitle>Ajouter un Dossier</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-                <form className='ion-padding'>
+    
                     <IonItem>
                         <IonLabel position="floating">Référence</IonLabel>
-                        <IonInput type='text' id='ref' required name='ref' onChange={() => handleChange} ></IonInput>
+                        <IonInput  type='text' id='ref' required name='ref' onIonChange={e => handleChange(e, "ref")} ></IonInput>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="floating">Description</IonLabel>
-                        <IonInput type='text' id='description' required name='description' onChange={() => handleChange}></IonInput>
+                        <IonInput type='text' id='description' required name='description'  onIonChange={e => handleChange(e, "description")}></IonInput>
                     </IonItem>
-                    <IonItem>
-                        <IonRadioGroup name='Business' value={selected} onIonChange={e => setSelected(e.detail.value)}>
-                            <IonItem>
-                                <IonLabel>Affaire Cloturée</IonLabel>
-                                <IonRadio slot="start" value="CompletedBusiness" />
-                            </IonItem>   
-                        </IonRadioGroup>
-                    </IonItem>
-                    <IonButton expand='block' type='submit' onChange={() => saveRecord}>
+                    <IonButton expand='block' type='submit' onClick={saveRecord}>
                         Ajouter
                     </IonButton>
-                </form>
+                
             </IonContent>
         </IonModal>
     )

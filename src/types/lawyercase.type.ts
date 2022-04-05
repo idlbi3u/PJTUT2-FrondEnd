@@ -1,7 +1,7 @@
 import IClientData from "./client.type";
 
 export default interface ILawyercase {
-    id?: any|null,
+    id?: any,
     ref:string,
     description:string,
     state:boolean,

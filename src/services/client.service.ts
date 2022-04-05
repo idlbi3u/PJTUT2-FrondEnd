@@ -19,8 +19,6 @@ class ClientDataService {
     }
 
     update(id?: string, data?: Object) {
-        console.log(id)
-        console.log(data)
         return http.put(`/clients/${id}`, data);
     }
 

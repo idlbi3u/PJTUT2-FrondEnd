@@ -1,4 +1,5 @@
 import http from "../http-common";
+import IClientData from "../types/client.type";
 import  ILawyercase from "../types/lawyercase.type";
 
 class LawyercaseDataService {
@@ -29,6 +30,14 @@ class LawyercaseDataService {
 
     findByRef(ref:string) {
         return http.get(`/lawyercases?title=${ref}`);
+    }
+    
+    addClient(id:string, clientId:string) {
+        return http.put(`/lawyercases/addtolc/${id}/${clientId}`);
+    }
+
+    removeClient(id:string, clientId:string) {
+        return http.delete(`/lawyercases/removefromlc/${id}/${clientId}`);
     }
 }
 
