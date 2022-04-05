@@ -4,17 +4,15 @@ import axios from "axios";
 
 
 const api = {
-    getAll: "http://localhost:8080/api/clients/",
-
+    base_link: "http://localhost:8080/api/clients/",
 }
-
-// Var dans le redux loading Boolean
-// lors du dispatch du init  dispatch = true
-//.then  .catch .celui-la dispatch=false
-//Create component de Loading et le faire apparaitre quand ca passe a false
 
 interface IClientsList {
     clients: IClient[]
+}
+
+interface ISelectedClient {
+    selectedClient: IClient
 }
 
 interface IClient {
@@ -29,7 +27,18 @@ interface IClient {
 }
 
 const initialState = {
+    selectedClient: {
+        id: "",
+        name: "",
+        firstname: "",
+        address: "",
+        birthdate: "",
+        cratedAt: "",
+        updatedAt: "",
+        cases: []
+    },
     clients: [],
+    id: "",
     name: "",
     firstname: "",
     address: "",
@@ -40,6 +49,10 @@ const initialState = {
 
 const setClientsListState = (state: IClientsList, action: any) => {
     state.clients = action.payload
+}
+
+const setSelectedClientState = (state: ISelectedClient, action: any) => {
+    state.selectedClient = action.payload
 }
 
 const setNameState = (state: IClient, action: any) => {
@@ -58,7 +71,6 @@ const setBirthdateState = (state: IClient, action: any) => {
     state.birthdate = action.payload
 }
 
-
 export const clientsSlice = createSlice({
     name: 'clients',
     initialState,
@@ -68,32 +80,27 @@ export const clientsSlice = createSlice({
         setAddress: (state, action) => setAddressState(state, action),
         setBirthdate: (state, action) => setBirthdateState(state, action),
         setClientsList: (state, action) => setClientsListState(state, action),
+        setSelectedClient: (state, action) => setSelectedClientState(state, action)
     }
 })
 
 export const {
-    setName,
-    setAddress,
-    setBirthdate,
-    setFirstName,
-    setClientsList
+    setClientsList,
+    setSelectedClient
 } = clientsSlice.actions;
 
 export const getAllClientsReducer = () => (dispatch: AppDispatch) => {
-
-    axios.get(api.getAll)
+    axios.get(api.base_link)
         .then((response: any) => {
             dispatch(setClientsList(response.data))
         })
         .catch((e: Error) => {
             console.log(e);
         });
-
 }
 
-//delete client
 export const deleteClientReducer = (id: string) => (dispatch: AppDispatch) => {
-    axios.delete(api.getAll + id)
+    axios.delete(api.base_link + id)
         .then(() => {
             dispatch(getAllClientsReducer())
         })
@@ -102,6 +109,26 @@ export const deleteClientReducer = (id: string) => (dispatch: AppDispatch) => {
         });
 }
 
+export const getSelectedClientReducer = (id: string) => (dispatch: AppDispatch) => {
+    axios.get(api.base_link + id)
+        .then((response: any) => {
+            console.log(response.data);
+            dispatch(setSelectedClient(response.data))
+        })
+        .catch((e: Error) => {
+            console.log(e);
+        });
+}
+
+export const createClientReducer = (client: IClient) => (dispatch: AppDispatch) => {
+    axios.post(api.base_link, client)
+        .then(() => {
+            dispatch(getAllClientsReducer())
+        })
+        .catch((e: Error) => {
+            console.log(e);
+        });
+}
 
 export default clientsSlice.reducer
 

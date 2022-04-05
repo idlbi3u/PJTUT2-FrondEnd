@@ -16,32 +16,34 @@ import {useEffect, useState} from "react";
 import {useParams} from "react-router";
 import ClientCard from "../../components/Client/ClientCard";
 import IClientData from "../../types/client.type";
-import ClientDataService from "../../services/client.service"
 import './ClientDetails.css';
 import {pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from "ionicons/icons";
 import EditClient from "../../components/Client/EditClient";
+import {useAppDispatch, useAppSelector} from "../../redux/hooks";
+import {deleteClientReducer, getSelectedClientReducer} from "../../redux/clients.reducer";
 
 interface ParamsInterface {
     id: string;
 }
 
 const ClientDetails = () => {
+    const dispatch = useAppDispatch();
     const params = useParams<ParamsInterface>();
-    const [client, setClient] = useState<IClientData>();
+    const selectedClientReducer = useAppSelector(state => state.clients.selectedClient);
+    console.log(selectedClientReducer)
+
+    /*
+        const [client, setClient] = useState<IClientData>();
+    */
+
+
     const [isEdit, setIsEdit] = useState(false);
     const [Delete, setDelete] = useState(false);
     const [present] = useIonAlert();
     const [selectedClient, setSelectedClient] = useState<IClientData>();
 
-
     const deleteClient = (id: string) => {
-        ClientDataService.delete(id)
-            .then((res: any) => {
-                console.log(res + "A bien été supprimé de la BDD");
-            })
-            .catch((e: Error) => {
-                console.log(e)
-            })
+        dispatch(deleteClientReducer(id));
         setDelete(false);
     }
 
@@ -56,24 +58,19 @@ const ClientDetails = () => {
     }
 
     useEffect(() => {
+        dispatch(getSelectedClientReducer(params.id));
+    }, []);
 
-        ClientDataService.get(params.id)
-            .then((response: any) => {
-                setClient(response.data);
-            })
-            .catch((e: Error) => {
-                console.log(e);
-            });
-    }, [params.id]);
+    console.log(selectedClientReducer.name)
 
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='start'>
-                        <IonBackButton defaultHref='/clients'></IonBackButton>
+                        <IonBackButton defaultHref='/clients'/>
                     </IonButtons>
-                    <IonTitle>Clients {' > ' + client?.name + ' ' + client?.firstname} </IonTitle>
+                    <IonTitle>Clients {selectedClientReducer.name + selectedClientReducer.firstname} </IonTitle>
                 </IonToolbar>
                 <IonItem lines="none">
                     <IonButtons slot="end">
@@ -81,7 +78,7 @@ const ClientDetails = () => {
                             color="primary"
                             slot="start"
                             onClick={() => {
-                                handleModifyClient(client)
+                                handleModifyClient(selectedClientReducer)
                             }}
                         >Modifier<IonIcon ios={pencilOutline} md={pencilSharp}/></IonButton>
                         <IonButton
@@ -94,19 +91,18 @@ const ClientDetails = () => {
                                     message: 'êtes-vous sûr de vouloir supprimer ce Client ?',
                                     buttons: [
                                         {text: 'Annuler', role: 'cancel'},
-                                        {text: 'Confirmer', handler: () => handleDeleteClient(client?.id)}
+                                        {text: 'Confirmer', handler: () => handleDeleteClient(selectedClientReducer.id)}
                                     ],
                                 })
 
                             }}
-
                         >Supprimer<IonIcon ios={trashBinOutline} md={trashBinSharp}/></IonButton>
                     </IonButtons>
                 </IonItem>
             </IonHeader>
             <IonContent>
-                {client ?
-                    <ClientCard client={client}/> :
+                {selectedClientReducer ?
+                    <ClientCard client={selectedClientReducer}/> :
                     <IonItem>
                         <IonText color="danger">Ce client n'existe pas!</IonText>
                     </IonItem>

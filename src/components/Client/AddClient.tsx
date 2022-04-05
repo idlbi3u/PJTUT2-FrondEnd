@@ -17,8 +17,9 @@ import './AddClient.css'
 import {useState} from 'react';
 import {closeOutline, closeSharp} from 'ionicons/icons';
 import IClientData from '../../types/client.type';
-import ClientDataService from "../../services/client.service";
 import {format, parseISO} from 'date-fns';
+import {useAppDispatch} from "../../redux/hooks";
+import {createClientReducer} from "../../redux/clients.reducer";
 
 interface ModalProps {
     isOpen: boolean;
@@ -26,6 +27,7 @@ interface ModalProps {
 }
 
 const AddClient = (props: ModalProps) => {
+    const dispatch = useAppDispatch();
     const {isOpen, setIsOpen} = props;
     const [date, setDate] = useState("");
     const [states, setStates] = useState<IClientData>({
@@ -48,14 +50,7 @@ const AddClient = (props: ModalProps) => {
             address: states.address,
             birthdate: date
         }
-
-        ClientDataService.create(client)
-            .then((res: any) => {
-                console.log(res);
-            })
-            .catch((e: Error) => {
-                console.log(e)
-            })
+        dispatch(createClientReducer(client));
         setIsOpen(false);
     }
 

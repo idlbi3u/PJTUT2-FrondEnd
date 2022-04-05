@@ -32,14 +32,7 @@ class ClientDataService {
     update(id?: string, data?: Object) {
         return http.put(`/clients/${id}`, data);
     }
-
-    deleteAll() {
-        return http.delete(`/clients`);
-    }
-
-    findByName(name: string) {
-        return http.get(`/clients?name=${name}`);
-    }
+    
 }
 
 export default new ClientDataService();

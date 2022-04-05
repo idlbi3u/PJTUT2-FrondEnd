@@ -9,8 +9,6 @@ import {
     IonIcon,
     IonItem,
     IonPage,
-    IonRefresher,
-    IonRefresherContent,
     IonRow,
     IonSearchbar,
     IonTitle,
@@ -116,13 +114,6 @@ const Clients: React.FC = () => {
                         </IonButton>
                     </IonButtons>
                 </IonItem>
-
-                <IonRefresher slot="fixed"
-                              onIonRefresh={handleRefresh}>
-                    <IonRefresherContent>
-
-                    </IonRefresherContent>
-                </IonRefresher>
                 <IonGrid>
                     <IonRow>
                         <IonCol>Nom</IonCol>
@@ -137,13 +128,17 @@ const Clients: React.FC = () => {
                                 <IonCol>12/333</IonCol>
                                 <IonCol>
                                     <IonButtons>
-                                        <IonButton href={'/clients/view/' + client.id} color='success'>
-                                            <IonIcon ios={eyedropOutline} md={eyeSharp}/>
+                                        <IonButton href={'/clients/view/' + client.id}
+                                                   color='success'>
+                                            <IonIcon ios={eyedropOutline}
+                                                     md={eyeSharp}/>
                                         </IonButton>
-                                        <IonButton color='primary' onClick={() => {
-                                            handleModifyClient(client)
-                                        }}>
-                                            <IonIcon ios={pencilOutline} md={pencilSharp}/>
+                                        <IonButton color='primary'
+                                                   onClick={() => {
+                                                       handleModifyClient(client)
+                                                   }}>
+                                            <IonIcon ios={pencilOutline}
+                                                     md={pencilSharp}/>
                                         </IonButton>
                                         <IonButton color='danger' onClick={() => {
                                             present({
