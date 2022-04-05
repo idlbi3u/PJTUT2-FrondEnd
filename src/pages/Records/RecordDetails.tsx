@@ -1,16 +1,28 @@
-import { IonBackButton, IonButton, IonButtons,  IonContent,  IonHeader, IonIcon, IonItem,  IonPage, IonText, IonTitle, IonToolbar, useIonAlert } from '@ionic/react';
-import {   pencilOutline, pencilSharp, trashBinOutline, trashBinSharp } from 'ionicons/icons';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import {
+    IonBackButton,
+    IonButton,
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonIcon,
+    IonItem,
+    IonPage,
+    IonText,
+    IonTitle,
+    IonToolbar,
+    useIonAlert
+} from '@ionic/react';
+import {pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from 'ionicons/icons';
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router';
 import ILawyercase from '../../types/lawyercase.type';
 import LawyercaseDataService from "../../services/lawyercase.service"
 import './Records.css';
 import RecordCard from '../../components/Dossier/RecordCard';
 import EditRecord from '../../components/Dossier/EditRecord';
 
-const RecordDetails: React.FC = () =>
-{
-    interface ParamsInterface{
+const RecordDetails: React.FC = () => {
+    interface ParamsInterface {
         id: string;
     }
 
@@ -20,13 +32,12 @@ const RecordDetails: React.FC = () =>
     const [present] = useIonAlert();
     const [selectedRecord, setSelectedRecord] = useState<ILawyercase>();
 
-
-    const deleteRecord = (id:string) => {
+    const deleteRecord = (id: string) => {
         LawyercaseDataService.delete(id)
-            .then((res:any) => {
+            .then((res: any) => {
                 console.log(res + "A bien été supprimé de la BDD");
-        })
-            .catch((e:Error) => {
+            })
+            .catch((e: Error) => {
                 console.log(e)
             })
     }
@@ -43,57 +54,56 @@ const RecordDetails: React.FC = () =>
     useEffect(() => {
         LawyercaseDataService.get(params.id)
             .then((response: any) => {
-                console.log(response.data);
                 setRecord(response.data);
             })
             .catch((e: Error) => {
                 console.log(e);
             });
     }, [params.id, isEdit]);
-    
-     return (
+
+    return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='start'>
                         <IonBackButton defaultHref='/records'></IonBackButton>
                     </IonButtons>
-                    <IonTitle>Dossier {' > '+ record?.ref  } </IonTitle>
+                    <IonTitle>Dossier {' > ' + record?.ref} </IonTitle>
                 </IonToolbar>
                 <IonItem lines="none">
                     <IonButtons slot="end">
-                        <IonButton 
-                        color="primary" 
-                        slot="start"
-                        onClick={() => {
-                            handleModifyRecord(record)
-                        }}
-                        
+                        <IonButton
+                            color="primary"
+                            slot="start"
+                            onClick={() => {
+                                handleModifyRecord(record)
+                            }}
+
                         >Modifier Dossier<IonIcon ios={pencilOutline} md={pencilSharp}/></IonButton>
-                        <IonButton 
-                        color="danger" 
-                        slot="end"
-                        onClick={() => {
-                            present({
-                                cssClass: 'my-css',
-                                header: 'Suppression d\'un Dossier',
-                                message: 'êtes-vous sûr de vouloir supprimer ce Dossier ?',
-                                buttons: [
-                                    {text: 'Annuler', role: 'cancel'},
-                                    { text: 'Confirmer', handler: () => handleDeleteRecord(record?.id)}
-                                ],                        
-                                })     
-                        }}
+                        <IonButton
+                            color="danger"
+                            slot="end"
+                            onClick={() => {
+                                present({
+                                    cssClass: 'my-css',
+                                    header: 'Suppression d\'un Dossier',
+                                    message: 'êtes-vous sûr de vouloir supprimer ce Dossier ?',
+                                    buttons: [
+                                        {text: 'Annuler', role: 'cancel'},
+                                        {text: 'Confirmer', handler: () => handleDeleteRecord(record?.id)}
+                                    ],
+                                })
+                            }}
                         >Supprimer<IonIcon ios={trashBinOutline} md={trashBinSharp}/></IonButton>
                     </IonButtons>
                 </IonItem>
             </IonHeader>
             <IonContent>
-                {record ? 
-                <RecordCard record={record}/> : 
-                <IonItem>
-                    <IonText color="danger">Ce dossier n'existe pas!</IonText>
-                </IonItem>
+                {record ?
+                    <RecordCard record={record}/> :
+                    <IonItem>
+                        <IonText color="danger">Ce dossier n'existe pas!</IonText>
+                    </IonItem>
                 }
             </IonContent>
             {selectedRecord ? (
