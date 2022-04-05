@@ -64,7 +64,6 @@ const AddEvent = (props: ModalProps) => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-
                 <IonItem>
                     <IonLabel position="floating">Évènement</IonLabel>
                     <IonInput type='text'
