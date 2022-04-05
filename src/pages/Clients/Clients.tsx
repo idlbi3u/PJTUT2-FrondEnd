@@ -49,7 +49,6 @@ const Clients: React.FC = () => {
         ClientDataService.getAll()
             .then((response: any) => {
                 setClients(response.data)
-                console.log(clients)
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -133,9 +132,12 @@ const Clients: React.FC = () => {
                     </IonRow>
                     {clients.map((client: IClientData, index: number) => {
                         return (
-                            <IonRouterLink key={index} routerLink={'clients/view/'+ client.id} >
-                                <IonRow>
-                                    <IonCol>{client.name + ' ' + client.firstname}</IonCol>
+                            <IonRow key={index}>
+                                    <IonCol>
+                                        <IonRouterLink class='link' routerLink={'clients/view/'+ client.id} >
+                                            {client.name + ' ' + client.firstname}
+                                        </IonRouterLink>
+                                    </IonCol>
                                     <IonCol>
                                         {client.cases?.length}
                                     </IonCol>
@@ -161,7 +163,6 @@ const Clients: React.FC = () => {
                                         </IonButtons>
                                     </IonCol>
                                 </IonRow>
-                            </IonRouterLink>
                         )
                     })}
                 </IonGrid>

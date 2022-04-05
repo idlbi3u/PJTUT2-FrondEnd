@@ -40,7 +40,6 @@ const AddClientToCaseModal = (props: ModalProps) => {
         ClientDataService.getAll()
             .then((response: any) => {
                 setClients(response.data)
-                console.log(clients)
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -57,7 +56,6 @@ const AddClientToCaseModal = (props: ModalProps) => {
             closed_at: record.closed_at || null,
             clients: record.clients
         }
-        console.log(newRecord)
 
         LawyercaseDataService.addClient(newRecord.id, selectedClient?.id)
             .then((res: any) => {
@@ -70,7 +68,6 @@ const AddClientToCaseModal = (props: ModalProps) => {
     }
     
     const handleAddClientToCase = () => {
-        console.log(record.clients)        
         updateRecord();
         setIsOpen(false);        
     }
@@ -96,7 +93,6 @@ const AddClientToCaseModal = (props: ModalProps) => {
                 <IonItem>
                     <IonLabel position="floating">Choisissez un Client</IonLabel>
                     <IonSelect onIonChange={(e) => {
-                        console.log(e.detail.value);
                         setSelectedClient(e.detail.value)
                         }}>
                         {clients?.map((client: IClientData, index: number) => {

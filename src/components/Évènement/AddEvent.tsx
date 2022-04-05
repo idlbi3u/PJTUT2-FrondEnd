@@ -28,7 +28,6 @@ const AddEvent = (props: ModalProps) => {
             minutes: states.minutes,
             hours: states.hours
         }
-        console.log(event)
         LawyercaseDataService.create(event)
             .then((res: any) => {
                 console.log(res);
