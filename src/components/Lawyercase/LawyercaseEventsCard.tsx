@@ -17,16 +17,17 @@ import {addOutline, addSharp, alertOutline, alertSharp} from "ionicons/icons";
 import AddEvent from "../Events/AddEvent";
 import {useEffect, useState} from "react";
 import ILawyercase from "../../types/lawyercase.type"
+import LawyercaseDataService from "../../services/lawyercase.service";
 
 
 interface ILawyercaseEvents {
-    lawyercase?: ILawyercase
+    lawyercase: ILawyercase
 }
 
 const EventsCard = ({lawyercase}: ILawyercaseEvents) => {
-
+    const [lawyercaseEventState, setLawyercaseState] = useState<ILawyercase>(lawyercase);
     const [isOpen, setIsOpen] = useState(false);
-    const [lawyerCaseEvent, setLawyerCaseEvent] = useState<ILawyercase>();
+    const [lawyerCaseEvent, setLawyerCaseEvent] = useState(lawyercase.events);
 
     const formatDate = (value?: string) => {
         if (value) {
@@ -35,9 +36,17 @@ const EventsCard = ({lawyercase}: ILawyercaseEvents) => {
     };
 
     useEffect(() => {
-        console.log(lawyercase)
-        setLawyerCaseEvent(lawyercase)
-    }, [isOpen, lawyercase]);
+        console.log("MOUNTED EVENT")
+        LawyercaseDataService.get(lawyercase.id).then(res => {
+            setLawyercaseState(res.data);
+            setLawyerCaseEvent(res.data.events);
+        });
+
+        return () => {
+            console.log("unmounting Event");
+        };
+
+    }, [isOpen, lawyercase.events]);
 
 
     return (
@@ -57,7 +66,7 @@ const EventsCard = ({lawyercase}: ILawyercaseEvents) => {
             </IonCardHeader>
             <IonCardContent>
                 <IonGrid>
-                    {lawyerCaseEvent?.events?.map((event: IEventData, index: number) => {
+                    {lawyerCaseEvent?.map((event: IEventData, index: number) => {
                         return (
                             <IonRow key={index}>
                                 <IonCol>{formatDate(event.createdAt)}</IonCol>
