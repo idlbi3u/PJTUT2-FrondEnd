@@ -21,7 +21,7 @@ import {
 import ILawyercase from "../../types/lawyercase.type"
 import {format, parseISO} from 'date-fns';
 import LawyercaseDataService from "../../services/lawyercase.service"
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 
 interface CardProps {
@@ -46,6 +46,7 @@ const LawyercaseDetailsCard = (props: CardProps) => {
 
             LawyercaseDataService.updateStatus(lawyercase.id, lawyercase)
                 .then(() => {
+                    console.log("MISE A JOUR OK ")
                     setLawyerCaseState(lawyercase);
                 })
                 .catch((e: Error) => {
@@ -53,6 +54,17 @@ const LawyercaseDetailsCard = (props: CardProps) => {
                 })
         }
     }
+
+    useEffect(() => {
+        LawyercaseDataService.get(lawyercase.id)
+            .then((response: any) => {
+                setLawyerCaseState(response.data);
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+    }, []);
+
 
     return (
         <>

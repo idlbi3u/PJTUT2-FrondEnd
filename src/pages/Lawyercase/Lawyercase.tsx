@@ -33,8 +33,8 @@ const Lawyercase: React.FC = () => {
     const [isEdit, setIsEdit] = useState(false);
     const [Delete, setDelete] = useState(false);
     const [selectedLawyercase, setSelectedLawyercase] = useState<ILawyercase>();
-    const [Lawyercases, setLawyercases] = useState<ILawyercase[]>([]);
-    const [filteredLawyercases, setFilteredLawyercases] = useState<ILawyercase[]>(Lawyercases);
+    const [lawyercases, setLawyercases] = useState<ILawyercase[]>([]);
+    const [filteredLawyercases, setFilteredLawyercases] = useState<ILawyercase[]>(lawyercases);
     const [filter, setFilter] = useState<string>("AllBusiness");
 
 
@@ -48,7 +48,6 @@ const Lawyercase: React.FC = () => {
         setIsEdit(true)
     }
 
-
     const retrieveLawyercases = () => {
         LawyercaseDataService.getAll()
             .then((response: any) => {
@@ -58,9 +57,11 @@ const Lawyercase: React.FC = () => {
                 console.log(e);
             });
     }
+
     const deleteLawyercase = (id: string) => {
         LawyercaseDataService.delete(id)
             .then((res: any) => {
+                retrieveLawyercases()
                 console.log(res + "A bien été supprimé de la BDD");
             })
             .catch((e: Error) => {
@@ -68,13 +69,12 @@ const Lawyercase: React.FC = () => {
             })
     }
 
-    const handleSearchLawyercase = async (e: CustomEvent<SearchbarChangeEventDetail>) => {
-
+    const handleSearchLawyercase = (e: CustomEvent<SearchbarChangeEventDetail>) => {
         if (e.detail.value === "") {
             retrieveLawyercases()
         }
 
-        await LawyercaseDataService.getAll()
+        LawyercaseDataService.getAll()
             .then((response: any) => {
                 setLawyercases(response.data)
             })
@@ -83,11 +83,10 @@ const Lawyercase: React.FC = () => {
             });
         if (e.detail.value) {
             let tlc = e.detail.value.toLocaleLowerCase();
-            let filterData = Lawyercases.filter((e) => {
+            let filterData = lawyercases.filter((e) => {
                 let nameTlc = e.ref.toLocaleLowerCase();
                 return nameTlc.indexOf(tlc) !== -1
             })
-
             setLawyercases(filterData)
         }
 
@@ -96,27 +95,25 @@ const Lawyercase: React.FC = () => {
     useEffect(() => {
         retrieveLawyercases();
 
-    }, [isOpen, isEdit, Delete, setLawyercases]);
-
+    }, [Delete, isOpen, isEdit]);
 
     useEffect(() => {
         if (filter === "AllBusiness") {
-            setFilteredLawyercases(Lawyercases);
+            setFilteredLawyercases(lawyercases);
         } else if (filter === "OnGoingBusiness") {
-            setFilteredLawyercases(Lawyercases.filter(Lawyercase => !Lawyercase.closed_at));
+            setFilteredLawyercases(lawyercases.filter(lawyercases => !lawyercases.closed_at));
         } else {
-            setFilteredLawyercases(Lawyercases.filter(Lawyercase => Lawyercase.closed_at));
+            setFilteredLawyercases(lawyercases.filter(lawyercases => lawyercases.closed_at));
         }
-    }, [filter, Lawyercases]);
-
-
+    }, [filter, lawyercases]);
+    
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
                     <IonItem lines='none'>
                         <IonButtons slot='start'>
-                            <IonBackButton defaultHref='/home'></IonBackButton>
+                            <IonBackButton defaultHref='/home'/>
                         </IonButtons>
                         <IonTitle>Dossiers</IonTitle>
                     </IonItem>
@@ -146,7 +143,7 @@ const Lawyercase: React.FC = () => {
                         <IonButton color='primary' onClick={() => {
                             setIsOpen(true)
                         }}>
-                            <IonIcon icon={addOutline}></IonIcon>Ajouter
+                            <IonIcon icon={addOutline}/>Ajouter
                         </IonButton>
                     </IonButtons>
                 </IonItem>
@@ -161,7 +158,8 @@ const Lawyercase: React.FC = () => {
                         return (
                             <IonRow key={index}>
                                 <IonCol className='Col'>
-                                    <IonRouterLink class='link' routerLink={'/Lawyercases/view/' + Lawyercase.id}>
+                                    <IonRouterLink className='link'
+                                                   routerLink={'/Lawyercases/view/' + Lawyercase.id}>
                                         {Lawyercase.ref}
                                     </IonRouterLink>
                                 </IonCol>

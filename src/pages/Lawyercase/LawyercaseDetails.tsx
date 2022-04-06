@@ -1,5 +1,4 @@
 import {
-    IonBackButton,
     IonButton,
     IonButtons,
     IonContent,
@@ -75,7 +74,8 @@ const LawyercaseDetails: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='start'>
-                        <IonBackButton defaultHref='/lawyercases'/>
+                        <IonButton routerLink='/lawyercases'>
+                            <IonIcon icon={trashBinSharp}/></IonButton>
                     </IonButtons>
                     <IonTitle>Dossier {' > ' + lawyercase?.ref} </IonTitle>
                 </IonToolbar>
