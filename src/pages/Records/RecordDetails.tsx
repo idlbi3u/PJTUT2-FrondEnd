@@ -17,7 +17,8 @@ import {
     IonLabel,
     IonGrid,
     IonRow,
-    IonCol,     
+    IonCol,
+    IonRouterLink,     
 } from '@ionic/react';
 import {   
     addOutline, 
@@ -25,7 +26,9 @@ import {
     alertOutline, 
     alertSharp, 
     calendarClearOutline, 
-    calendarClearSharp, 
+    calendarClearSharp,   
+    checkmarkCircle, 
+    checkmarkSharp, 
     ellipse, 
     fileTrayFullOutline, 
     fileTrayFullSharp, 
@@ -49,8 +52,9 @@ import AddEvent from '../../components/Évènement/AddEvent';
 import AddClientToCaseModal from '../../components/Dossier/AddClientToCase';
 import {format, parseISO} from 'date-fns';
 import lawyercaseService from '../../services/lawyercase.service';
-import './Records.css';
+import './RecordDetails.css';
 import IEventData from '../../types/event.type';
+import IClientData from '../../types/client.type';
 
 interface ParamsInterface {
     id: string;
@@ -93,7 +97,11 @@ const RecordDetails: React.FC = () => {
     const handleDeleteClient = (clientId: string) => {
         lawyercaseService.removeClient(record?.id, clientId)
         setDelete(true);
-    }   
+    }
+    
+    const handleEndLawyercase = (client: IClientData) => {
+
+    }
 
     useEffect(() => {
         LawyercaseDataService.get(params.id)
@@ -107,8 +115,7 @@ const RecordDetails: React.FC = () => {
         
     }, [params.id, isEdit, Delete, isOpen, addClientModal]);   
 
-    console.log(record);
-     return (
+    return (
 
         <IonPage>
             <IonHeader>
@@ -159,6 +166,7 @@ const RecordDetails: React.FC = () => {
                                 <IonItem lines="none">
                                     <IonIcon color={record.closed_at ? "danger" : "success"} ios={ellipse} md={ellipse} />
                                     <IonTitle>{record.closed_at ? "Clôturé" : "En cours"}</IonTitle>
+                                    <IonButton  color={record.closed_at ? "danger" : "success"} disabled={record.closed_at ? true : false}>Clôturer<IonIcon ios={checkmarkCircle} md={checkmarkSharp} /></IonButton>
                                 </IonItem>
                                 {record.createdAt ? (
                                     <IonItem lines="none">
@@ -215,13 +223,16 @@ const RecordDetails: React.FC = () => {
                                                 <IonIcon ios={trashBinOutline} md={trashBinSharp} />
                                             </IonButton>
                                         </IonItem>
-                                        <IonLabel>{client.name + ' ' + client.firstname}</IonLabel>
+                                        <IonLabel>
+                                            <IonRouterLink class='link' routerLink={'/clients/view/' + client.id}>
+                                                {client.name + ' ' + client.firstname}
+                                            </IonRouterLink>
+                                        </IonLabel>
                                     </IonItem>
                                 ))}                    
                             </IonCardContent>
                         </IonCard>
-            
-            
+
                         <IonCard>
                             <IonCardHeader>
                                 <IonItem lines="none">
@@ -232,9 +243,7 @@ const RecordDetails: React.FC = () => {
                                             <IonIcon color="primary" ios={addOutline} md={addSharp} />
                                         </IonButton>
                                     </IonButtons>
-                                </IonItem>
-                                <IonItem lines='none'>
-                                </IonItem>
+                                </IonItem>                               
                             </IonCardHeader>                                    
                             <IonCardContent>
                                 <IonGrid>

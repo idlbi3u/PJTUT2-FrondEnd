@@ -10,6 +10,7 @@ import {
     IonIcon, 
     IonItem, 
     IonPage, 
+    IonRouterLink, 
     IonText, 
     IonTitle, 
     IonToolbar, 
@@ -177,7 +178,11 @@ const ClientDetails = () => {
                             <IonCardContent>
                                 {client.cases?.map((lawyercase: ILawyercase, index: number) => (
                                     <IonItem lines="none" key={index}>                            
-                                        <IonText>{lawyercase.ref}</IonText>
+                                        <IonText>
+                                            <IonRouterLink routerLink={'records/view/'+ client.id}>
+                                                {lawyercase.ref}
+                                            </IonRouterLink>
+                                        </IonText>
                                     </IonItem>
                                 ))} 
                             </IonCardContent>
