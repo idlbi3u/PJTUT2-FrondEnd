@@ -1,9 +1,9 @@
 import http from "../http-common";
-import IClientData from "../types/client.type";
 import  ILawyercase from "../types/lawyercase.type";
 import IEventData from "../types/event.type";
-const fs = window.require("fs").promises;
+const fs = require("fs").promises;
 const isElectron = require("is-electron");
+
 
 class LawyercaseDataService {
 

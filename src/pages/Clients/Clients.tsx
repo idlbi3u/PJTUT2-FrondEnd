@@ -50,7 +50,7 @@ const Clients: React.FC = () => {
     const retrieveClients = () => {
         ClientDataService.getAll()
             .then((response: any) => {
-                if(isElectron) {
+                if(isElectron()) {
                     console.log(response);
                     setClients(response)
                 } else {
@@ -81,7 +81,7 @@ const Clients: React.FC = () => {
 
         await ClientDataService.getAll()
             .then((response: any) => {
-                if(isElectron) {
+                if(isElectron()) {
                     setClients(response)
                 } else {
                     setClients(response.data)
@@ -102,7 +102,7 @@ const Clients: React.FC = () => {
 
     useEffect(() => {
         retrieveClients();
-
+        console.log(clients)
         return () => {
             console.log("Cleanup");
         };

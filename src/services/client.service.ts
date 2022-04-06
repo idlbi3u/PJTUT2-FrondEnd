@@ -1,6 +1,6 @@
 import http from "../http-common";
 import IClientData from "../types/client.type";
-const fs = window.require("fs").promises;
+const fs = require("fs").promises;
 const isElectron = require("is-electron");
 
 class ClientDataService {

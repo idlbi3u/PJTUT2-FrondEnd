@@ -85,7 +85,7 @@ const ClientDetails = () => {
     useEffect(() => {
         ClientDataService.get(params.id)
             .then((response: any) => {
-                if (isElectron) {
+                if (isElectron()) {
                     console.log(response);
                     setClient(response);
                 } else {
