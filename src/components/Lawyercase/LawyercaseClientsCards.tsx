@@ -19,8 +19,9 @@ import {
     trashBinOutline,
     trashBinSharp
 } from "ionicons/icons";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import lawyercaseService from "../../services/lawyercase.service";
+import LawyercaseDataService from "../../services/lawyercase.service";
 import ILawyercase from "../../types/lawyercase.type";
 import AddClientToCaseModal from "./AddClientToLawyercase";
 import './LawyercaseClientsCards.css';
@@ -34,11 +35,25 @@ const LawyercaseClientsCard = (props: CardProps) => {
     const {lawyercase} = props;
     const [present] = useIonAlert();
     const [addClientModal, setAddClientModal] = useState(false)
+    const [lawyerCaseState, setLawyerCaseState] = useState<ILawyercase>(lawyercase);
+    const [lawyerCaseClients, setLawyerCaseClients] = useState(lawyercase.clients);
 
 
     const handleDeleteClient = (clientId: string) => {
         lawyercaseService.removeClient(lawyercase?.id, clientId)
     }
+
+    useEffect(() => {
+        LawyercaseDataService.get(lawyercase.id).then(res => {
+            setLawyerCaseState(res.data);
+            setLawyerCaseClients(res.data.clients);
+        });
+        return () => {
+            console.log("unmounting");
+        };
+
+    }, [addClientModal, lawyercase.id]);
+
     return (
         <IonCard>
             <IonCardHeader>
@@ -56,7 +71,7 @@ const LawyercaseClientsCard = (props: CardProps) => {
             </IonCardHeader>
 
             <IonCardContent>
-                {lawyercase.clients?.map((client, index) => (
+                {lawyerCaseClients?.map((client, index) => (
                     <IonItem lines="none" key={index}>
                         <IonItem lines="none">
                             <IonButton color="danger" onClick={() => {

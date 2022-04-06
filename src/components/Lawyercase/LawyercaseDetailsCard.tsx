@@ -31,7 +31,6 @@ interface CardProps {
 const LawyercaseDetailsCard = (props: CardProps) => {
     const {lawyercase} = props;
     const [present] = useIonAlert();
-
     const [lawyerCaseState, setLawyerCaseState] = useState<ILawyercase>(lawyercase);
 
     const formatDate = (value: string) => {
