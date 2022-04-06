@@ -16,9 +16,7 @@ const AddRecord = (props: ModalProps) => {
     const [states, setStates] = useState<ILawyercase>({
         ref:"",
         description:"",
-        state:false,
-        closed_at:null
-        
+        closed_at:null        
     });
 
     const handleChange = (e: CustomEvent<InputChangeEventDetail>, inputName: string) => {
@@ -29,7 +27,6 @@ const AddRecord = (props: ModalProps) => {
         const record: ILawyercase = {
             ref: states.ref,
             description: states.description,
-            state: states.state,
             closed_at: states.closed_at
         }
         LawyercaseDataService.create(record)

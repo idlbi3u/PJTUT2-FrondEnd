@@ -20,20 +20,19 @@ import ILawyercase from "../../types/lawyercase.type";
 interface ModalProps {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    record: ILawyercase
+    lawyercase: ILawyercase
 }
 
 
 const EditRecord = (props: ModalProps) => {
 
-    const {isOpen, record, setIsOpen} = props;
+    const {isOpen, lawyercase, setIsOpen} = props;
 
     const [states, setStates] = useState<ILawyercase>({
-        id: record.id,
-        ref: record.ref,
-        description: record.description,
-        state: record.state,
-        closed_at : record.closed_at
+        id: lawyercase.id,
+        ref: lawyercase.ref,
+        description: lawyercase.description,
+        closed_at : lawyercase.closed_at
     });    
 
     const handleChange = (e: CustomEvent<InputChangeEventDetail>, inputName: string) => {
@@ -46,7 +45,6 @@ const EditRecord = (props: ModalProps) => {
             id: states.id,
             ref: states.ref,
             description: states.description,
-            state: states.state,
             closed_at : states.closed_at || null
         }
 
@@ -61,9 +59,9 @@ const EditRecord = (props: ModalProps) => {
     }
 
     useEffect(() => {
-        setStates(record);
+        setStates(lawyercase);
         
-    }, [record]);
+    }, [lawyercase]);
 
 
     return (

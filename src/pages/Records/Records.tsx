@@ -1,6 +1,6 @@
 
 import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonPage, IonRouterLink, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar, SearchbarChangeEventDetail, useIonAlert } from '@ionic/react';
-import {   addOutline, ellipse, eyedropOutline, eyeSharp,   pencilOutline,  pencilSharp,   trashBinOutline, trashBinSharp,  } from 'ionicons/icons';
+import {   addOutline, ellipse, pencilOutline,  pencilSharp,   trashBinOutline, trashBinSharp,  } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import './Records.css';
 import LawyercaseDataService from "../../services/lawyercase.service"
@@ -85,9 +85,9 @@ const Records: React.FC = () =>
         if (filter === "AllBusiness") {
             setFilteredRecords(records);
         } else if (filter === "OnGoingBusiness") {
-            setFilteredRecords(records.filter(record => !record.state));
+            setFilteredRecords(records.filter(record => !record.closed_at));
         } else {
-            setFilteredRecords(records.filter(record => record.state));
+            setFilteredRecords(records.filter(record => record.closed_at));
         }
     },[filter, records]);
   
@@ -178,7 +178,7 @@ const Records: React.FC = () =>
             <AddRecord  isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
             {selectedRecord ? (
                 <EditRecord
-                    record={selectedRecord}
+                    lawyercase={selectedRecord}
                     isOpen={isEdit}
                     setIsOpen={() => setIsEdit(false)}
                 />

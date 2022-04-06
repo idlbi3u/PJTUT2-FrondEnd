@@ -50,7 +50,6 @@ const AddClientToCaseModal = (props: ModalProps) => {
             id: record.id,
             ref: record.ref,
             description: record.description,
-            state: record.state,
             closed_at: record.closed_at || null,
             clients: record.clients
         }
