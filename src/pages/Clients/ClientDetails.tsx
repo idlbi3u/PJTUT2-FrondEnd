@@ -176,10 +176,10 @@ const ClientDetails = () => {
                             </IonCardHeader>
             
                             <IonCardContent>
-                                {client.cases?.map((lawyercase: ILawyercase, index: number) => (
+                                {client.lawyercases?.map((lawyercase: ILawyercase, index: number) => (
                                     <IonItem lines="none" key={index}>                            
                                         <IonText>
-                                            <IonRouterLink routerLink={'records/view/'+ client.id}>
+                                            <IonRouterLink className="link" routerLink={'/lawyercases/view/'+ client.id}>
                                                 {lawyercase.ref}
                                             </IonRouterLink>
                                         </IonText>

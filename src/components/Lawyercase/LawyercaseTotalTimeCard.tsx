@@ -9,15 +9,23 @@ interface ILawyercaseEvent {
 
 const LawyercaseTotalTimeCard = (lawyercaseEvent: ILawyercaseEvent) => {
 
-    const [totalTime, setTotalTime] = useState(0);
+    const [totalTime, setTotalTime] = useState<string>("");
+
     const ttCalculation = () => {
         let tt = 0;
         if (lawyercaseEvent.lawyercaseEvent) {
             for (let i = 0; i < lawyercaseEvent.lawyercaseEvent.length; i++) {
                 tt += lawyercaseEvent.lawyercaseEvent[i].duration;
             }
-            setTotalTime(tt)
+            let convertedTime = convertTime(tt);
+            setTotalTime(convertedTime);
         }
+    }
+    
+    const convertTime = (time: number) => {
+        let hours = Math.floor(time / 60);
+        let minutes = time % 60;
+        return `${hours}h ${minutes}m`
     }
 
     useEffect(() => {
@@ -29,7 +37,7 @@ const LawyercaseTotalTimeCard = (lawyercaseEvent: ILawyercaseEvent) => {
             <IonCardHeader>
                 <IonItem lines="none">
                     <IonIcon ios={timeOutline} md={timeSharp}/>
-                    <IonTitle>Total : Temps en heures : {totalTime} mins</IonTitle>
+                    <IonTitle>Total Temps : {totalTime}</IonTitle>
                 </IonItem>
             </IonCardHeader>
             <IonCardContent>

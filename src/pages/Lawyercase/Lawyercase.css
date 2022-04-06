@@ -7,7 +7,7 @@
 }
 
 
-.DetailsRecord{
+.Detailslawyercase{
     font-weight: bold;
 }
 
@@ -29,9 +29,4 @@
     color: white;
     background-color: #3880ff;
     text-transform: capitalize;
-}
-
-.link{
-    color: white;
-    text-decoration: none;
 }

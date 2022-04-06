@@ -233,4 +233,13 @@ http://ionicframework.com/docs/theming/ */
 
     --ion-card-background: #1e1e1e;
   }
+
+  
+}
+.link{
+  background-color: rgb(56, 56, 56);
+  color: white;
+  padding: 7px;
+  border-radius: 14px;
+  font-weight: bold;
 }

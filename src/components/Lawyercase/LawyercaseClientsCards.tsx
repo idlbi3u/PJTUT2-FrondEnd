@@ -15,8 +15,8 @@ import { personOutline, personSharp, personAddOutline, personAddSharp, trashBinO
 import { useState } from "react";
 import lawyercaseService from "../../services/lawyercase.service";
 import ILawyercase from "../../types/lawyercase.type";
-import AddClientToCaseModal from "./AddClientToCase";
-
+import AddClientToCaseModal from "./AddClientToLawyercase";
+import './LawyercaseClientsCards.css';
 interface CardProps{
     lawyercase: ILawyercase,
 }
@@ -71,7 +71,7 @@ const LawyercaseClientsCard = (props: CardProps) => {
                     </IonItem>
                 ))}                    
             </IonCardContent>
-            <AddClientToCaseModal recordClients={lawyercase.clients ?? []} record={lawyercase} isOpen={addClientModal} setIsOpen={setAddClientModal}/>
+            <AddClientToCaseModal lawyercaseClients={lawyercase.clients ?? []} lawyercase={lawyercase} isOpen={addClientModal} setIsOpen={setAddClientModal}/>
         </IonCard>
     )
 }

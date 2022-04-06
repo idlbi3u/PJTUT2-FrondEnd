@@ -8,5 +8,5 @@ export default interface IClientData {
     birthdate: string,
     createdAt?: string,
     updatedAt?: string,
-    cases?: ILawyercase[],
+    lawyercases?: ILawyercase[],
 }

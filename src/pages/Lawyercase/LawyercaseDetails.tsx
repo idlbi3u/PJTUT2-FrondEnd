@@ -22,27 +22,27 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import ILawyercase from '../../types/lawyercase.type';
 import LawyercaseDataService from "../../services/lawyercase.service"
-import EditRecord from '../../components/Dossier/EditRecord';
-import AddEvent from '../../components/Évènement/AddEvent';
-import './RecordDetails.css';
-import EventsCard from '../../components/Dossier/EventsCard';
-import LawyercaseTotalTimeCard from '../../components/Dossier/LawyercaseTotalTimeCard';
-import LawyercaseClientsCard from '../../components/Dossier/LawyercaseClientsCards';
-import LawyercaseDetailsCard from '../../components/Dossier/LawyercaseDetailsCard';
+import EditLawyercase from '../../components/Lawyercase/EditLawyercase';
+import AddEvent from '../../components/Events/AddEvent';
+import './LawyercaseDetails.css';
+import EventsCard from '../../components/Lawyercase/LawyercaseEventsCard';
+import LawyercaseTotalTimeCard from '../../components/Lawyercase/LawyercaseTotalTimeCard';
+import LawyercaseClientsCard from '../../components/Lawyercase/LawyercaseClientsCards';
+import LawyercaseDetailsCard from '../../components/Lawyercase/LawyercaseDetailsCard';
 
 interface ParamsInterface {
     id: string;
 }
-const RecordDetails: React.FC = () => {
+const LawyercaseDetails: React.FC = () => {
     const params = useParams<ParamsInterface>();
     const [lawyercase, setLawyercase] = useState<ILawyercase>();
     const [isEdit, setIsEdit] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [Delete, setDelete] = useState(false);
-    const [selectedRecord, setSelectedRecord] = useState<ILawyercase>();
+    const [selectedLawyercase, setSelectedLawyercase] = useState<ILawyercase>();
     const [present] = useIonAlert();
 
-    const deleteRecord = (id: string) => {
+    const deletelawyercase = (id: string) => {
         LawyercaseDataService.delete(id)
             .then((res: any) => {
                 console.log(res + "A bien été supprimé de la BDD");
@@ -52,12 +52,12 @@ const RecordDetails: React.FC = () => {
             })
     }
 
-    const handleDeleteRecord = (id: string) => {
-        deleteRecord(id);        
+    const handleDeletelawyercase = (id: string) => {
+        deletelawyercase(id);        
     }
 
-    const handleModifyRecord = (record: any) => {
-        setSelectedRecord(record)
+    const handleModifylawyercase = (lawyercase?: ILawyercase) => {
+        setSelectedLawyercase(lawyercase)
         setIsEdit(true)
     }
 
@@ -82,7 +82,7 @@ const RecordDetails: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='start'>
-                        <IonBackButton defaultHref='/records'></IonBackButton>
+                        <IonBackButton defaultHref='/lawyercases'></IonBackButton>
                     </IonButtons>
                     <IonTitle>Dossier {' > ' + lawyercase?.ref} </IonTitle>
                 </IonToolbar>
@@ -92,7 +92,7 @@ const RecordDetails: React.FC = () => {
                             color="primary"
                             slot="start"
                             onClick={() => {
-                                handleModifyRecord(lawyercase)
+                                handleModifylawyercase(lawyercase)
                             }}
 
                         >Modifier Dossier<IonIcon ios={pencilOutline} md={pencilSharp}/></IonButton>
@@ -106,7 +106,7 @@ const RecordDetails: React.FC = () => {
                                     message: 'êtes-vous sûr de vouloir supprimer ce Dossier ?',
                                     buttons: [
                                         {text: 'Annuler', role: 'cancel'},
-                                        {text: 'Confirmer', handler: () => handleDeleteRecord(lawyercase?.id)}
+                                        {text: 'Confirmer', handler: () => handleDeletelawyercase(lawyercase?.id)}
                                     ],
                                 })
                             }}
@@ -132,9 +132,9 @@ const RecordDetails: React.FC = () => {
                 }
             </IonContent>
 
-            {selectedRecord ? (
-                <EditRecord
-                    lawyercase={selectedRecord}
+            {selectedLawyercase ? (
+                <EditLawyercase
+                    lawyercase={selectedLawyercase}
                     isOpen={isEdit}
                     setIsOpen={() => setIsEdit(false)}
                 />
@@ -149,4 +149,4 @@ const RecordDetails: React.FC = () => {
     );
 }
 
-export default RecordDetails;
+export default LawyercaseDetails;

@@ -20,7 +20,7 @@ import {
     alertOutline, 
     alertSharp 
 } from "ionicons/icons";
-import AddEvent from "../Évènement/AddEvent";
+import AddEvent from "../Events/AddEvent";
 import { useState } from "react";
 import ILawyercase from "../../types/lawyercase.type";
 

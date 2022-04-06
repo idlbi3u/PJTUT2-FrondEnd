@@ -24,7 +24,7 @@ interface ModalProps {
 }
 
 
-const EditRecord = (props: ModalProps) => {
+const EditLawyercase = (props: ModalProps) => {
 
     const {isOpen, lawyercase, setIsOpen} = props;
 
@@ -39,16 +39,16 @@ const EditRecord = (props: ModalProps) => {
         setStates({...states, [inputName]: e.detail.value});
     }
 
-    const updateRecord = () => {
+    const updatelawyercase = () => {
         console.log("Updating....")
-        const record: ILawyercase = {
+        const newLawyercase: ILawyercase = {
             id: states.id,
             ref: states.ref,
             description: states.description,
             closed_at : states.closed_at || null
         }
 
-        LawyercaseDataService.update(record.id, record)
+        LawyercaseDataService.update(newLawyercase.id, newLawyercase)
             .then((res: any) => {
                 console.log("Dossier mis à jour avec succès");
             })
@@ -98,7 +98,7 @@ const EditRecord = (props: ModalProps) => {
                     </IonItem>                    
                     <IonButton expand='block'
                                type='submit'
-                               onClick={updateRecord}>
+                               onClick={updatelawyercase}>
                         Mettre à jour
                     </IonButton>
             </IonContent>
@@ -107,4 +107,4 @@ const EditRecord = (props: ModalProps) => {
 }
 
 
-export default EditRecord;
+export default EditLawyercase;
