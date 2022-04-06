@@ -1,25 +1,20 @@
-import { 
-    IonBackButton, 
-    IonButton, 
-    IonButtons,  
-    IonContent,  
-    IonHeader, 
-    IonIcon, 
-    IonItem,  
-    IonPage, 
-    IonText, 
-    IonTitle, 
-    IonToolbar, 
-    useIonAlert,         
+import {
+    IonBackButton,
+    IonButton,
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonIcon,
+    IonItem,
+    IonPage,
+    IonText,
+    IonTitle,
+    IonToolbar,
+    useIonAlert,
 } from '@ionic/react';
-import {       
-    pencilOutline, 
-    pencilSharp,      
-    trashBinOutline, 
-    trashBinSharp 
-} from 'ionicons/icons';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import {pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from 'ionicons/icons';
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router';
 import ILawyercase from '../../types/lawyercase.type';
 import LawyercaseDataService from "../../services/lawyercase.service"
 import EditLawyercase from '../../components/Lawyercase/EditLawyercase';
@@ -34,6 +29,7 @@ const isElectron = require('is-electron');
 interface ParamsInterface {
     id: string;
 }
+
 const LawyercaseDetails: React.FC = () => {
     const params = useParams<ParamsInterface>();
     const [lawyercase, setLawyercase] = useState<ILawyercase>();
@@ -54,7 +50,7 @@ const LawyercaseDetails: React.FC = () => {
     }
 
     const handleDeletelawyercase = (id: string) => {
-        deletelawyercase(id);        
+        deletelawyercase(id);
     }
 
     const handleModifylawyercase = (lawyercase?: ILawyercase) => {
@@ -62,9 +58,6 @@ const LawyercaseDetails: React.FC = () => {
         setIsEdit(true)
     }
 
-    
-    
-    
     useEffect(() => {
         LawyercaseDataService.get(params.id)
             .then((response: any) => {
@@ -78,8 +71,8 @@ const LawyercaseDetails: React.FC = () => {
                 console.log(e);
             });
         setDelete(false);
-        
-    }, [params.id, isEdit, Delete, isOpen]);   
+
+    }, [params.id, isEdit, Delete, isOpen]);
 
     return (
 
@@ -87,7 +80,7 @@ const LawyercaseDetails: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='start'>
-                        <IonBackButton defaultHref='/lawyercases'></IonBackButton>
+                        <IonBackButton defaultHref='/lawyercases'/>
                     </IonButtons>
                     <IonTitle>Dossier {' > ' + lawyercase?.ref} </IonTitle>
                 </IonToolbar>
@@ -120,17 +113,16 @@ const LawyercaseDetails: React.FC = () => {
                 </IonItem>
             </IonHeader>
             <IonContent>
-                
-                    {lawyercase ? (
-                        <>    
-                        <LawyercaseDetailsCard lawyercase={lawyercase}/>     
-                        <LawyercaseClientsCard lawyercase={lawyercase} />
-                        <EventsCard lawyercase={lawyercase}/>                         
-                        <LawyercaseTotalTimeCard lawyercaseEvent={lawyercase.events}/>
-                    
+
+                {lawyercase ? (
+                        <>
+                            <LawyercaseDetailsCard lawyercase={lawyercase}/>
+                            <LawyercaseClientsCard lawyercase={lawyercase}/>
+                            <EventsCard lawyercase={lawyercase}/>
+                            <LawyercaseTotalTimeCard lawyercaseEvent={lawyercase.events}/>
                         </>
-                    ) 
-                    : 
+                    )
+                    :
                     <IonItem>
                         <IonText color="danger">Ce dossier n'existe pas!</IonText>
                     </IonItem>
@@ -145,11 +137,12 @@ const LawyercaseDetails: React.FC = () => {
                 />
             ) : null}
 
+
             {lawyercase ? (
                 <>
-                    <AddEvent lawyercase={lawyercase}  isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
+                    <AddEvent lawyercase={lawyercase} isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
                 </>
-            )  : null}
+            ) : null}
         </IonPage>
     );
 }

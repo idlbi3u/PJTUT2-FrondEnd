@@ -1,7 +1,26 @@
-
-import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonPage, IonRouterLink, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar, SearchbarChangeEventDetail, useIonAlert } from '@ionic/react';
-import {   addOutline, ellipse, pencilOutline,  pencilSharp,   trashBinOutline, trashBinSharp,  } from 'ionicons/icons';
-import React, { useEffect, useState } from 'react';
+import {
+    IonBackButton,
+    IonButton,
+    IonButtons,
+    IonCol,
+    IonContent,
+    IonGrid,
+    IonHeader,
+    IonIcon,
+    IonItem,
+    IonPage,
+    IonRouterLink,
+    IonRow,
+    IonSearchbar,
+    IonSelect,
+    IonSelectOption,
+    IonTitle,
+    IonToolbar,
+    SearchbarChangeEventDetail,
+    useIonAlert
+} from '@ionic/react';
+import {addOutline, ellipse, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp,} from 'ionicons/icons';
+import React, {useEffect, useState} from 'react';
 import './Lawyercase.css';
 import LawyercaseDataService from "../../services/lawyercase.service"
 import ILawyercase from '../../types/lawyercase.type';
@@ -9,8 +28,7 @@ import AddLawyercase from '../../components/Lawyercase/AddLawyercase'
 import EditLawyercase from '../../components/Lawyercase/EditLawyercase';
 const isElectron = require('is-electron');
 
-const Lawyercase: React.FC = () =>
-{
+const Lawyercase: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [present] = useIonAlert();
     const [isEdit, setIsEdit] = useState(false);
@@ -19,7 +37,7 @@ const Lawyercase: React.FC = () =>
     const [Lawyercases, setLawyercases] = useState<ILawyercase[]>([]);
     const [filteredLawyercases, setFilteredLawyercases] = useState<ILawyercase[]>(Lawyercases);
     const [filter, setFilter] = useState<string>("AllBusiness");
-    
+
 
     const handleDeleteLawyercase = (id: string) => {
         setDelete(true);
@@ -30,7 +48,7 @@ const Lawyercase: React.FC = () =>
         setSelectedLawyercase(Lawyercase)
         setIsEdit(true)
     }
-    
+
 
     const retrieveLawyercases = () => {
         LawyercaseDataService.getAll()
@@ -45,12 +63,12 @@ const Lawyercase: React.FC = () =>
                 console.log(e);
             });
     }
-    const deleteLawyercase = (id:string) => {
+    const deleteLawyercase = (id: string) => {
         LawyercaseDataService.delete(id)
-            .then((res:any) => {
+            .then((res: any) => {
                 console.log(res + "A bien été supprimé de la BDD");
-        })
-            .catch((e:Error) => {
+            })
+            .catch((e: Error) => {
                 console.log(e)
             })
     }
@@ -85,7 +103,7 @@ const Lawyercase: React.FC = () =>
     }
 
     useEffect(() => {
-        retrieveLawyercases();  
+        retrieveLawyercases();
 
     }, [isOpen, isEdit, Delete, setLawyercases]);
 
@@ -98,28 +116,29 @@ const Lawyercase: React.FC = () =>
         } else {
             setFilteredLawyercases(Lawyercases.filter(Lawyercase => Lawyercase.closed_at));
         }
-    },[filter, Lawyercases]);
-  
+    }, [filter, Lawyercases]);
+
 
     return (
         <IonPage>
-            <IonHeader>      
+            <IonHeader>
                 <IonToolbar>
                     <IonItem lines='none'>
-                    <IonButtons slot='start'>
-                            <IonBackButton defaultHref='/home' ></IonBackButton>
+                        <IonButtons slot='start'>
+                            <IonBackButton defaultHref='/home'></IonBackButton>
                         </IonButtons>
                         <IonTitle>Dossiers</IonTitle>
                     </IonItem>
                     <IonItem>
-                        <IonItem slot='start' className='Business' lines='none'>   
-                                <IonSelect placeholder="Selectionnez une catégorie d'affaire" value={filter} onIonChange={e => setFilter(e.detail.value)}>
-                                    <IonSelectOption value="AllBusiness">Toutes les affaires</IonSelectOption>
-                                    <IonSelectOption value="OnGoingBusiness">Affaires en cours</IonSelectOption>
-                                    <IonSelectOption value="CompletedBusiness">Affaires cloturées</IonSelectOption>
-                                </IonSelect>
+                        <IonItem slot='start' className='Business' lines='none'>
+                            <IonSelect placeholder="Selectionnez une catégorie d'affaire" value={filter}
+                                       onIonChange={e => setFilter(e.detail.value)}>
+                                <IonSelectOption value="AllBusiness">Toutes les affaires</IonSelectOption>
+                                <IonSelectOption value="OnGoingBusiness">Affaires en cours</IonSelectOption>
+                                <IonSelectOption value="CompletedBusiness">Affaires cloturées</IonSelectOption>
+                            </IonSelect>
                         </IonItem>
-                        <IonItem slot='end' className='SearchBar' lines='none'>   
+                        <IonItem slot='end' className='SearchBar' lines='none'>
                             <IonSearchbar
                                 onIonChange={(e) => handleSearchLawyercase(e)}
                                 class='search-bar'
@@ -133,7 +152,9 @@ const Lawyercase: React.FC = () =>
             <IonContent>
                 <IonItem lines='none'>
                     <IonButtons slot='end'>
-                        <IonButton color='primary' onClick={() => {setIsOpen(true)}} >
+                        <IonButton color='primary' onClick={() => {
+                            setIsOpen(true)
+                        }}>
                             <IonIcon icon={addOutline}></IonIcon>Ajouter
                         </IonButton>
                     </IonButtons>
@@ -148,43 +169,44 @@ const Lawyercase: React.FC = () =>
                     {filteredLawyercases.map((Lawyercase: ILawyercase, index: number) => {
                         return (
                             <IonRow key={index}>
-                                    <IonCol className='Col'>
-                                        <IonRouterLink class='link' routerLink={'/Lawyercases/view/'+Lawyercase.id}>
-                                            {Lawyercase.ref}
-                                        </IonRouterLink>
-                                    </IonCol>
-                                    <IonCol className='Col'><IonIcon color={Lawyercase.closed_at ? "danger" : "success"} ios={ellipse} md={ellipse} /></IonCol>
-                                    <IonCol className='Col'>
-                                        { Lawyercase.clients?.length }
-                                    </IonCol>
-                                    <IonCol className='Col'>
-                                    <IonButtons>                                        
-                                            <IonButton color='primary' onClick={() => {
-                                                handleModifyLawyercase(Lawyercase)
-                                            }}>
-                                                <IonIcon ios={pencilOutline} md={pencilSharp}/>
-                                            </IonButton>
-                                            <IonButton color='danger' onClick={() => {
-                                                present({
-                                                    cssClass: 'my-css',
-                                                    header: 'Suppression d\'un client',
-                                                    message: 'êtes-vous sûr de vouloir supprimer ce dossier ?',
-                                                    buttons: [
-                                                        {text: 'Annuler', role: 'cancel'},
-                                                        { text: 'Oui', handler: () => handleDeleteLawyercase(Lawyercase.id)}
-                                                    ],
-                                                })
-                                            }}>
-                                                <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
-                                            </IonButton>
-                                        </IonButtons>
-                                    </IonCol>
-                                </IonRow>
+                                <IonCol className='Col'>
+                                    <IonRouterLink class='link' routerLink={'/Lawyercases/view/' + Lawyercase.id}>
+                                        {Lawyercase.ref}
+                                    </IonRouterLink>
+                                </IonCol>
+                                <IonCol className='Col'><IonIcon color={Lawyercase.closed_at ? "danger" : "success"}
+                                                                 ios={ellipse} md={ellipse}/></IonCol>
+                                <IonCol className='Col'>
+                                    {Lawyercase.clients?.length}
+                                </IonCol>
+                                <IonCol className='Col'>
+                                    <IonButtons>
+                                        <IonButton color='primary' onClick={() => {
+                                            handleModifyLawyercase(Lawyercase)
+                                        }}>
+                                            <IonIcon ios={pencilOutline} md={pencilSharp}/>
+                                        </IonButton>
+                                        <IonButton color='danger' onClick={() => {
+                                            present({
+                                                cssClass: 'my-css',
+                                                header: 'Suppression d\'un client',
+                                                message: 'êtes-vous sûr de vouloir supprimer ce dossier ?',
+                                                buttons: [
+                                                    {text: 'Annuler', role: 'cancel'},
+                                                    {text: 'Oui', handler: () => handleDeleteLawyercase(Lawyercase.id)}
+                                                ],
+                                            })
+                                        }}>
+                                            <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
+                                        </IonButton>
+                                    </IonButtons>
+                                </IonCol>
+                            </IonRow>
                         )
                     })}
                 </IonGrid>
             </IonContent>
-            <AddLawyercase  isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
+            <AddLawyercase isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
             {selectedLawyercase ? (
                 <EditLawyercase
                     lawyercase={selectedLawyercase}
@@ -194,11 +216,11 @@ const Lawyercase: React.FC = () =>
             ) : null}
             <IonItem>
                 <IonButtons slot="end">
-                <IonButton className='Pages' color="black">Previous</IonButton>
-                <IonButton color="black">1</IonButton>
-                <IonButton color="black">2</IonButton>
-                <IonButton color="black">3</IonButton>
-                <IonButton className='Pages' color="black">Next</IonButton>
+                    <IonButton className='Pages' color="black">Previous</IonButton>
+                    <IonButton color="black">1</IonButton>
+                    <IonButton color="black">2</IonButton>
+                    <IonButton color="black">3</IonButton>
+                    <IonButton className='Pages' color="black">Next</IonButton>
                 </IonButtons>
             </IonItem>
         </IonPage>

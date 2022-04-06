@@ -103,6 +103,10 @@ class LawyercaseDataService {
         return http.put(`/lawyercases/addtolc/${id}/${clientId}`);
     }
 
+    updateStatus(id: string, data: Object) {
+        return http.put(`/lawyercases/status/${id}`, data);
+    }
+
     removeClient(id: string, clientId: string) {
         return http.delete(`/lawyercases/removefromlc/${id}/${clientId}`);
     }
