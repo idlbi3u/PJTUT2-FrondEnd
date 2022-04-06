@@ -1,16 +1,19 @@
-import {IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList,IonMenu, IonMenuToggle, IonTitle, IonToolbar } from '@ionic/react';
-import React, { useState } from 'react';
-import { useLocation } from 'react-router';
+import {
+    IonContent,
+    IonHeader,
+    IonIcon,
+    IonItem,
+    IonLabel,
+    IonList,
+    IonMenu,
+    IonMenuToggle,
+    IonTitle,
+    IonToolbar
+} from '@ionic/react';
+import React, {useState} from 'react';
+import {useLocation} from 'react-router';
 import './Layout.css';
-import { 
-    peopleOutline,
-    folderOutline,
-    homeOutline,
-
-    peopleSharp,
-    folderSharp,
-    homeSharp,
-} from 'ionicons/icons';
+import {folderOutline, folderSharp, homeOutline, homeSharp, peopleOutline, peopleSharp,} from 'ionicons/icons';
 
 interface MenuItem {
     title: string;
@@ -18,8 +21,8 @@ interface MenuItem {
     iosIcon: string;
     mdIcon: string;
 }
-const Layout  = () => 
-{
+
+const Layout = () => {
     const location = useLocation();
     const [menuItems] = useState<MenuItem[]>([
         {
@@ -42,32 +45,30 @@ const Layout  = () =>
         }
     ]);
 
-    return(
+    return (
         <IonMenu className='ionicMenu' side="start" menuId='first' contentId="main" type="overlay">
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>LOGO</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent>    
+            <IonContent>
                 <IonList id="app-menu">
-                {menuItems.map((item: MenuItem, index) => {
-                    return (
-                    <IonMenuToggle key={index} autoHide={false}>
-                        <IonItem 
-                        className={location.pathname === item.url ? 'selected' : ''} 
-                        routerLink={item.url} 
-                        routerDirection="none" 
-                        lines="none" detail={false}
-                        >
-
-                        <IonIcon slot="start" ios={item.iosIcon} md={item.mdIcon} />
-                        <IonLabel>{item.title}</IonLabel>
-
-                        </IonItem>
-                    </IonMenuToggle>
-                    );
-                })}
+                    {menuItems.map((item: MenuItem, index) => {
+                        return (
+                            <IonMenuToggle key={index} autoHide={false}>
+                                <IonItem
+                                    className={location.pathname === item.url ? 'selected' : ''}
+                                    routerLink={item.url}
+                                    routerDirection="none"
+                                    lines="none" detail={false}
+                                >
+                                    <IonIcon slot="start" ios={item.iosIcon} md={item.mdIcon}/>
+                                    <IonLabel>{item.title}</IonLabel>
+                                </IonItem>
+                            </IonMenuToggle>
+                        );
+                    })}
                 </IonList>
             </IonContent>
         </IonMenu>
