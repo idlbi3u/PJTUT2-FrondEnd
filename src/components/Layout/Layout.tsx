@@ -36,7 +36,7 @@ const Layout  = () =>
         },
         {
             title: 'Dossiers',
-            url: '/records',
+            url: '/lawyercases',
             iosIcon: folderOutline,
             mdIcon: folderSharp
         }

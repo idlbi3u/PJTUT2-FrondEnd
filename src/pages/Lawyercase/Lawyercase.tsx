@@ -1,51 +1,51 @@
 
 import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonPage, IonRouterLink, IonRow, IonSearchbar, IonSelect, IonSelectOption, IonTitle, IonToolbar, SearchbarChangeEventDetail, useIonAlert } from '@ionic/react';
-import {   addOutline, ellipse, eyedropOutline, eyeSharp,   pencilOutline,  pencilSharp,   trashBinOutline, trashBinSharp,  } from 'ionicons/icons';
+import {   addOutline, ellipse, pencilOutline,  pencilSharp,   trashBinOutline, trashBinSharp,  } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
-import './Records.css';
+import './Lawyercase.css';
 import LawyercaseDataService from "../../services/lawyercase.service"
 import ILawyercase from '../../types/lawyercase.type';
-import AddRecord from '../../components/Dossier/AddRecord'
-import EditRecord from '../../components/Dossier/EditRecord';
-const isElectron = require("is-electron");
+import AddLawyercase from '../../components/Lawyercase/AddLawyercase'
+import EditLawyercase from '../../components/Lawyercase/EditLawyercase';
+const isElectron = require('is-electron');
 
-const Records: React.FC = () =>
+const Lawyercase: React.FC = () =>
 {
     const [isOpen, setIsOpen] = useState(false);
     const [present] = useIonAlert();
     const [isEdit, setIsEdit] = useState(false);
     const [Delete, setDelete] = useState(false);
-    const [selectedRecord, setSelectedRecord] = useState<ILawyercase>();
-    const [records, setRecords] = useState<ILawyercase[]>([]);
-    const [filteredRecords, setFilteredRecords] = useState<ILawyercase[]>(records);
+    const [selectedLawyercase, setSelectedLawyercase] = useState<ILawyercase>();
+    const [Lawyercases, setLawyercases] = useState<ILawyercase[]>([]);
+    const [filteredLawyercases, setFilteredLawyercases] = useState<ILawyercase[]>(Lawyercases);
     const [filter, setFilter] = useState<string>("AllBusiness");
     
 
-    const handleDeleteRecord = (id: string) => {
+    const handleDeleteLawyercase = (id: string) => {
         setDelete(true);
-        deleteRecord(id);
+        deleteLawyercase(id);
     }
 
-    const handleModifyRecord = (record: any) => {
-        setSelectedRecord(record)
+    const handleModifyLawyercase = (Lawyercase: any) => {
+        setSelectedLawyercase(Lawyercase)
         setIsEdit(true)
     }
     
 
-    const retrieveRecords = () => {
+    const retrieveLawyercases = () => {
         LawyercaseDataService.getAll()
             .then((response: any) => {
                 if (isElectron()) {
-                    setRecords(response)
+                    setLawyercases(response)
                 } else {
-                    setRecords(response.data)
+                    setLawyercases(response.data)
                 }
             })
             .catch((e: Error) => {
                 console.log(e);
             });
     }
-    const deleteRecord = (id:string) => {
+    const deleteLawyercase = (id:string) => {
         LawyercaseDataService.delete(id)
             .then((res:any) => {
                 console.log(res + "A bien été supprimé de la BDD");
@@ -55,18 +55,18 @@ const Records: React.FC = () =>
             })
     }
 
-    const handleSearchRecord = async (e: CustomEvent<SearchbarChangeEventDetail>) => {
+    const handleSearchLawyercase = async (e: CustomEvent<SearchbarChangeEventDetail>) => {
 
         if (e.detail.value === "") {
-            retrieveRecords()
+            retrieveLawyercases()
         }
 
         await LawyercaseDataService.getAll()
             .then((response: any) => {
                 if (isElectron()) {
-                    setRecords(response)
+                    setLawyercases(response)
                 } else {
-                    setRecords(response.data)
+                    setLawyercases(response.data)
                 }
             })
             .catch((e: Error) => {
@@ -74,31 +74,31 @@ const Records: React.FC = () =>
             });
         if (e.detail.value) {
             let tlc = e.detail.value.toLocaleLowerCase();
-            let filterData = records.filter((e) => {
+            let filterData = Lawyercases.filter((e) => {
                 let nameTlc = e.ref.toLocaleLowerCase();
                 return nameTlc.indexOf(tlc) !== -1
             })
 
-            setRecords(filterData)
+            setLawyercases(filterData)
         }
 
     }
 
     useEffect(() => {
-        retrieveRecords();  
+        retrieveLawyercases();  
 
-    }, [isOpen, isEdit, Delete, setRecords]);
+    }, [isOpen, isEdit, Delete, setLawyercases]);
 
 
     useEffect(() => {
         if (filter === "AllBusiness") {
-            setFilteredRecords(records);
+            setFilteredLawyercases(Lawyercases);
         } else if (filter === "OnGoingBusiness") {
-            setFilteredRecords(records.filter(record => !record.state));
+            setFilteredLawyercases(Lawyercases.filter(Lawyercase => !Lawyercase.closed_at));
         } else {
-            setFilteredRecords(records.filter(record => record.state));
+            setFilteredLawyercases(Lawyercases.filter(Lawyercase => Lawyercase.closed_at));
         }
-    },[filter, records]);
+    },[filter, Lawyercases]);
   
 
     return (
@@ -121,7 +121,7 @@ const Records: React.FC = () =>
                         </IonItem>
                         <IonItem slot='end' className='SearchBar' lines='none'>   
                             <IonSearchbar
-                                onIonChange={(e) => handleSearchRecord(e)}
+                                onIonChange={(e) => handleSearchLawyercase(e)}
                                 class='search-bar'
                                 type='text'
                                 placeholder="Rechercher par nom de dossier"/>
@@ -145,22 +145,22 @@ const Records: React.FC = () =>
                         <IonCol className='Col'>Clients</IonCol>
                         <IonCol className='Col'>Actions</IonCol>
                     </IonRow>
-                    {filteredRecords.map((record: ILawyercase, index: number) => {
+                    {filteredLawyercases.map((Lawyercase: ILawyercase, index: number) => {
                         return (
                             <IonRow key={index}>
                                     <IonCol className='Col'>
-                                        <IonRouterLink class='link' routerLink={'/records/view/'+record.id}>
-                                            {record.ref}
+                                        <IonRouterLink class='link' routerLink={'/Lawyercases/view/'+Lawyercase.id}>
+                                            {Lawyercase.ref}
                                         </IonRouterLink>
                                     </IonCol>
-                                    <IonCol className='Col'><IonIcon color={record.closed_at ? "danger" : "success"} ios={ellipse} md={ellipse} /></IonCol>
+                                    <IonCol className='Col'><IonIcon color={Lawyercase.closed_at ? "danger" : "success"} ios={ellipse} md={ellipse} /></IonCol>
                                     <IonCol className='Col'>
-                                        { record.clients?.length }
+                                        { Lawyercase.clients?.length }
                                     </IonCol>
                                     <IonCol className='Col'>
                                     <IonButtons>                                        
                                             <IonButton color='primary' onClick={() => {
-                                                handleModifyRecord(record)
+                                                handleModifyLawyercase(Lawyercase)
                                             }}>
                                                 <IonIcon ios={pencilOutline} md={pencilSharp}/>
                                             </IonButton>
@@ -171,7 +171,7 @@ const Records: React.FC = () =>
                                                     message: 'êtes-vous sûr de vouloir supprimer ce dossier ?',
                                                     buttons: [
                                                         {text: 'Annuler', role: 'cancel'},
-                                                        { text: 'Oui', handler: () => handleDeleteRecord(record.id)}
+                                                        { text: 'Oui', handler: () => handleDeleteLawyercase(Lawyercase.id)}
                                                     ],
                                                 })
                                             }}>
@@ -184,10 +184,10 @@ const Records: React.FC = () =>
                     })}
                 </IonGrid>
             </IonContent>
-            <AddRecord  isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
-            {selectedRecord ? (
-                <EditRecord
-                    record={selectedRecord}
+            <AddLawyercase  isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
+            {selectedLawyercase ? (
+                <EditLawyercase
+                    lawyercase={selectedLawyercase}
                     isOpen={isEdit}
                     setIsOpen={() => setIsEdit(false)}
                 />
@@ -205,4 +205,4 @@ const Records: React.FC = () =>
     );
 }
 
-export default Records;
+export default Lawyercase;

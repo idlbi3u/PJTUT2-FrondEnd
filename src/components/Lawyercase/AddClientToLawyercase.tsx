@@ -15,7 +15,7 @@ import {
     IonTitle,
     IonToolbar
 } from '@ionic/react';
-import './AddClientToCase.css'
+import './AddClientToLawyercase.css'
 import {closeOutline, closeSharp} from 'ionicons/icons';
 import ILawyercase from "../../types/lawyercase.type";
 import LawyercaseDataService from "../../services/lawyercase.service";
@@ -25,13 +25,13 @@ const isElectron = require('is-electron');
 interface ModalProps {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    record: ILawyercase;
-    recordClients: IClientData[];
+    lawyercase: ILawyercase;
+    lawyercaseClients: IClientData[];
 }
 
 
 const AddClientToCaseModal = (props: ModalProps) => {
-    const {isOpen, setIsOpen, record, recordClients} = props;
+    const {isOpen, setIsOpen, lawyercase, lawyercaseClients} = props;
     const [clients, setClients] = useState<IClientData[]>();
     const [selectedClient, setSelectedClient] = useState<IClientData>();
 
@@ -50,18 +50,17 @@ const AddClientToCaseModal = (props: ModalProps) => {
             });
     }
 
-    const updateRecord = () => {
+    const updatelawyercase= () => {
         console.log("Updating....")
-        const newRecord: ILawyercase = {
-            id: record.id,
-            ref: record.ref,
-            description: record.description,
-            state: record.state,
-            closed_at: record.closed_at || null,
-            clients: record.clients
+        const newlawyercase: ILawyercase = {
+            id: lawyercase.id,
+            ref: lawyercase.ref,
+            description: lawyercase.description,
+            closed_at: lawyercase.closed_at || null,
+            clients: lawyercase.clients
         }
         console.log(selectedClient)
-        LawyercaseDataService.addClient(newRecord.id, selectedClient?.id)
+        LawyercaseDataService.addClient(newlawyercase.id, selectedClient?.id)
             .then((res: any) => {
                 console.log("Dossier mis à jour avec succès");
             })
@@ -72,7 +71,7 @@ const AddClientToCaseModal = (props: ModalProps) => {
     }
 
     const handleAddClientToCase = () => {
-        updateRecord();
+        updatelawyercase();
         setIsOpen(false);
     }
 
@@ -100,7 +99,7 @@ const AddClientToCaseModal = (props: ModalProps) => {
                         setSelectedClient(e.detail.value)
                     }}>
                         {clients?.map((client: IClientData, index: number) => {
-                            if (!recordClients.includes(client)) {
+                            if (!lawyercaseClients.includes(client)) {
                                 return (
                                     <IonSelectOption value={client} key={index}>
                                         <IonLabel>{client.name + " " + client.firstname}</IonLabel>

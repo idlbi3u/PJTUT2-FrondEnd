@@ -20,37 +20,35 @@ import ILawyercase from "../../types/lawyercase.type";
 interface ModalProps {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    record: ILawyercase
+    lawyercase: ILawyercase
 }
 
 
-const EditRecord = (props: ModalProps) => {
+const EditLawyercase = (props: ModalProps) => {
 
-    const {isOpen, record, setIsOpen} = props;
+    const {isOpen, lawyercase, setIsOpen} = props;
 
     const [states, setStates] = useState<ILawyercase>({
-        id: record.id,
-        ref: record.ref,
-        description: record.description,
-        state: record.state,
-        closed_at : record.closed_at
+        id: lawyercase.id,
+        ref: lawyercase.ref,
+        description: lawyercase.description,
+        closed_at : lawyercase.closed_at
     });    
 
     const handleChange = (e: CustomEvent<InputChangeEventDetail>, inputName: string) => {
         setStates({...states, [inputName]: e.detail.value});
     }
 
-    const updateRecord = () => {
+    const updatelawyercase = () => {
         console.log("Updating....")
-        const record: ILawyercase = {
+        const newLawyercase: ILawyercase = {
             id: states.id,
             ref: states.ref,
             description: states.description,
-            state: states.state,
             closed_at : states.closed_at || null
         }
 
-        LawyercaseDataService.update(record.id, record)
+        LawyercaseDataService.update(newLawyercase.id, newLawyercase)
             .then((res: any) => {
                 console.log("Dossier mis à jour avec succès");
             })
@@ -61,9 +59,9 @@ const EditRecord = (props: ModalProps) => {
     }
 
     useEffect(() => {
-        setStates(record);
+        setStates(lawyercase);
         
-    }, [record]);
+    }, [lawyercase]);
 
 
     return (
@@ -100,7 +98,7 @@ const EditRecord = (props: ModalProps) => {
                     </IonItem>                    
                     <IonButton expand='block'
                                type='submit'
-                               onClick={updateRecord}>
+                               onClick={updatelawyercase}>
                         Mettre à jour
                     </IonButton>
             </IonContent>
@@ -109,4 +107,4 @@ const EditRecord = (props: ModalProps) => {
 }
 
 
-export default EditRecord;
+export default EditLawyercase;

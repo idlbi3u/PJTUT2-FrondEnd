@@ -19,16 +19,16 @@ import {closeOutline, closeSharp} from "ionicons/icons";
 import ILawyercase from "../../types/lawyercase.type";
 
 interface ModalProps {
-    record: ILawyercase,
+    lawyercase: ILawyercase,
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AddEvent = (props: ModalProps) => {
-    const {isOpen, setIsOpen, record} = props;
+    const {isOpen, setIsOpen, lawyercase} = props;
     const [states, setStates] = useState<IEventData>({
         description: "",
-        duration: ""
+        duration: 0,
     });
 
     const handleChange = (e: CustomEvent<InputChangeEventDetail>, inputName: string) => {
@@ -40,7 +40,7 @@ const AddEvent = (props: ModalProps) => {
             description: states.description,
             duration: states.duration,
         }
-        LawyercaseDataService.addEventToLawyercase(record.id, event)
+        LawyercaseDataService.addEventToLawyercase(lawyercase.id, event)
 
             .then((res: any) => {
                 console.log(res);
@@ -75,7 +75,7 @@ const AddEvent = (props: ModalProps) => {
                 <IonItem>
                     <IonLabel position="floating">Description du temps nécessaire :</IonLabel>
 
-                    <IonInput type='text' id='duration' required name='duration'
+                    <IonInput type='number' id='duration' required name='duration'
                               onIonChange={e => handleChange(e, "duration")}/>
 
                 </IonItem>

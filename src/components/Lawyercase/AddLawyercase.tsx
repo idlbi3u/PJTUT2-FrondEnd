@@ -11,28 +11,25 @@ interface ModalProps{
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AddRecord = (props: ModalProps) => {
+const AddLawyercase = (props: ModalProps) => {
     const { isOpen, setIsOpen } = props;
     const [states, setStates] = useState<ILawyercase>({
         ref:"",
         description:"",
-        state:false,
-        closed_at:null
-        
+        closed_at:null        
     });
 
     const handleChange = (e: CustomEvent<InputChangeEventDetail>, inputName: string) => {
         setStates({...states, [inputName]: e.detail.value});
     }
 
-    const saveRecord = () => {
-        const record: ILawyercase = {
+    const savelawyercase= () => {
+        const newLawyercase: ILawyercase = {
             ref: states.ref,
             description: states.description,
-            state: states.state,
             closed_at: states.closed_at
         }
-        LawyercaseDataService.create(record)
+        LawyercaseDataService.create(newLawyercase)
             .then((res: any) => {
                 console.log(res);
             })
@@ -64,7 +61,7 @@ const AddRecord = (props: ModalProps) => {
                         <IonLabel position="floating">Description</IonLabel>
                         <IonInput type='text' id='description' required name='description'  onIonChange={e => handleChange(e, "description")}></IonInput>
                     </IonItem>
-                    <IonButton expand='block' type='submit' onClick={saveRecord}>
+                    <IonButton expand='block' type='submit' onClick={savelawyercase}>
                         Ajouter
                     </IonButton>
                 
@@ -73,5 +70,5 @@ const AddRecord = (props: ModalProps) => {
     )
 }
 
-export default AddRecord;
+export default AddLawyercase;
 
