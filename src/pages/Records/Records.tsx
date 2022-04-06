@@ -7,6 +7,7 @@ import LawyercaseDataService from "../../services/lawyercase.service"
 import ILawyercase from '../../types/lawyercase.type';
 import AddRecord from '../../components/Dossier/AddRecord'
 import EditRecord from '../../components/Dossier/EditRecord';
+const isElectron = require("is-electron");
 
 const Records: React.FC = () =>
 {
@@ -34,8 +35,11 @@ const Records: React.FC = () =>
     const retrieveRecords = () => {
         LawyercaseDataService.getAll()
             .then((response: any) => {
-                setRecords(response.data)
-                console.log(response.data);
+                if (isElectron()) {
+                    setRecords(response)
+                } else {
+                    setRecords(response.data)
+                }
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -59,7 +63,11 @@ const Records: React.FC = () =>
 
         await LawyercaseDataService.getAll()
             .then((response: any) => {
-                setRecords(response.data)
+                if (isElectron()) {
+                    setRecords(response)
+                } else {
+                    setRecords(response.data)
+                }
             })
             .catch((e: Error) => {
                 console.log(e);

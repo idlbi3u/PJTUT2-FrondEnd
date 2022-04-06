@@ -24,6 +24,7 @@ import ClientDataService from "../../services/client.service"
 import IClientData from "../../types/client.type";
 import AddClient from '../../components/Client/AddClient';
 import EditClient from '../../components/Client/EditClient';
+const isElectron = require('is-electron');
 
 
 const Clients: React.FC = () => {
@@ -48,7 +49,12 @@ const Clients: React.FC = () => {
     const retrieveClients = () => {
         ClientDataService.getAll()
             .then((response: any) => {
-                setClients(response.data)
+                if(isElectron) {
+                    console.log(response);
+                    setClients(response)
+                } else {
+                    setClients(response.data)
+                }
                 console.log(clients)
             })
             .catch((e: Error) => {
@@ -74,7 +80,11 @@ const Clients: React.FC = () => {
 
         await ClientDataService.getAll()
             .then((response: any) => {
-                setClients(response.data)
+                if(isElectron) {
+                    setClients(response)
+                } else {
+                    setClients(response.data)
+                }
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -92,9 +102,7 @@ const Clients: React.FC = () => {
 
     useEffect(() => {
         retrieveClients();
-
     }, [isOpen, isEdit, Delete, setClients]);
-
 
     return (
         <IonPage>
@@ -133,9 +141,12 @@ const Clients: React.FC = () => {
                     </IonRow>
                     {clients.map((client: IClientData, index: number) => {
                         return (
-                            <IonRouterLink key={index} routerLink={'clients/view/'+ client.id} >
-                                <IonRow>
-                                    <IonCol>{client.name + ' ' + client.firstname}</IonCol>
+                            <IonRow key={index}>
+                                <IonCol>
+                                    <IonRouterLink routerLink={'clients/view/'+ client.id} >
+                                        {client.name + ' ' + client.firstname}
+                                    </IonRouterLink>
+                                </IonCol>
                                     <IonCol>
                                         {client.cases?.length}
                                     </IonCol>
@@ -159,9 +170,8 @@ const Clients: React.FC = () => {
                                                 <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
                                             </IonButton>
                                         </IonButtons>
-                                    </IonCol>
-                                </IonRow>
-                            </IonRouterLink>
+                                </IonCol>
+                            </IonRow>
                         )
                     })}
                 </IonGrid>

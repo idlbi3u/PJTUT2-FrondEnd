@@ -5,8 +5,9 @@ import ClientCard from "../../components/Client/ClientCard";
 import IClientData from "../../types/client.type";
 import ClientDataService from "../../services/client.service"
 import './ClientDetails.css';
-import { pencilOutline, pencilSharp, trashBinOutline, trashBinSharp } from "ionicons/icons";
+import { arrowBackOutline, arrowBackSharp, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp } from "ionicons/icons";
 import EditClient from "../../components/Client/EditClient";
+const isElectron = require("is-electron");
 
 interface ParamsInterface{
     id: string;
@@ -45,7 +46,12 @@ const ClientDetails = () => {
     useEffect(() => {
         ClientDataService.get(params.id)
             .then((response: any) => {
-                setClient(response.data);
+                if (isElectron) {
+                    console.log(response);
+                    setClient(response);
+                } else {
+                    setClient(response.data);
+                }
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -57,7 +63,7 @@ const ClientDetails = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='start'>
-                        <IonBackButton defaultHref='/clients'></IonBackButton>
+                        <IonButton routerLink="/clients"><IonIcon ios={arrowBackOutline} md={arrowBackSharp}/></IonButton>
                     </IonButtons>
                     <IonTitle>Clients {' > '+ client?.name + ' ' + client?.firstname } </IonTitle>
                 </IonToolbar>

@@ -2,6 +2,7 @@ import { InputChangeEventDetail, IonButton, IonButtons, IonContent, IonHeader, I
 import { useState } from "react";
 import IEventData from "../../types/event.type";
 import LawyercaseDataService from "../../services/lawyercase.service"
+import IEventService from "../../services/event.service";
 import { closeOutline, closeSharp } from "ionicons/icons";
 
 interface ModalProps{
@@ -29,13 +30,13 @@ const AddEvent = (props: ModalProps) => {
             hours: states.hours
         }
         console.log(event)
-        LawyercaseDataService.create(event)
-            .then((res: any) => {
-                console.log(res);
-            })
-            .catch((e: Error) => {
-            console.log(e)
-        })
+        // LawyercaseDataService.create(event)
+        //     .then((res: any) => {
+        //         console.log(res);
+        //     })
+        //     .catch((e: Error) => {
+        //     console.log(e)
+        // })
         setIsOpen(false)
     }
 

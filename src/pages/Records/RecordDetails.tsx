@@ -7,6 +7,7 @@ import LawyercaseDataService from "../../services/lawyercase.service"
 import './Records.css';
 import RecordCard from '../../components/Dossier/RecordCard';
 import EditRecord from '../../components/Dossier/EditRecord';
+const isElectron = require('is-electron');
 
 const RecordDetails: React.FC = () =>
 {
@@ -43,8 +44,11 @@ const RecordDetails: React.FC = () =>
     useEffect(() => {
         LawyercaseDataService.get(params.id)
             .then((response: any) => {
-                console.log(response.data);
-                setRecord(response.data);
+                if (isElectron()) {
+                    setRecord(response)
+                } else {
+                    setRecord(response.data);
+                }
             })
             .catch((e: Error) => {
                 console.log(e);
