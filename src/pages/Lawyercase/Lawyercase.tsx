@@ -14,6 +14,7 @@ import {
     IonSearchbar,
     IonSelect,
     IonSelectOption,
+    IonText,
     IonTitle,
     IonToolbar,
     SearchbarChangeEventDetail,
@@ -94,6 +95,12 @@ const Lawyercase: React.FC = () => {
 
     useEffect(() => {
         retrieveLawyercases();
+        console.log("JE SUIS SUR LA PAGE")
+
+        return () => {
+            console.log("JE ME DESTRUCTURE")
+            
+        }
 
     }, [Delete, isOpen, isEdit]);
 
@@ -106,7 +113,7 @@ const Lawyercase: React.FC = () => {
             setFilteredLawyercases(lawyercases.filter(lawyercases => lawyercases.closed_at));
         }
     }, [filter, lawyercases]);
-    
+
     return (
         <IonPage>
             <IonHeader>
@@ -159,8 +166,9 @@ const Lawyercase: React.FC = () => {
                             <IonRow key={index}>
                                 <IonCol className='Col'>
                                     <IonRouterLink className='link'
-                                                   routerLink={'/Lawyercases/view/' + Lawyercase.id}>
-                                        {Lawyercase.ref}
+                                                   routerLink={'/Lawyercases/view/' + Lawyercase.id}
+                                                   routerDirection="back">
+                                        <IonText>{Lawyercase.ref}</IonText>
                                     </IonRouterLink>
                                 </IonCol>
                                 <IonCol className='Col'><IonIcon color={Lawyercase.closed_at ? "danger" : "success"}

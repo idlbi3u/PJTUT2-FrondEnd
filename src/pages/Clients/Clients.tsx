@@ -16,7 +16,7 @@ import {
     IonTitle,
     IonToolbar,
     SearchbarChangeEventDetail,
-    useIonAlert 
+    useIonAlert
 } from '@ionic/react';
 import {addOutline, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from 'ionicons/icons';
 import React, {useEffect, useState} from 'react';
@@ -39,7 +39,7 @@ const Clients: React.FC = () => {
         deleteClient(id);
     }
 
-    const handleModifyClient = (client: any) => {        
+    const handleModifyClient = (client: any) => {
         setSelectedClient(client)
         setIsEdit(true)
     }
@@ -85,13 +85,16 @@ const Clients: React.FC = () => {
                 let nameTlc = e.name.toLocaleLowerCase();
                 return nameTlc.indexOf(tlc) !== -1
             })
-
             setClients(filterData)
         }
     }
 
     useEffect(() => {
         retrieveClients();
+
+        return () => {
+            console.log("Cleanup");
+        };
 
     }, [isOpen, isEdit, Delete, setClients]);
 
@@ -135,18 +138,18 @@ const Clients: React.FC = () => {
                         return (
                             <IonRow key={index}>
                                 <IonCol>
-                                    <IonRouterLink className='link' routerLink={'clients/view/'+ client.id}> 
+                                    <IonRouterLink className='link' routerDirection="back"
+                                                   routerLink={'clients/view/' + client.id}>
                                         <IonText>
-                                            {client.name + ' ' + client.firstname}                                      
-
-                                        </IonText>                                       
+                                            {client.name + ' ' + client.firstname}
+                                        </IonText>
                                     </IonRouterLink>
                                 </IonCol>
                                 <IonCol>
                                     {client.lawyercases?.length}
                                 </IonCol>
                                 <IonCol>
-                                    <IonButtons>                                    
+                                    <IonButtons>
                                         <IonButton color='primary' onClick={() => {
                                             handleModifyClient(client)
                                         }}>
@@ -159,8 +162,9 @@ const Clients: React.FC = () => {
                                                 message: 'êtes-vous sûr de vouloir supprimer ce client ?',
                                                 buttons: [
                                                     {text: 'Annuler', role: 'cancel'},
-                                                    { text: 'Confirmer', handler: () => handleDeleteClient(client.id)}
-                                                ]})
+                                                    {text: 'Confirmer', handler: () => handleDeleteClient(client.id)}
+                                                ]
+                                            })
                                         }}>
                                             <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
                                         </IonButton>
@@ -171,9 +175,9 @@ const Clients: React.FC = () => {
                     })}
                 </IonGrid>
             </IonContent>
-            <AddClient 
-            isOpen={isOpen} 
-            setIsOpen={() => setIsOpen(false)}
+            <AddClient
+                isOpen={isOpen}
+                setIsOpen={() => setIsOpen(false)}
             />
             {selectedClient ? (
                 <EditClient
@@ -184,11 +188,11 @@ const Clients: React.FC = () => {
             ) : null}
             <IonItem>
                 <IonButtons slot="end">
-                <IonButton className='Pages' color="black">Previous</IonButton>
-                <IonButton color="black">1</IonButton>
-                <IonButton color="black">2</IonButton>
-                <IonButton color="black">3</IonButton>
-                <IonButton className='Pages' color="black">Next</IonButton>
+                    <IonButton className='Pages' color="black">Previous</IonButton>
+                    <IonButton color="black">1</IonButton>
+                    <IonButton color="black">2</IonButton>
+                    <IonButton color="black">3</IonButton>
+                    <IonButton className='Pages' color="black">Next</IonButton>
                 </IonButtons>
             </IonItem>
         </IonPage>
