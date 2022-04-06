@@ -19,6 +19,7 @@ import './AddClientToLawyercase.css'
 import {closeOutline, closeSharp} from 'ionicons/icons';
 import ILawyercase from "../../types/lawyercase.type";
 import LawyercaseDataService from "../../services/lawyercase.service";
+const isElectron = require('is-electron');
 
 
 interface ModalProps {
@@ -37,7 +38,12 @@ const AddClientToCaseModal = (props: ModalProps) => {
     const retrieveClients = () => {
         ClientDataService.getAll()
             .then((response: any) => {
-                setClients(response.data)
+                if (isElectron()) {
+                    setClients(response)
+                } else {
+                    setClients(response.data)
+                }
+                console.log(clients)
             })
             .catch((e: Error) => {
                 console.log(e);

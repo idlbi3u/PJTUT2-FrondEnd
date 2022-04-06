@@ -7,6 +7,7 @@ import LawyercaseDataService from "../../services/lawyercase.service"
 import ILawyercase from '../../types/lawyercase.type';
 import AddLawyercase from '../../components/Lawyercase/AddLawyercase'
 import EditLawyercase from '../../components/Lawyercase/EditLawyercase';
+const isElectron = require('is-electron');
 
 const Lawyercase: React.FC = () =>
 {
@@ -34,7 +35,11 @@ const Lawyercase: React.FC = () =>
     const retrieveLawyercases = () => {
         LawyercaseDataService.getAll()
             .then((response: any) => {
-                setLawyercases(response.data)
+                if (isElectron()) {
+                    setLawyercases(response)
+                } else {
+                    setLawyercases(response.data)
+                }
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -58,7 +63,11 @@ const Lawyercase: React.FC = () =>
 
         await LawyercaseDataService.getAll()
             .then((response: any) => {
-                setLawyercases(response.data)
+                if (isElectron()) {
+                    setLawyercases(response)
+                } else {
+                    setLawyercases(response.data)
+                }
             })
             .catch((e: Error) => {
                 console.log(e);

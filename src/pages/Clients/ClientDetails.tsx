@@ -21,7 +21,9 @@ import { useParams } from "react-router";
 import IClientData from "../../types/client.type";
 import ClientDataService from "../../services/client.service"
 import './ClientDetails.css';
-import { 
+import {
+    arrowBackOutline,
+    arrowBackSharp,
     calendarClearOutline, 
     calendarClearSharp, 
     fileTrayFullOutline, 
@@ -40,6 +42,7 @@ import {
 import EditClient from "../../components/Client/EditClient";
 import ILawyercase from "../../types/lawyercase.type";
 import {format, parseISO} from 'date-fns';
+const isElectron = require('is-electron');
 
 
 interface ParamsInterface{
@@ -82,7 +85,12 @@ const ClientDetails = () => {
     useEffect(() => {
         ClientDataService.get(params.id)
             .then((response: any) => {
-                setClient(response.data);
+                if (isElectron) {
+                    console.log(response);
+                    setClient(response);
+                } else {
+                    setClient(response.data);
+                }
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -94,7 +102,7 @@ const ClientDetails = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='start'>
-                        <IonBackButton defaultHref='/clients'></IonBackButton>
+                        <IonButton routerLink="/clients"><IonIcon ios={arrowBackOutline} md={arrowBackSharp}/></IonButton>
                     </IonButtons>
                     <IonTitle>Clients {' > '+ client?.name + ' ' + client?.firstname } </IonTitle>
                 </IonToolbar>
