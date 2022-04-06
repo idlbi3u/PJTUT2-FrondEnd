@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import IClientData from "../../types/client.type";
 import ClientDataService from "../../services/client.service"
 import {
@@ -22,14 +22,12 @@ import LawyercaseDataService from "../../services/lawyercase.service";
 const isElectron = require('is-electron');
 
 
-
 interface ModalProps {
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     record: ILawyercase;
     recordClients: IClientData[];
 }
-
 
 
 const AddClientToCaseModal = (props: ModalProps) => {
@@ -62,8 +60,7 @@ const AddClientToCaseModal = (props: ModalProps) => {
             closed_at: record.closed_at || null,
             clients: record.clients
         }
-        console.log(newRecord)
-
+        console.log(selectedClient)
         LawyercaseDataService.addClient(newRecord.id, selectedClient?.id)
             .then((res: any) => {
                 console.log("Dossier mis à jour avec succès");
@@ -71,13 +68,12 @@ const AddClientToCaseModal = (props: ModalProps) => {
             .catch((e: Error) => {
                 console.log(e)
             })
-            setIsOpen(false)
+        setIsOpen(false)
     }
-    
+
     const handleAddClientToCase = () => {
-        console.log(record.clients)        
         updateRecord();
-        setIsOpen(false);        
+        setIsOpen(false);
     }
 
     useEffect(() => {
@@ -86,7 +82,7 @@ const AddClientToCaseModal = (props: ModalProps) => {
     }, [setClients, isOpen])
 
 
-    return(
+    return (
         <IonModal isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
             <IonHeader>
                 <IonToolbar>
@@ -101,17 +97,16 @@ const AddClientToCaseModal = (props: ModalProps) => {
                 <IonItem>
                     <IonLabel position="floating">Choisissez un Client</IonLabel>
                     <IonSelect onIonChange={(e) => {
-                        console.log(e.detail.value);
                         setSelectedClient(e.detail.value)
-                        }}>
+                    }}>
                         {clients?.map((client: IClientData, index: number) => {
-                            if(!recordClients.includes(client)) {
-                                return(
-                                    <IonSelectOption value={client} key={index} >
+                            if (!recordClients.includes(client)) {
+                                return (
+                                    <IonSelectOption value={client} key={index}>
                                         <IonLabel>{client.name + " " + client.firstname}</IonLabel>
                                     </IonSelectOption>
                                 )
-                            }else{
+                            } else {
                                 return null;
                             }
                         })}

@@ -10,7 +10,6 @@ import {
     IonItem,
     IonLabel,
     IonModal,
-    IonRadio,
     IonTitle,
     IonToolbar
 } from "@ionic/react";
@@ -35,11 +34,7 @@ const EditRecord = (props: ModalProps) => {
         description: record.description,
         state: record.state,
         closed_at : record.closed_at
-    });
-
-    console.log(states)
-
-    
+    });    
 
     const handleChange = (e: CustomEvent<InputChangeEventDetail>, inputName: string) => {
         setStates({...states, [inputName]: e.detail.value});
@@ -54,7 +49,6 @@ const EditRecord = (props: ModalProps) => {
             state: states.state,
             closed_at : states.closed_at || null
         }
-        console.log(record)
 
         LawyercaseDataService.update(record.id, record)
             .then((res: any) => {
@@ -103,15 +97,7 @@ const EditRecord = (props: ModalProps) => {
                                   name='description'
                                   value={states.description}
                                   onIonChange={e => handleChange(e, "description")}/>
-                    </IonItem>
-                    <IonItem>
-                        <IonLabel position="floating">Affaire Cloturée</IonLabel>
-                        <IonRadio slot="start" 
-                                  id='bd'
-                                  disabled
-                                  name='bd'
-                                  value={states.state}/>
-                    </IonItem>
+                    </IonItem>                    
                     <IonButton expand='block'
                                type='submit'
                                onClick={updateRecord}>

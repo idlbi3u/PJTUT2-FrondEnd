@@ -1,6 +1,7 @@
 import http from "../http-common";
 import IClientData from "../types/client.type";
 import  ILawyercase from "../types/lawyercase.type";
+import IEventData from "../types/event.type";
 const fs = window.require("fs").promises;
 const isElectron = require("is-electron");
 
@@ -83,23 +84,28 @@ class LawyercaseDataService {
         } else {
             return http.put(`/lawyercases/${id}`, updatedData);
         }
+
+    }
+
+    addEventToLawyercase(lawyercaseId: number, event: IEventData) {
+        return http.put<ILawyercase[]>("/lawyercases/events/" + lawyercaseId, event);
     }
 
     deleteAll() {
         return http.delete(`/lawyercases`);
     }
 
-    findByRef(ref:string) {
+    findByRef(ref: string) {
         return http.get(`/lawyercases?title=${ref}`);
     }
-    
-    addClient(id:string, clientId:string) {
+
+    addClient(id: string, clientId: string) {
         return http.put(`/lawyercases/addtolc/${id}/${clientId}`);
     }
 
-    removeClient(id:string, clientId:string) {
+    removeClient(id: string, clientId: string) {
         return http.delete(`/lawyercases/removefromlc/${id}/${clientId}`);
     }
 }
 
-export default  new LawyercaseDataService();
+export default new LawyercaseDataService();

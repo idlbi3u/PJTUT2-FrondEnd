@@ -142,11 +142,11 @@ const Clients: React.FC = () => {
                     {clients.map((client: IClientData, index: number) => {
                         return (
                             <IonRow key={index}>
-                                <IonCol>
-                                    <IonRouterLink routerLink={'clients/view/'+ client.id} >
-                                        {client.name + ' ' + client.firstname}
-                                    </IonRouterLink>
-                                </IonCol>
+                                    <IonCol>
+                                        <IonRouterLink class='link' routerLink={'clients/view/'+ client.id} >
+                                            {client.name + ' ' + client.firstname}
+                                        </IonRouterLink>
+                                    </IonCol>
                                     <IonCol>
                                         {client.cases?.length}
                                     </IonCol>
@@ -170,8 +170,8 @@ const Clients: React.FC = () => {
                                                 <IonIcon ios={trashBinOutline} md={trashBinSharp}/>
                                             </IonButton>
                                         </IonButtons>
-                                </IonCol>
-                            </IonRow>
+                                    </IonCol>
+                                </IonRow>
                         )
                     })}
                 </IonGrid>

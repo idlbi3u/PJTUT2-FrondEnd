@@ -1,13 +1,49 @@
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonPage, IonText, IonTitle, IonToolbar, useIonAlert } from "@ionic/react";
+import { 
+    IonBackButton, 
+    IonButton, 
+    IonButtons, 
+    IonCard, 
+    IonCardContent, 
+    IonCardHeader, 
+    IonContent, 
+    IonHeader, 
+    IonIcon, 
+    IonItem, 
+    IonPage, 
+    IonRouterLink, 
+    IonText, 
+    IonTitle, 
+    IonToolbar, 
+    useIonAlert 
+} from "@ionic/react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import ClientCard from "../../components/Client/ClientCard";
 import IClientData from "../../types/client.type";
 import ClientDataService from "../../services/client.service"
 import './ClientDetails.css';
-import { arrowBackOutline, arrowBackSharp, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp } from "ionicons/icons";
+import {
+    arrowBackOutline,
+    arrowBackSharp,
+    calendarClearOutline, 
+    calendarClearSharp, 
+    fileTrayFullOutline, 
+    fileTrayFullSharp, 
+    giftOutline, 
+    giftSharp, 
+    pencilOutline, 
+    pencilSharp, 
+    personOutline, 
+    personSharp, 
+    pinOutline, 
+    pinSharp, 
+    trashBinOutline, 
+    trashBinSharp 
+} from "ionicons/icons";
 import EditClient from "../../components/Client/EditClient";
-const isElectron = require("is-electron");
+import ILawyercase from "../../types/lawyercase.type";
+import {format, parseISO} from 'date-fns';
+const isElectron = require('is-electron');
+
 
 interface ParamsInterface{
     id: string;
@@ -42,6 +78,9 @@ const ClientDetails = () => {
         setSelectedClient(client)
         setIsEdit(true)
     }
+    const formatDate = (value: string) => {
+        return format(parseISO(value), 'dd/MM/yyyy');
+    };   
 
     useEffect(() => {
         ClientDataService.get(params.id)
@@ -98,11 +137,71 @@ const ClientDetails = () => {
                 </IonItem>
             </IonHeader>
             <IonContent>
-                {client ? 
-                <ClientCard client={client}/> : 
-                <IonItem>
-                    <IonText color="danger">Ce client n'existe pas!</IonText>
-                </IonItem>
+                {client ?
+                    <>    
+                        <IonCard>
+                            <IonCardContent>            
+                                <IonItem lines="none">
+                                    <IonIcon ios={personOutline} md={personSharp}/>
+                                    <IonTitle>{client.name + ' ' + client.firstname}</IonTitle>
+                                </IonItem>
+                                    {client.createdAt ? (
+                                        <IonItem lines="none">
+                                            <IonIcon ios={calendarClearOutline} md={calendarClearSharp}/>
+                                            <IonTitle>Client depuis le {formatDate(client.createdAt)}</IonTitle>
+                                        </IonItem>
+                                    ) : null}
+                                    {client.birthdate ? (
+                                        <IonItem lines="none">
+                                            <IonIcon ios={giftOutline} md={giftSharp}/>
+                                            <IonTitle>{client.birthdate}</IonTitle>
+                                        </IonItem>
+                                    ): null}                    
+                            </IonCardContent>
+                        </IonCard>
+            
+                        <IonCard>
+                            <IonCardHeader>
+                                <IonItem lines="none">
+                                    <IonIcon ios={pinOutline} md={pinSharp}/>
+                                    <IonTitle>Adresse</IonTitle>
+                                </IonItem>
+                            </IonCardHeader>
+            
+                            <IonCardContent>
+                                <IonText>
+                                    <h2>{client.address}</h2>
+                                </IonText>
+                            </IonCardContent>
+                        </IonCard>
+            
+                        <IonCard>
+                            <IonCardHeader>
+                                <IonItem lines="none">
+                                    <IonIcon ios={fileTrayFullOutline} md={fileTrayFullSharp}/>
+                                    <IonTitle>Dossiers</IonTitle>
+                                </IonItem>
+                            </IonCardHeader>
+            
+                            <IonCardContent>
+                                {client.cases?.map((lawyercase: ILawyercase, index: number) => (
+                                    <IonItem lines="none" key={index}>                            
+                                        <IonText>
+                                            <IonRouterLink routerLink={'records/view/'+ client.id}>
+                                                {lawyercase.ref}
+                                            </IonRouterLink>
+                                        </IonText>
+                                    </IonItem>
+                                ))} 
+                            </IonCardContent>
+                        </IonCard>
+                    </>           
+                    
+                
+                 : 
+                    <IonItem>
+                        <IonText color="danger">Ce client n'existe pas!</IonText>
+                    </IonItem>
                 }
             </IonContent>
 

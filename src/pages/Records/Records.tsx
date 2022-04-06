@@ -138,7 +138,7 @@ const Records: React.FC = () =>
                         </IonButton>
                     </IonButtons>
                 </IonItem>
-                <IonGrid>
+                <IonGrid text-center>
                     <IonRow className='Row'>
                         <IonCol className='Col'>Code</IonCol>
                         <IonCol className='Col'>Statut</IonCol>
@@ -147,18 +147,18 @@ const Records: React.FC = () =>
                     </IonRow>
                     {filteredRecords.map((record: ILawyercase, index: number) => {
                         return (
-                            <IonRouterLink key={index} routerLink={'/records/view/'+record.id}>
-                                <IonRow className='Row' >
-                                    <IonCol className='Col'>{record.ref}</IonCol>
+                            <IonRow key={index}>
+                                    <IonCol className='Col'>
+                                        <IonRouterLink class='link' routerLink={'/records/view/'+record.id}>
+                                            {record.ref}
+                                        </IonRouterLink>
+                                    </IonCol>
                                     <IonCol className='Col'><IonIcon color={record.closed_at ? "danger" : "success"} ios={ellipse} md={ellipse} /></IonCol>
                                     <IonCol className='Col'>
                                         { record.clients?.length }
                                     </IonCol>
                                     <IonCol className='Col'>
-                                    <IonButtons>
-                                            <IonButton color='success'>
-                                                    <IonIcon ios={eyedropOutline} md={eyeSharp}/>
-                                            </IonButton>
+                                    <IonButtons>                                        
                                             <IonButton color='primary' onClick={() => {
                                                 handleModifyRecord(record)
                                             }}>
@@ -180,7 +180,6 @@ const Records: React.FC = () =>
                                         </IonButtons>
                                     </IonCol>
                                 </IonRow>
-                            </IonRouterLink>
                         )
                     })}
                 </IonGrid>
