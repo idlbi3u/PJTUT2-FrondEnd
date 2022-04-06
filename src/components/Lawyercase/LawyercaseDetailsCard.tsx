@@ -43,10 +43,10 @@ const LawyercaseDetailsCard = (props: CardProps) => {
     const handleChangeStatus = (lawyercase: ILawyercase) => {
         if (lawyercase.closed_at === null) {
             lawyercase.closed_at = formatDate(new Date().toISOString());
-            setLawyerCaseState(lawyercase);
+
             LawyercaseDataService.updateStatus(lawyercase.id, lawyercase)
                 .then(() => {
-                    console.log('updated')
+                    setLawyerCaseState(lawyercase);
                 })
                 .catch((e: Error) => {
                     console.log(e)
