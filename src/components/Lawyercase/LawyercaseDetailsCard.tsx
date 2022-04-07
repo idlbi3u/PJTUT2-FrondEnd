@@ -45,7 +45,7 @@ const LawyercaseDetailsCard = (props: CardProps) => {
 
             LawyercaseDataService.updateStatus(lawyercase.id, lawyercase)
                 .then(() => {
-                    console.log("Updated status done.");
+                    console.log("MISE A JOUR OK ")
                     setLawyerCaseState(lawyercase);
                 })
                 .catch((e: Error) => {

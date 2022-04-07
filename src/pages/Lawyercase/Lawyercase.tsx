@@ -35,6 +35,7 @@ const Lawyercase: React.FC = () => {
     const [Delete, setDelete] = useState(false);
     const [selectedLawyercase, setSelectedLawyercase] = useState<ILawyercase>();
     const [lawyercases, setLawyercases] = useState<ILawyercase[]>([]);
+    const [filteredLawyercases, setFilteredLawyercases] = useState<ILawyercase[]>(lawyercases);
     const [filter, setFilter] = useState<string>("AllBusiness");
 
 
@@ -70,19 +71,23 @@ const Lawyercase: React.FC = () => {
     }
 
     const handleSearchLawyercase = (e: CustomEvent<SearchbarChangeEventDetail>) => {
-
         if (e.detail.value === "") {
             retrieveLawyercases()
         }
-        
-        if (e.detail.value) {
 
+        LawyercaseDataService.getAll()
+            .then((response: any) => {
+                setLawyercases(response.data)
+            })
+            .catch((e: Error) => {
+                console.log(e);
+            });
+        if (e.detail.value) {
             let tlc = e.detail.value.toLocaleLowerCase();
             let filterData = lawyercases.filter((e) => {
                 let nameTlc = e.ref.toLocaleLowerCase();
                 return nameTlc.indexOf(tlc) !== -1
             })
-
             setLawyercases(filterData)
         }
 
@@ -90,20 +95,26 @@ const Lawyercase: React.FC = () => {
 
     useEffect(() => {
         retrieveLawyercases();
-        console.log("Mounted page liste des affaires")
+        console.log("JE SUIS SUR LA PAGE")
+
     }, [Delete, isOpen, isEdit]);
+
+    useEffect(() => {
+        return () => {
+            
+        }
+    }, []);
 
 
     useEffect(() => {
-        console.log("FILTER")
         if (filter === "AllBusiness") {
-            retrieveLawyercases()
+            setFilteredLawyercases(lawyercases);
         } else if (filter === "OnGoingBusiness") {
-            setLawyercases(lawyercases.filter(lawyercases => !lawyercases.closed_at));
+            setFilteredLawyercases(lawyercases.filter(lawyercases => !lawyercases.closed_at));
         } else {
-            setLawyercases(lawyercases.filter(lawyercases => lawyercases.closed_at));
+            setFilteredLawyercases(lawyercases.filter(lawyercases => lawyercases.closed_at));
         }
-    }, [filter]);
+    }, [filter, lawyercases]);
 
     return (
         <IonPage>
@@ -152,7 +163,7 @@ const Lawyercase: React.FC = () => {
                         <IonCol className='Col'>Clients</IonCol>
                         <IonCol className='Col'>Actions</IonCol>
                     </IonRow>
-                    {lawyercases.map((Lawyercase: ILawyercase, index: number) => {
+                    {filteredLawyercases.map((Lawyercase: ILawyercase, index: number) => {
                         return (
                             <IonRow key={index}>
                                 <IonCol className='Col'>
