@@ -1,7 +1,10 @@
 import http from "../http-common";
 import IClientData from "../types/client.type";
-const fs = require("fs").promises;
 const isElectron = require("is-electron");
+let fs: any;
+if (isElectron()) {
+    fs = window.require("fs").promises;
+}
 
 class ClientDataService {
     getAll() {

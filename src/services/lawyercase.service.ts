@@ -1,10 +1,11 @@
 import http from "../http-common";
 import  ILawyercase from "../types/lawyercase.type";
 import IEventData from "../types/event.type";
-const fs = require("fs").promises;
 const isElectron = require("is-electron");
-
-
+let fs: any;
+if (isElectron()) {
+    fs = window.require("fs").promises;
+}
 class LawyercaseDataService {
 
     getAll(){
@@ -103,8 +104,17 @@ class LawyercaseDataService {
         return http.put(`/lawyercases/addtolc/${id}/${clientId}`);
     }
 
-    updateStatus(id: string, data: Object) {
-        return http.put(`/lawyercases/status/${id}`, data);
+    updateStatus(id: string, updatedData: Object) {
+        if (isElectron()) {
+            return fs.readFile("src/data/lawyercases.json", "utf8").then((data: string) => {
+                const lawyercases = JSON.parse(data);
+                const lawyercase = lawyercases.find((lawyercase: ILawyercase) => lawyercase.id === parseInt(id));
+                Object.assign(lawyercase, updatedData);
+                return fs.writeFile("src/data/lawyercases.json", JSON.stringify(lawyercases));
+            });
+        } else {
+            return http.put(`/lawyercases/status/${id}`, updatedData);
+        }
     }
 
     removeClient(id: string, clientId: string) {
