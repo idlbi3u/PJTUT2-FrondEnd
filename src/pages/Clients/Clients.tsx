@@ -67,11 +67,9 @@ const Clients: React.FC = () => {
     }
 
     const handleSearchClient = async (e: CustomEvent<SearchbarChangeEventDetail>) => {
-
         if (e.detail.value === "") {
             retrieveClients()
         }
-
         await ClientDataService.getAll()
             .then((response: any) => {
                 setClients(response.data)
@@ -88,7 +86,6 @@ const Clients: React.FC = () => {
             setClients(filterData)
         }
     }
-
     useEffect(() => {
         retrieveClients();
 
@@ -97,7 +94,6 @@ const Clients: React.FC = () => {
         };
 
     }, [isOpen, isEdit, Delete, setClients]);
-
 
     return (
         <IonPage>
