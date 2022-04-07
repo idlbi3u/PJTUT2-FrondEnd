@@ -11,13 +11,7 @@ import {
     IonToolbar,
     useIonAlert,
 } from '@ionic/react';
-import {
-    arrowBackOutline, 
-    pencilOutline, 
-    pencilSharp, 
-    trashBinOutline, 
-    trashBinSharp
-} from 'ionicons/icons';
+import {arrowBackOutline, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from 'ionicons/icons';
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router';
 import ILawyercase from '../../types/lawyercase.type';

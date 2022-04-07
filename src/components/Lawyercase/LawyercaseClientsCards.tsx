@@ -33,13 +33,19 @@ const LawyercaseClientsCard = (props: CardProps) => {
     const {lawyercase} = props;
     const [present] = useIonAlert();
     const [addClientModal, setAddClientModal] = useState(false)
+    const [lawyerCaseState, setLawyerCaseState] = useState<ILawyercase>(lawyercase);
+
     const [lawyerCaseClients, setLawyerCaseClients] = useState(lawyercase?.clients);
 
 
     const handleDeleteClient = (clientId: string) => {
         LawyercaseDataService.removeClient(lawyercase?.id, clientId)
             .then(() => {
-                LawyercaseDataService.get(lawyercase.id).then((res: any) => {
+
+                LawyercaseDataService.get(lawyercase.id).then(res => {
+                    setLawyerCaseState(res.data);
+        LawyercaseDataService.get(lawyercase.id).then((res: any) => {
+
                     setLawyerCaseClients(res.data.clients);
                 });
             })
@@ -47,16 +53,15 @@ const LawyercaseClientsCard = (props: CardProps) => {
 
     useEffect(() => {
         console.log('mounting client card component');
-
-        LawyercaseDataService.get(lawyercase.id).then((res: any) => {
-
+        LawyercaseDataService.get(lawyercase.id).then(res => {
+            setLawyerCaseState(res.data);
             setLawyerCaseClients(res.data.clients);
         });
-        
 
-        return () => {
+        /*return () => {
             console.log('unmounting client card component');
-        }
+        }*/
+
 
 
     }, [addClientModal, lawyercase.id]);
