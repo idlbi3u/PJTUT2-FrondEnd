@@ -55,6 +55,7 @@ const AddClientToCaseModal = (props: ModalProps) => {
         if (lawyercase.closed_at) {
             return
         }
+
         const newlawyercase: ILawyercase = {
             id: lawyercase.id,
             ref: lawyercase.ref,
@@ -62,6 +63,7 @@ const AddClientToCaseModal = (props: ModalProps) => {
             closed_at: lawyercase.closed_at || null,
             clients: lawyercase.clients
         }
+
         LawyercaseDataService.addClient(newlawyercase.id, selectedClient?.id)
             .then((res: any) => {
                 console.log("Dossier mis à jour avec succès");

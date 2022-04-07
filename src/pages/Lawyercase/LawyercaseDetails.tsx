@@ -89,7 +89,7 @@ const LawyercaseDetails: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='start'>
-                        <IonButton routerLink='/lawyercases'>
+                        <IonButton routerLink='/lawyercases' routerDirection="back">
                             <IonIcon icon={arrowBackOutline}/></IonButton>
                     </IonButtons>
                     <IonTitle>Dossier {' > ' + lawyercase?.ref} </IonTitle>
