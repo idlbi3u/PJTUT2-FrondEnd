@@ -1,51 +1,51 @@
-import { 
-    IonBackButton, 
-    IonButton, 
-    IonButtons, 
-    IonCard, 
-    IonCardContent, 
-    IonCardHeader, 
-    IonContent, 
-    IonHeader, 
-    IonIcon, 
-    IonItem, 
-    IonPage, 
-    IonRouterLink, 
-    IonText, 
-    IonTitle, 
-    IonToolbar, 
-    useIonAlert 
+import {
+    IonButton,
+    IonButtons,
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonContent,
+    IonHeader,
+    IonIcon,
+    IonItem,
+    IonPage,
+    IonRouterLink,
+    IonText,
+    IonTitle,
+    IonToolbar,
+    useIonAlert
 } from "@ionic/react";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import {useEffect, useState} from "react";
+import {useParams} from "react-router";
 import IClientData from "../../types/client.type";
 import ClientDataService from "../../services/client.service"
 import './ClientDetails.css';
 import {
     arrowBackOutline,
     arrowBackSharp,
-    calendarClearOutline, 
-    calendarClearSharp, 
-    fileTrayFullOutline, 
-    fileTrayFullSharp, 
-    giftOutline, 
-    giftSharp, 
-    pencilOutline, 
-    pencilSharp, 
-    personOutline, 
-    personSharp, 
-    pinOutline, 
-    pinSharp, 
-    trashBinOutline, 
-    trashBinSharp 
+    calendarClearOutline,
+    calendarClearSharp,
+    fileTrayFullOutline,
+    fileTrayFullSharp,
+    giftOutline,
+    giftSharp,
+    pencilOutline,
+    pencilSharp,
+    personOutline,
+    personSharp,
+    pinOutline,
+    pinSharp,
+    trashBinOutline,
+    trashBinSharp
 } from "ionicons/icons";
 import EditClient from "../../components/Client/EditClient";
 import ILawyercase from "../../types/lawyercase.type";
 import {format, parseISO} from 'date-fns';
+
 const isElectron = require('is-electron');
 
 
-interface ParamsInterface{
+interface ParamsInterface {
     id: string;
 }
 
@@ -74,13 +74,13 @@ const ClientDetails = () => {
         deleteClient(id);
     }
 
-    const handleModifyClient = (client: any) => {        
+    const handleModifyClient = (client: any) => {
         setSelectedClient(client)
         setIsEdit(true)
     }
     const formatDate = (value: string) => {
         return format(parseISO(value), 'dd/MM/yyyy');
-    };   
+    };
 
     useEffect(() => {
         ClientDataService.get(params.id)
@@ -102,64 +102,67 @@ const ClientDetails = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='start'>
-                        <IonButton routerLink="/clients"><IonIcon ios={arrowBackOutline} md={arrowBackSharp}/></IonButton>
+                        <IonButton routerLink="/clients"><IonIcon ios={arrowBackOutline}
+                                                                  md={arrowBackSharp}/></IonButton>
                     </IonButtons>
-                    <IonTitle>Clients {' > '+ client?.name + ' ' + client?.firstname } </IonTitle>
+
+                    <IonTitle>Clients {' > ' + client?.name + ' ' + client?.firstname} </IonTitle>
                 </IonToolbar>
                 <IonItem lines="none">
                     <IonButtons slot="end">
-                        <IonButton 
-                        color="primary" 
-                        slot="start"
-                        onClick={() => {
-                            handleModifyClient(client)
-                        }}
-                        
+                        <IonButton
+                            color="primary"
+                            slot="start"
+                            onClick={() => {
+                                handleModifyClient(client)
+                            }}
+
                         >Modifier Client<IonIcon ios={pencilOutline} md={pencilSharp}/></IonButton>
-                        <IonButton 
-                        color="danger" 
-                        slot="end"
-                        onClick={() => {
-                            present({
-                                cssClass: 'my-css',
-                                header: 'Suppression d\'un Client',
-                                message: 'êtes-vous sûr de vouloir supprimer ce Client ?',
-                                buttons: [
-                                    {text: 'Annuler', role: 'cancel'},
-                                    { text: 'Confirmer', handler: () => handleDeleteClient(client?.id)}
-                                ],                        
+                        <IonButton
+                            color="danger"
+                            slot="end"
+                            onClick={() => {
+                                present({
+                                    cssClass: 'my-css',
+                                    header: 'Suppression d\'un Client',
+                                    message: 'êtes-vous sûr de vouloir supprimer ce Client ?',
+                                    buttons: [
+                                        {text: 'Annuler', role: 'cancel'},
+                                        {text: 'Confirmer', handler: () => handleDeleteClient(client?.id)}
+                                    ],
                                 })
-                            
-                        }}
-                        
+
+                            }}
+
                         >Supprimer<IonIcon ios={trashBinOutline} md={trashBinSharp}/></IonButton>
                     </IonButtons>
                 </IonItem>
             </IonHeader>
             <IonContent>
                 {client ?
-                    <>    
+                    <>
                         <IonCard>
-                            <IonCardContent>            
+                            <IonCardContent>
+                                <IonTitle>Informations Client</IonTitle>
                                 <IonItem lines="none">
                                     <IonIcon ios={personOutline} md={personSharp}/>
                                     <IonTitle>{client.name + ' ' + client.firstname}</IonTitle>
                                 </IonItem>
-                                    {client.createdAt ? (
-                                        <IonItem lines="none">
-                                            <IonIcon ios={calendarClearOutline} md={calendarClearSharp}/>
-                                            <IonTitle>Client depuis le {formatDate(client.createdAt)}</IonTitle>
-                                        </IonItem>
-                                    ) : null}
-                                    {client.birthdate ? (
-                                        <IonItem lines="none">
-                                            <IonIcon ios={giftOutline} md={giftSharp}/>
-                                            <IonTitle>{client.birthdate}</IonTitle>
-                                        </IonItem>
-                                    ): null}                    
+                                {client.createdAt ? (
+                                    <IonItem lines="none">
+                                        <IonIcon ios={calendarClearOutline} md={calendarClearSharp}/>
+                                        <IonTitle>Client depuis le {formatDate(client.createdAt)}</IonTitle>
+                                    </IonItem>
+                                ) : null}
+                                {client.birthdate ? (
+                                    <IonItem lines="none">
+                                        <IonIcon ios={giftOutline} md={giftSharp}/>
+                                        <IonTitle>{client.birthdate}</IonTitle>
+                                    </IonItem>
+                                ) : null}
                             </IonCardContent>
                         </IonCard>
-            
+
                         <IonCard>
                             <IonCardHeader>
                                 <IonItem lines="none">
@@ -167,14 +170,14 @@ const ClientDetails = () => {
                                     <IonTitle>Adresse</IonTitle>
                                 </IonItem>
                             </IonCardHeader>
-            
+
                             <IonCardContent>
                                 <IonText>
                                     <h2>{client.address}</h2>
                                 </IonText>
                             </IonCardContent>
                         </IonCard>
-            
+
                         <IonCard>
                             <IonCardHeader>
                                 <IonItem lines="none">
@@ -182,23 +185,27 @@ const ClientDetails = () => {
                                     <IonTitle>Dossiers</IonTitle>
                                 </IonItem>
                             </IonCardHeader>
-            
+
                             <IonCardContent>
-                                {client.lawyercases?.map((lawyercase: ILawyercase, index: number) => (
-                                    <IonItem lines="none" key={index}>                            
-                                        <IonText>
-                                            <IonRouterLink className="link" routerLink={'/lawyercases/view/'+ client.id}>
-                                                {lawyercase.ref}
-                                            </IonRouterLink>
-                                        </IonText>
-                                    </IonItem>
-                                ))} 
+                                {client.lawyercases === [] ?
+                                    client.lawyercases?.map((lawyercase: ILawyercase, index: number) => (
+                                        <IonItem lines="none" key={index}>
+                                            <IonText>
+                                                <IonRouterLink className="link"
+                                                               routerLink={'/lawyercases/view/' + client.id}>
+                                                    {lawyercase.ref}
+                                                </IonRouterLink>
+                                            </IonText>
+                                        </IonItem>
+                                    )) : (<IonText>Aucun dossier associé</IonText>)}
+
+
                             </IonCardContent>
                         </IonCard>
-                    </>           
-                    
-                
-                 : 
+                    </>
+
+
+                    :
                     <IonItem>
                         <IonText color="danger">Ce client n'existe pas!</IonText>
                     </IonItem>
