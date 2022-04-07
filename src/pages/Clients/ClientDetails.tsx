@@ -36,7 +36,8 @@ import {
     pinOutline,
     pinSharp,
     trashBinOutline,
-    trashBinSharp
+    trashBinSharp,
+    warning
 } from "ionicons/icons";
 import EditClient from "../../components/Client/EditClient";
 import ILawyercase from "../../types/lawyercase.type";
@@ -197,7 +198,13 @@ const ClientDetails = () => {
                                                 </IonRouterLink>
                                             </IonText>
                                         </IonItem>
-                                    )) : (<IonText>Aucun dossier associé</IonText>)}
+                                    )) : (
+                                        <>
+                                            <IonIcon ios={warning} md={warning}/>
+                                            <IonText> Aucun dossier associé</IonText>
+                                        </>
+
+                                    )}
 
 
                             </IonCardContent>
