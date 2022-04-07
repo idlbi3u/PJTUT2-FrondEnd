@@ -11,7 +11,13 @@ import {
     IonToolbar,
     useIonAlert,
 } from '@ionic/react';
-import {pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from 'ionicons/icons';
+import {
+    arrowBackOutline, 
+    pencilOutline, 
+    pencilSharp, 
+    trashBinOutline, 
+    trashBinSharp
+} from 'ionicons/icons';
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router';
 import ILawyercase from '../../types/lawyercase.type';
@@ -71,6 +77,10 @@ const LawyercaseDetails: React.FC = () => {
             });
         setDelete(false);
 
+        return () => {
+            console.log("unmount LawyercaseDetails");
+        };
+
     }, [params.id, isEdit, Delete, isOpen]);
 
     return (
@@ -80,7 +90,7 @@ const LawyercaseDetails: React.FC = () => {
                 <IonToolbar>
                     <IonButtons slot='start'>
                         <IonButton routerLink='/lawyercases'>
-                            <IonIcon icon={trashBinSharp}/></IonButton>
+                            <IonIcon icon={arrowBackOutline}/></IonButton>
                     </IonButtons>
                     <IonTitle>Dossier {' > ' + lawyercase?.ref} </IonTitle>
                 </IonToolbar>
@@ -92,7 +102,6 @@ const LawyercaseDetails: React.FC = () => {
                             onClick={() => {
                                 handleModifylawyercase(lawyercase)
                             }}
-
                         >Modifier Dossier<IonIcon ios={pencilOutline} md={pencilSharp}/></IonButton>
                         <IonButton
                             color="danger"

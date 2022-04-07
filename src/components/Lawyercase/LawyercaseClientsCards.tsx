@@ -44,7 +44,7 @@ const LawyercaseClientsCard = (props: CardProps) => {
     }
 
     useEffect(() => {
-        LawyercaseDataService.get(lawyercase.id).then(res => {
+        LawyercaseDataService.get(lawyercase.id).then((res: any) => {
             setLawyerCaseState(res.data);
             setLawyerCaseClients(res.data.clients);
         });
@@ -61,7 +61,7 @@ const LawyercaseClientsCard = (props: CardProps) => {
                     <IonIcon ios={personOutline} md={personSharp}/>
                     <IonTitle>Clients concernés</IonTitle>
                     <IonButtons slot='end'>
-                        <IonButton color='primary' onClick={() => {
+                        <IonButton disabled={!!lawyercase.closed_at} color='primary' onClick={() => {
                             setAddClientModal(true)
                         }}>
                             <IonIcon color="primary" ios={personAddOutline} md={personAddSharp}/>
