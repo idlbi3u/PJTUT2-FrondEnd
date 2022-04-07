@@ -1,10 +1,11 @@
 import http from "../http-common";
 import  ILawyercase from "../types/lawyercase.type";
 import IEventData from "../types/event.type";
-const fs = require("fs").promises;
 const isElectron = require("is-electron");
-
-
+let fs: any;
+if (isElectron()) {
+    fs = window.require("fs").promises;
+}
 class LawyercaseDataService {
 
     getAll(){
