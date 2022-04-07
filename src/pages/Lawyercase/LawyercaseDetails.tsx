@@ -11,7 +11,7 @@ import {
     IonToolbar,
     useIonAlert,
 } from '@ionic/react';
-import {pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from 'ionicons/icons';
+import {arrowBackOutline, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from 'ionicons/icons';
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router';
 import ILawyercase from '../../types/lawyercase.type';
@@ -74,8 +74,8 @@ const LawyercaseDetails: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='start'>
-                        <IonButton routerLink='/lawyercases'>
-                            <IonIcon icon={trashBinSharp}/></IonButton>
+                        <IonButton routerLink='/lawyercases' routerDirection="back">
+                            <IonIcon icon={arrowBackOutline}/></IonButton>
                     </IonButtons>
                     <IonTitle>Dossier {' > ' + lawyercase?.ref} </IonTitle>
                 </IonToolbar>

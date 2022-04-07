@@ -97,12 +97,14 @@ const Lawyercase: React.FC = () => {
         retrieveLawyercases();
         console.log("JE SUIS SUR LA PAGE")
 
+    }, [Delete, isOpen, isEdit]);
+
+    useEffect(() => {
         return () => {
-            console.log("JE ME DESTRUCTURE")
             
         }
+    }, []);
 
-    }, [Delete, isOpen, isEdit]);
 
     useEffect(() => {
         if (filter === "AllBusiness") {

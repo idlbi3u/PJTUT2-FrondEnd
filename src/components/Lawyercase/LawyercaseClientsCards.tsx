@@ -20,7 +20,6 @@ import {
     trashBinSharp
 } from "ionicons/icons";
 import {useEffect, useState} from "react";
-import lawyercaseService from "../../services/lawyercase.service";
 import LawyercaseDataService from "../../services/lawyercase.service";
 import ILawyercase from "../../types/lawyercase.type";
 import AddClientToCaseModal from "./AddClientToLawyercase";
@@ -29,7 +28,6 @@ import './LawyercaseClientsCards.css';
 interface CardProps {
     lawyercase: ILawyercase,
 }
-
 
 const LawyercaseClientsCard = (props: CardProps) => {
     const {lawyercase} = props;
@@ -40,7 +38,13 @@ const LawyercaseClientsCard = (props: CardProps) => {
 
 
     const handleDeleteClient = (clientId: string) => {
-        lawyercaseService.removeClient(lawyercase?.id, clientId)
+        LawyercaseDataService.removeClient(lawyercase?.id, clientId)
+            .then(() => {
+                LawyercaseDataService.get(lawyercase.id).then(res => {
+                    setLawyerCaseState(res.data);
+                    setLawyerCaseClients(res.data.clients);
+                });
+            })
     }
 
     useEffect(() => {
@@ -48,11 +52,13 @@ const LawyercaseClientsCard = (props: CardProps) => {
             setLawyerCaseState(res.data);
             setLawyerCaseClients(res.data.clients);
         });
-        return () => {
-            console.log("unmounting");
-        };
 
-    }, [addClientModal, lawyercase.id]);
+        return () => {
+            console.log('unmounting');
+        }
+
+    }, [addClientModal, props.lawyercase]);
+
 
     return (
         <IonCard>
