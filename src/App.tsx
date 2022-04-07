@@ -1,10 +1,11 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonButton, IonContent, IonHeader, IonItem, IonList, IonListHeader, IonMenu, IonMenuToggle, IonRouterOutlet, IonSplitPane, IonTitle, IonToolbar, setupIonicReact } from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home/Home';
 import Clients from './pages/Clients/Clients';
-import Records from './pages/Records/Records';
+import Lawyercase from './pages/Lawyercase/Lawyercase';
 import Layout from './components/Layout/Layout';
+
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -24,6 +25,8 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import ClientDetails from './pages/Clients/ClientDetails';
+import LawyercaseDetails from './pages/Lawyercase/LawyercaseDetails';
 
 
 setupIonicReact();
@@ -36,7 +39,9 @@ const App: React.FC = () => (
         <IonRouterOutlet class='ion-page' id='main'>
           <Route exact path="/home" component={Home} />
           <Route exact path="/clients" component={Clients} />
-          <Route exact path="/records" component={Records} />
+          <Route exact path="/lawyercases" component={Lawyercase} />
+          <Route exact path="/lawyercases/view/:id" component={LawyercaseDetails} />
+          <Route path="/clients/view/:id" component={ClientDetails} />
           <Route exact path="/" render={() => <Redirect to="/home" />} />
         </IonRouterOutlet>
       </IonSplitPane>
