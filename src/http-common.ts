@@ -1,7 +1,17 @@
 import axios from "axios";
+import {Capacitor} from "@capacitor/core";
+
+const env = Capacitor.getPlatform();
+let baseURL;
+if (env === "web") {
+    baseURL = "http://localhost:8080/api"
+} else {
+    baseURL = "http://10.0.2.2/api"
+}
+
 export default axios.create({
-    baseURL: "http://localhost:8080/api",
+    baseURL: baseURL,
     headers: {
-        "Content-type":"application/json"
+        "Content-type": "application/json"
     }
 });
