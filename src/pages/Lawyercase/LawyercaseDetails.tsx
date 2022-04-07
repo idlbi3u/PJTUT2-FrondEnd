@@ -23,6 +23,7 @@ import EventsCard from '../../components/Lawyercase/LawyercaseEventsCard';
 import LawyercaseTotalTimeCard from '../../components/Lawyercase/LawyercaseTotalTimeCard';
 import LawyercaseClientsCard from '../../components/Lawyercase/LawyercaseClientsCards';
 import LawyercaseDetailsCard from '../../components/Lawyercase/LawyercaseDetailsCard';
+const isElectron = require('is-electron');
 
 interface ParamsInterface {
     id: string;
@@ -59,12 +60,20 @@ const LawyercaseDetails: React.FC = () => {
     useEffect(() => {
         LawyercaseDataService.get(params.id)
             .then((response: any) => {
-                setLawyercase(response.data);
+                if (isElectron()) {
+                    setLawyercase(response);
+                } else {
+                    setLawyercase(response.data);
+                }
             })
             .catch((e: Error) => {
                 console.log(e);
             });
         setDelete(false);
+
+        return () => {
+            console.log("unmount LawyercaseDetails");
+        };
 
     }, [params.id, isEdit, Delete, isOpen]);
 
@@ -87,7 +96,6 @@ const LawyercaseDetails: React.FC = () => {
                             onClick={() => {
                                 handleModifylawyercase(lawyercase)
                             }}
-
                         >Modifier Dossier<IonIcon ios={pencilOutline} md={pencilSharp}/></IonButton>
                         <IonButton
                             color="danger"

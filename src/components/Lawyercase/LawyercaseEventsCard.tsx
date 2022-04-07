@@ -25,7 +25,7 @@ interface ILawyercaseEvents {
 }
 
 const EventsCard = ({lawyercase}: ILawyercaseEvents) => {
-    const [lawyercaseEventState, setLawyercaseState] = useState<ILawyercase>(lawyercase);
+    const [lawyercaseState, setLawyercaseState] = useState<ILawyercase>(lawyercase);
     const [isOpen, setIsOpen] = useState(false);
     const [lawyerCaseEvent, setLawyerCaseEvent] = useState(lawyercase.events);
 
@@ -36,14 +36,14 @@ const EventsCard = ({lawyercase}: ILawyercaseEvents) => {
     };
 
     useEffect(() => {
-        console.log("MOUNTED EVENT")
-        LawyercaseDataService.get(lawyercase.id).then(res => {
+        console.log("mounted EventCard")
+        LawyercaseDataService.get(lawyercase.id).then((res:any) => {
             setLawyercaseState(res.data);
             setLawyerCaseEvent(res.data.events);
         });
 
         return () => {
-            console.log("unmounting Event");
+            console.log("unmounted EventCard");
         };
 
     }, [isOpen, lawyercase.events]);
@@ -56,7 +56,7 @@ const EventsCard = ({lawyercase}: ILawyercaseEvents) => {
                     <IonIcon ios={alertOutline} md={alertSharp}/>
                     <IonTitle>Évènements</IonTitle>
                     <IonButtons slot='end'>
-                        <IonButton color='primary' onClick={() => {
+                        <IonButton disabled={!!lawyercase.closed_at} color='primary' onClick={() => {
                             setIsOpen(true)
                         }}>
                             <IonIcon color="primary" ios={addOutline} md={addSharp}/>
