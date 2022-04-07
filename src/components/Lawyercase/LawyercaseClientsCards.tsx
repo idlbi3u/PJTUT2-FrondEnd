@@ -42,29 +42,30 @@ const LawyercaseClientsCard = (props: CardProps) => {
         LawyercaseDataService.removeClient(lawyercase?.id, clientId)
             .then(() => {
 
-                LawyercaseDataService.get(lawyercase.id).then(res => {
+                LawyercaseDataService.get(lawyercase.id).then((res: any) => {
                     setLawyerCaseState(res.data);
         LawyercaseDataService.get(lawyercase.id).then((res: any) => {
 
                     setLawyerCaseClients(res.data.clients);
                 });
             })
+        })
     }
 
     useEffect(() => {
-        console.log('mounting client card component');
-        LawyercaseDataService.get(lawyercase.id).then(res => {
+        LawyercaseDataService.get(lawyercase.id).then((res: any) => {
             setLawyerCaseState(res.data);
             setLawyerCaseClients(res.data.clients);
         });
 
-        /*return () => {
+        return () => {
             console.log('unmounting client card component');
-        }*/
+        };
 
 
 
     }, [addClientModal, lawyercase.id]);
+    
 
 
     return (
