@@ -79,7 +79,7 @@ const Lawyercase: React.FC = () => {
         if (e.detail.value === "") {
             retrieveLawyercases()
         }
-      
+
         if (e.detail.value) {
 
             let tlc = e.detail.value.toLocaleLowerCase();
