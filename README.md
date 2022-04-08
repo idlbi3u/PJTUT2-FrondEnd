@@ -11,7 +11,6 @@ Si nous voulions refaire l'application sous REDUX cela aurit pris trop de temps,
 2. Pré-requis
 3. Installation du projet #WEB
 4. Installation du projet #MOBILE
-5. Démarrage du server
 6. Détails
 
 ## Présentation 
