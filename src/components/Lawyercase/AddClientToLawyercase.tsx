@@ -43,15 +43,12 @@ const AddClientToCaseModal = (props: ModalProps) => {
                 } else {
                     setClients(response.data)
                 }
-                console.log(clients)
             })
             .catch((e: Error) => {
-                console.log(e);
             });
     }
 
     const updatelawyercase = () => {
-        console.log("Updating....")
         if (lawyercase.closed_at) {
             return
         }
@@ -66,10 +63,8 @@ const AddClientToCaseModal = (props: ModalProps) => {
 
         LawyercaseDataService.addClient(newlawyercase.id, selectedClient?.id)
             .then((res: any) => {
-                console.log("Dossier mis à jour avec succès");
             })
             .catch((e: Error) => {
-                console.log(e)
             })
         setIsOpen(false)
     }
@@ -83,7 +78,6 @@ const AddClientToCaseModal = (props: ModalProps) => {
         retrieveClients();
 
         return () => {
-            console.log("unmount AddClientToCaseModal");
         }
 
     }, [setClients, isOpen])

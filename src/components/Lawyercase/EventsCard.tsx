@@ -22,11 +22,9 @@ const EventsCard = (props: ILawyercaseEvents) => {
         }
     };
 
-    useEffect(() => {
-        console.log("mounted EventCard")       
+    useEffect(() => {       
 
         return () => {
-            console.log("unmounted EventCard");
         };
 
     }, []);

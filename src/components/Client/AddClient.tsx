@@ -52,10 +52,8 @@ const AddClient = (props: ModalProps) => {
 
         ClientDataService.create(client)
             .then((res: any) => {
-                console.log(res);
             })
             .catch((e: Error) => {
-                console.log(e)
             })
         setIsOpen(false);
     }

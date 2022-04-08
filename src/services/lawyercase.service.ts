@@ -13,7 +13,6 @@ class LawyercaseDataService {
     getAll(){
         if (isElectron()) {
             return fs.readFile("./src/data/lawyercases.json", "utf8").then((data: string) => {
-                console.log(data);
                 return JSON.parse(data);
             })
             .catch((err: Error) => {
@@ -36,7 +35,6 @@ class LawyercaseDataService {
                 return fs.writeFile("./src/data/lawyercases.json", JSON.stringify(lawyercases));
             })
             .catch((err: Error) => {
-                console.log(err);
                 const lawyercases = [];
                 lawyercase.clients = [];
                 lawyercase.events = [];

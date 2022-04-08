@@ -51,25 +51,20 @@ const Clients: React.FC = () => {
         ClientDataService.getAll()
         .then((response: any) => {
             if(isElectron()) {
-                console.log(response);
                 setClients(response)
             } else {
                 setClients(response.data)
             }
-            console.log(clients)
         })
         .catch((e: Error) => {
-            console.log(e);
         })
     }     
   
     const deleteClient = (id: string) => {
         ClientDataService.delete(id)
             .then((res: any) => {
-                console.log(res + "A bien été supprimé de la BDD");
             })
             .catch((e: Error) => {
-                console.log(e)
             })
         setDelete(false);
     }
@@ -89,7 +84,6 @@ const Clients: React.FC = () => {
                 }
             })
             .catch((e: Error) => {
-                console.log(e);
             });
         if (e.detail.value) {
             let tlc = e.detail.value.toLocaleLowerCase();
@@ -104,7 +98,6 @@ const Clients: React.FC = () => {
     useEffect(() => {
         retrieveClients();
         return () => {
-            console.log("Cleanup");
         };
 
     }, [isOpen, isEdit, Delete]);

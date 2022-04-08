@@ -60,7 +60,6 @@ const Lawyercase: React.FC = () => {
                 }
             })
             .catch((e: Error) => {
-                console.log(e);
             });
     }
 
@@ -68,10 +67,8 @@ const Lawyercase: React.FC = () => {
         LawyercaseDataService.delete(id)
             .then((res: any) => {
                 retrieveLawyercases()
-                console.log(res + "A bien été supprimé de la BDD");
             })
             .catch((e: Error) => {
-                console.log(e)
             })
     }
 

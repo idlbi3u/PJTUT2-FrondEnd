@@ -12,7 +12,6 @@ class ClientDataService {
     getAll() {
         if (isElectron()) {
             return fs.readFile("./src/data/clients.json", "utf8").then((data: string) => {
-                console.log(data);
                 return JSON.parse(data);
             })
             .catch((err: Error) => {
@@ -23,19 +22,15 @@ class ClientDataService {
         }
     }
 
-    create(client: IClientData) {
-        console.log(client);
-        
+    create(client: IClientData) {        
         if (isElectron()) {
             return fs.readFile("./src/data/clients.json", "utf8").then((data: string) => {
                 const clients = JSON.parse(data);
-                console.log( clients.slice(-1), "oui");
                 client.id = clients.slice(-1)[0].id + 1;
                 clients.push(client);
                 return fs.writeFile("./src/data/clients.json", JSON.stringify(clients));
             })
             .catch((err: Error) => {
-                console.log(err);
                 const clients = [];
                 client.id = 1;
                 clients.push(client);

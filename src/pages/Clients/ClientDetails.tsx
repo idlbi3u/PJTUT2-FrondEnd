@@ -62,10 +62,8 @@ const ClientDetails = () => {
     const deleteClient = (id: string) => {
         ClientDataService.delete(id)
             .then((res: any) => {
-                console.log(res + "A bien été supprimé de la BDD");
             })
             .catch((e: Error) => {
-                console.log(e)
             })
         setDelete(false);
     }
@@ -88,14 +86,12 @@ const ClientDetails = () => {
             ClientDataService.get(params.id)
             .then((response: any) => {
                 if (isElectron()) {
-                    console.log(response);
                     setClient(response);
                 } else {
                     setClient(response.data);
                 }
             })
             .catch((e: Error) => {
-                console.log(e);
             });
         },
         [params.id],
@@ -105,7 +101,6 @@ const ClientDetails = () => {
         getClient();
 
         return () => {
-            console.log('unmound client details')
         }
     }, [params.id, isEdit, Delete, getClient]);
 

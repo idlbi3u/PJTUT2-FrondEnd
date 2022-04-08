@@ -66,10 +66,8 @@ const LawyercaseDetails: React.FC = () => {
         setIsDeleted(true);
         LawyercaseDataService.delete(id)
             .then((res: any) => {
-                console.log(res + "A bien été supprimé de la BDD");
             })
             .catch((e: Error) => {
-                console.log(e)
             })
     }
 
@@ -92,10 +90,8 @@ const LawyercaseDetails: React.FC = () => {
 
             LawyercaseDataService.updateStatus(lawyercase.id, lawyercase)
                 .then(() => {
-                    console.log("Updated status done.");
                 })
                 .catch((e: Error) => {
-                    console.log(e)
                 })
         }
     }
@@ -112,7 +108,6 @@ const LawyercaseDetails: React.FC = () => {
                 }
             })
             .catch((e: Error) => {
-                console.log(e);
             }); 
         },
         [params.id]

@@ -50,10 +50,8 @@ const AddEvent = (props: ModalProps) => {
         LawyercaseDataService.addEventToLawyercase(lawyercase?.id, event)
 
             .then((res: any) => {
-                console.log(res);
             })
             .catch((e: Error) => {
-                console.log(e)
             })
         setIsOpen(false)
     }

@@ -40,7 +40,6 @@ const EditLawyercase = (props: ModalProps) => {
     }
 
     const updatelawyercase = () => {
-        console.log("Updating....")
         const newLawyercase: ILawyercase = {
             id: states.id,
             ref: states.ref,
@@ -50,10 +49,8 @@ const EditLawyercase = (props: ModalProps) => {
 
         LawyercaseDataService.update(newLawyercase.id, newLawyercase)
             .then((res: any) => {
-                console.log("Dossier mis à jour avec succès");
             })
             .catch((e: Error) => {
-                console.log(e)
             })
             setIsOpen(false)
     }

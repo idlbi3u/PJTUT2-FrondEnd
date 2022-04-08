@@ -31,10 +31,8 @@ const AddLawyercase = (props: ModalProps) => {
         }
         LawyercaseDataService.create(newLawyercase)
             .then((res: any) => {
-                console.log(res);
             })
             .catch((e: Error) => {
-            console.log(e)
         })
         setIsOpen(false)
     }

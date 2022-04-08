@@ -36,7 +36,6 @@ const ClientsCard = (props: CardProps) => {
                 LawyercaseDataService.get(lawyercaseId).then((res: any) => {     
         
             }).catch((e: Error) => {
-                console.log(e);
             })
         })
     }
@@ -44,7 +43,6 @@ const ClientsCard = (props: CardProps) => {
     useEffect(() => {   
 
         return () => {
-            console.log('unmounting client card component');
         };
 
     }, []);

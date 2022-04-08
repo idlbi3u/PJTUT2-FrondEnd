@@ -116,3 +116,23 @@ Une fois fait, collez le code suivant :
 ![image](https://user-images.githubusercontent.com/77775081/162493526-83d6d6bc-a314-455e-8b12-ced9db8981a4.png)
 
 
+## Projet Electron
+
+Pour la version Electron il est nécessaire d'avoir un dossier `src/data` dans le cas ou ce dossier n'apparaît pas.
+
+ * Lancez la commande `npm run electron-serve` afin de démarrer la version Electron du projet
+
+Lorque la fenêtre s'ouvre la console peut bloquer la vue du menu, dans ce cas mettre l'application en plein écran ou fermer la console (il est également possible d'ouvrir le menu comme la version mobile, en glissant avec sa souris du bord gauche de la fenêtre vers le centre).
+
+La différence avec les autres versions est l'utilisation du LocalStorage via des fichiers JSON.
+
+Un problème récurrent de cette version est le refresh des datas sur les différentes pages.
+
+ * Elements fonctionnels :
+    * Ajout, modification et suppression de clients et d'affaires
+    * Ajout d'évenements aux affaires
+    * Lien entre affaires et clients (via le fichier case_client.json)
+
+ * Problèmes connus : 
+    * Affichage des affaires dans la page détails d'un client (l'affichage des clients d'une affaire se fait après avoir appuyé sur le bouton permettant d'ajouter un évenement)
+    * Mise à jour des données après ajout, modification ou suppression des données

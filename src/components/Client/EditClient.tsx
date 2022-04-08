@@ -59,10 +59,8 @@ const EditClient = (props: ModalProps) => {
 
         ClientDataService.update(client.id, client)
             .then((res: any) => {
-                console.log("Client mis à jour avec succès");
             })
             .catch((e: Error) => {
-                console.log(e)
             })
         setIsOpen(false);
     }
