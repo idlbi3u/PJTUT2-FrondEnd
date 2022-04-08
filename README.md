@@ -11,6 +11,7 @@ Si nous voulions refaire l'application sous REDUX cela aurit pris trop de temps,
 2. Pré-requis
 3. Installation du projet #WEB
 4. Installation du projet #MOBILE
+5. Installation du projet #DESKTOP
 6. Détails
 
 ## Présentation 
@@ -119,7 +120,7 @@ Une fois fait, collez le code suivant :
 * Lancez ensuite la commande : `ionic cap build android`
 * Une fois dans Android studio, vous pouvez lancer le projet sur votre émulateur
 
-## Installation du projet Electron
+## Installation du projet #DESKTOP
 
 ![image](https://user-images.githubusercontent.com/77775081/162493526-83d6d6bc-a314-455e-8b12-ced9db8981a4.png)
 
