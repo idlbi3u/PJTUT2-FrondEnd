@@ -28,17 +28,18 @@ import ILawyercase from '../../types/lawyercase.type';
 import AddLawyercase from '../../components/Lawyercase/AddLawyercase'
 import EditLawyercase from '../../components/Lawyercase/EditLawyercase';
 
+const isElectron = require('is-electron');
+
 const Lawyercase: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [present] = useIonAlert();
     const [isEdit, setIsEdit] = useState(false);
     const [Delete, setDelete] = useState(false);
+    const [present] = useIonAlert();
     const [selectedLawyercase, setSelectedLawyercase] = useState<ILawyercase>();
     const [lawyercases, setLawyercases] = useState<ILawyercase[]>([]);
     const [filteredLawyercases, setFilteredLawyercases] = useState<ILawyercase[]>(lawyercases);
     const [filter, setFilter] = useState<string>("AllBusiness");
-
-
+    
     const handleDeleteLawyercase = (id: string) => {
         setDelete(true);
         deleteLawyercase(id);
@@ -52,7 +53,11 @@ const Lawyercase: React.FC = () => {
     const retrieveLawyercases = () => {
         LawyercaseDataService.getAll()
             .then((response: any) => {
-                setLawyercases(response.data)
+                if (isElectron()) {
+                    setLawyercases(response)
+                } else {
+                    setLawyercases(response.data)
+                }
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -74,14 +79,6 @@ const Lawyercase: React.FC = () => {
         if (e.detail.value === "") {
             retrieveLawyercases()
         }
-
-        LawyercaseDataService.getAll()
-            .then((response: any) => {
-                setLawyercases(response.data)
-            })
-            .catch((e: Error) => {
-                console.log(e);
-            });
         if (e.detail.value) {
             let tlc = e.detail.value.toLocaleLowerCase();
             let filterData = lawyercases.filter((e) => {
@@ -90,12 +87,14 @@ const Lawyercase: React.FC = () => {
             })
             setLawyercases(filterData)
         }
-
     }
 
     useEffect(() => {
-        retrieveLawyercases();
-        console.log("JE SUIS SUR LA PAGE")
+        retrieveLawyercases();    
+        
+        return () => {
+            // cleanup
+        }
 
     }, [Delete, isOpen, isEdit]);
 
@@ -129,7 +128,9 @@ const Lawyercase: React.FC = () => {
                     <IonItem>
                         <IonItem slot='start' className='Business' lines='none'>
                             <IonSelect placeholder="Selectionnez une catégorie d'affaire" value={filter}
-                                       onIonChange={e => setFilter(e.detail.value)}>
+                                       onIonChange={e => {
+                                           setFilter(e.detail.value)
+                                        }}>
                                 <IonSelectOption value="AllBusiness">Toutes les affaires</IonSelectOption>
                                 <IonSelectOption value="OnGoingBusiness">Affaires en cours</IonSelectOption>
                                 <IonSelectOption value="CompletedBusiness">Affaires cloturées</IonSelectOption>

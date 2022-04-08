@@ -7,7 +7,7 @@ interface ILawyercaseEvent {
     lawyercaseEvent?: IEventData[];
 }
 
-const LawyercaseTotalTimeCard = (lawyercaseEvent: ILawyercaseEvent) => {
+const TotalTimeCard = (lawyercaseEvent: ILawyercaseEvent) => {
 
     const [totalTime, setTotalTime] = useState<string>("");
 
@@ -46,4 +46,4 @@ const LawyercaseTotalTimeCard = (lawyercaseEvent: ILawyercaseEvent) => {
 
     )
 }
-export default LawyercaseTotalTimeCard
+export default TotalTimeCard;

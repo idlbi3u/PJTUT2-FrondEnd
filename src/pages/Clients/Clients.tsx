@@ -25,12 +25,14 @@ import ClientDataService from "../../services/client.service"
 import IClientData from "../../types/client.type";
 import AddClient from '../../components/Client/AddClient';
 import EditClient from '../../components/Client/EditClient';
+const isElectron = require('is-electron');
 
 
 const Clients: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [Delete, setDelete] = useState(false);
+    const [clients, setClients] = useState<IClientData[]>([]);
     const [selectedClient, setSelectedClient] = useState<IClientData>();
     const [present] = useIonAlert();
 
@@ -44,17 +46,23 @@ const Clients: React.FC = () => {
         setIsEdit(true)
     }
 
-    const [clients, setClients] = useState<IClientData[]>([]);
 
     const retrieveClients = () => {
         ClientDataService.getAll()
-            .then((response: any) => {
+        .then((response: any) => {
+            if(isElectron()) {
+                console.log(response);
+                setClients(response)
+            } else {
                 setClients(response.data)
-            })
-            .catch((e: Error) => {
-                console.log(e);
-            });
-    }
+            }
+            console.log(clients)
+        })
+        .catch((e: Error) => {
+            console.log(e);
+        })
+    }     
+  
     const deleteClient = (id: string) => {
         ClientDataService.delete(id)
             .then((res: any) => {
@@ -74,7 +82,11 @@ const Clients: React.FC = () => {
 
         await ClientDataService.getAll()
             .then((response: any) => {
-                setClients(response.data)
+                if(isElectron()) {
+                    setClients(response)
+                } else {
+                    setClients(response.data)
+                }
             })
             .catch((e: Error) => {
                 console.log(e);
@@ -91,12 +103,11 @@ const Clients: React.FC = () => {
 
     useEffect(() => {
         retrieveClients();
-
         return () => {
             console.log("Cleanup");
         };
 
-    }, [isOpen, isEdit, Delete, setClients]);
+    }, [isOpen, isEdit, Delete]);
 
 
     return (
@@ -163,7 +174,8 @@ const Clients: React.FC = () => {
                                                 buttons: [
                                                     {text: 'Annuler', role: 'cancel'},
                                                     {text: 'Confirmer', handler: () => handleDeleteClient(client.id)}
-                                                ]
+                                                ],
+                                                onDidDismiss: (e) => {setDelete(false)},
                                             })
                                         }}>
                                             <IonIcon ios={trashBinOutline} md={trashBinSharp}/>

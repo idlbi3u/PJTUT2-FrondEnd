@@ -22,10 +22,11 @@ interface ModalProps {
     lawyercase: ILawyercase,
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    getLawyercase: () => void;
 }
 
 const AddEvent = (props: ModalProps) => {
-    const {isOpen, setIsOpen, lawyercase} = props;
+    const {isOpen, setIsOpen, lawyercase, getLawyercase} = props;
     const [states, setStates] = useState<IEventData>({
         description: "",
         duration: 0,
@@ -86,7 +87,7 @@ const AddEvent = (props: ModalProps) => {
 
                 </IonItem>
 
-                <IonButton expand='block' type='submit' onClick={saveEvent}>
+                <IonButton expand='block' onClick={saveEvent}>
                     Ajouter
                 </IonButton>
 
