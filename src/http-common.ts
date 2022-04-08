@@ -6,7 +6,7 @@ let baseURL;
 if (env === "web") {
     baseURL = "http://localhost:8080/api"
 } else {
-    baseURL = "http://10.0.2.2/api"
+    baseURL = "http://10.0.2.2:8080/api"
 }
 
 export default axios.create({
