@@ -54,6 +54,7 @@
     "workbox-streams": "^5.1.4"
   },
   "scripts": {
+    "build:mobile": "cross-env REACT_APP_BUILD_TYPE=mobile react-scripts build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
