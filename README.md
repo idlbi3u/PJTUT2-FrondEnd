@@ -115,9 +115,6 @@ Une fois fait, collez le code suivant :
 
 ![image](https://user-images.githubusercontent.com/77775081/162493526-83d6d6bc-a314-455e-8b12-ced9db8981a4.png)
 
-
-## Projet Electron
-
 Pour la version Electron il est nécessaire d'avoir un dossier `src/data` dans le cas ou ce dossier n'apparaît pas.
 
  * Lancez la commande `npm run electron-serve` afin de démarrer la version Electron du projet
