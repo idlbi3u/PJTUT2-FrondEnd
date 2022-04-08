@@ -1,6 +1,8 @@
 import {
     IonButton,
     IonButtons,
+    IonCard,
+    IonCardHeader,
     IonContent,
     IonHeader,
     IonIcon,
@@ -11,18 +13,38 @@ import {
     IonToolbar,
     useIonAlert,
 } from '@ionic/react';
-import {arrowBackOutline, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp} from 'ionicons/icons';
-import React, {useEffect, useState} from 'react';
+import {
+    addOutline, 
+    addSharp, 
+    alertOutline, 
+    alertSharp, 
+    arrowBackOutline, 
+    checkmarkCircle, 
+    checkmarkSharp, 
+    fileTrayOutline, 
+    fileTraySharp, 
+    pencilOutline, 
+    pencilSharp, 
+    personAddOutline, 
+    personAddSharp, 
+    personOutline, 
+    personSharp, 
+    trashBinOutline, 
+    trashBinSharp
+} from 'ionicons/icons';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useParams} from 'react-router';
 import ILawyercase from '../../types/lawyercase.type';
 import LawyercaseDataService from "../../services/lawyercase.service"
 import EditLawyercase from '../../components/Lawyercase/EditLawyercase';
 import AddEvent from '../../components/Events/AddEvent';
 import './LawyercaseDetails.css';
-import EventsCard from '../../components/Lawyercase/LawyercaseEventsCard';
-import LawyercaseTotalTimeCard from '../../components/Lawyercase/LawyercaseTotalTimeCard';
-import LawyercaseClientsCard from '../../components/Lawyercase/LawyercaseClientsCards';
-import LawyercaseDetailsCard from '../../components/Lawyercase/LawyercaseDetailsCard';
+import EventsCard from '../../components/Lawyercase/EventsCard';
+import AddClientToCaseModal from '../../components/Lawyercase/AddClientToLawyercase';
+import ClientsCard from '../../components/Lawyercase/ClientsCard';
+import TotalTimeCard from '../../components/Lawyercase/TotalTimeCard';
+import DetailsCard from '../../components/Lawyercase/DetailsCard';
+import {format, parseISO} from 'date-fns';
 const isElectron = require('is-electron');
 
 interface ParamsInterface {
@@ -34,11 +56,13 @@ const LawyercaseDetails: React.FC = () => {
     const [lawyercase, setLawyercase] = useState<ILawyercase>();
     const [isEdit, setIsEdit] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [Delete, setDelete] = useState(false);
+    const [addEvent, setAddEvent] = useState(false);
+    const [lawyercaseState, setLawyercaseState] = useState<boolean>(false);
+    const [addClientModal, setAddClientModal] = useState(false)
     const [selectedLawyercase, setSelectedLawyercase] = useState<ILawyercase>();
-    const [present] = useIonAlert();
+    const [present] = useIonAlert();        
 
-    const deletelawyercase = (id: string) => {
+    const handleDeletelawyercase = (id: string) => {
         LawyercaseDataService.delete(id)
             .then((res: any) => {
                 console.log(res + "A bien été supprimé de la BDD");
@@ -48,17 +72,36 @@ const LawyercaseDetails: React.FC = () => {
             })
     }
 
-    const handleDeletelawyercase = (id: string) => {
-        deletelawyercase(id);
-    }
-
     const handleModifylawyercase = (lawyercase?: ILawyercase) => {
         setSelectedLawyercase(lawyercase)
         setIsEdit(true)
     }
 
-    useEffect(() => {
-        LawyercaseDataService.get(params.id)
+    const formatDate = (value: string) => {
+        if (value) {
+            return format(parseISO(value), 'dd/MM/yyyy');
+        }
+    };
+
+
+    const handleChangeStatus = (lawyercase: ILawyercase) => {
+        setLawyercaseState(true);
+        if (lawyercase.closed_at === null) {
+            lawyercase.closed_at = formatDate(new Date().toISOString());
+
+            LawyercaseDataService.updateStatus(lawyercase.id, lawyercase)
+                .then(() => {
+                    console.log("Updated status done.");
+                })
+                .catch((e: Error) => {
+                    console.log(e)
+                })
+        }
+    }
+
+    const getLawyercase = useCallback(
+        () => {
+            LawyercaseDataService.get(params.id)
             .then((response: any) => {
                 if (isElectron()) {
                     setLawyercase(response);
@@ -68,14 +111,18 @@ const LawyercaseDetails: React.FC = () => {
             })
             .catch((e: Error) => {
                 console.log(e);
-            });
-        setDelete(false);
+            }); 
+        },
+        [params.id]
+    )
 
+    useEffect(() => {
+        getLawyercase();
         return () => {
             console.log("unmount LawyercaseDetails");
         };
 
-    }, [params.id, isEdit, Delete, isOpen]);
+    }, [present, isEdit, isOpen, addClientModal, getLawyercase, lawyercaseState]);
 
     return (
 
@@ -91,6 +138,7 @@ const LawyercaseDetails: React.FC = () => {
                 <IonItem lines="none">
                     <IonButtons slot="end">
                         <IonButton
+                            disabled={!!lawyercase?.closed_at}
                             color="primary"
                             slot="start"
                             onClick={() => {
@@ -98,6 +146,7 @@ const LawyercaseDetails: React.FC = () => {
                             }}
                         >Modifier Dossier<IonIcon ios={pencilOutline} md={pencilSharp}/></IonButton>
                         <IonButton
+                            disabled={!!lawyercase?.closed_at}
                             color="danger"
                             slot="end"
                             onClick={() => {
@@ -109,6 +158,7 @@ const LawyercaseDetails: React.FC = () => {
                                         {text: 'Annuler', role: 'cancel'},
                                         {text: 'Confirmer', handler: () => handleDeletelawyercase(lawyercase?.id)}
                                     ],
+                                    onDidDismiss: (e) => console.log('did dismiss'),
                                 })
                             }}
                         >Supprimer<IonIcon ios={trashBinOutline} md={trashBinSharp}/></IonButton>
@@ -119,10 +169,79 @@ const LawyercaseDetails: React.FC = () => {
 
                 {lawyercase ? (
                         <>
-                            <LawyercaseDetailsCard lawyercase={lawyercase}/>
-                            <LawyercaseClientsCard lawyercase={lawyercase}/>
-                            <EventsCard lawyercase={lawyercase}/>
-                            <LawyercaseTotalTimeCard lawyercaseEvent={lawyercase.events}/>
+                            <IonCard>
+                                <IonCardHeader>
+                                    <IonItem lines='none'>
+                                        <IonIcon ios={fileTrayOutline} md={fileTraySharp}/>
+                                        <IonTitle>Détails Dossier {lawyercase.ref}</IonTitle>
+                                        <IonButtons slot='end'>
+                                            <IonButton color={lawyercase.closed_at ? "danger" : "success"}
+                                                    disabled={!!lawyercase.closed_at}
+                                                    onClick={() => {
+                                                        present({
+                                                            cssClass: 'my-css',
+                                                            header: 'Clôture d\'un Dossier',
+                                                            message: 'êtes-vous sûr de vouloir clôturer ce Dossier ?',
+                                                            buttons: [
+                                                                {text: 'Annuler', role: 'cancel'},
+                                                                {text: 'Confirmer', handler: () => handleChangeStatus(lawyercase)}
+                                                            ],
+                                                            onDidDismiss: (e) => {setLawyercaseState(false)},
+                                                        })
+                                                    }}
+                                            >
+                                                Clôturer
+                                                <IonIcon ios={checkmarkCircle} md={checkmarkSharp}/>
+                                            </IonButton>
+                                        </IonButtons>
+                                    </IonItem>                                
+                                </IonCardHeader>
+                            <DetailsCard lawyercase={lawyercase}/>
+                            </IonCard>   
+                            <IonCard>
+                                <IonCardHeader>
+                                    <IonItem lines="none">
+                                        <IonIcon ios={personOutline} md={personSharp}/>
+                                        <IonTitle>Clients concernés</IonTitle>
+                                        <IonButtons slot='end'>
+                                            <IonButton disabled={!!lawyercase.closed_at} color='primary' onClick={() => {
+                                                setAddClientModal(true)
+                                            }}>
+                                                <IonIcon color="primary" ios={personAddOutline} md={personAddSharp}/>
+                                            </IonButton>
+                                        </IonButtons>
+                                    </IonItem>
+                                </IonCardHeader>
+                                <ClientsCard 
+                                    lawyercaseClients={lawyercase.clients ?? []} 
+                                    lawyercaseId={lawyercase.id} 
+                                    lawyercaseState={!!!lawyercase.closed_at} 
+                                />                               
+                                <AddClientToCaseModal 
+                                    lawyercaseClients={lawyercase.clients ?? []} 
+                                    lawyercase={lawyercase}
+                                    isOpen={addClientModal}
+                                    setIsOpen={setAddClientModal}
+                                />
+                            </IonCard>
+                            <IonCard>
+                                <IonCardHeader>
+                                    <IonItem lines="none">
+                                        <IonIcon ios={alertOutline} md={alertSharp}/>
+                                        <IonTitle>Évènements</IonTitle>
+                                        <IonButtons slot='end'>
+                                            <IonButton disabled={!!lawyercase.closed_at} color='primary' onClick={() => {
+                                                setAddEvent(true)
+                                            }}>
+                                                <IonIcon color="primary" ios={addOutline} md={addSharp}/>
+                                            </IonButton>
+                                        </IonButtons>
+                                    </IonItem>
+                                </IonCardHeader>
+                                <EventsCard lawyercaseEvents={lawyercase.events ?? []}/>
+                                <AddEvent lawyercase={lawyercase} isOpen={addEvent} setIsOpen={() => setAddEvent(false)}/>
+                            </IonCard>
+                            <TotalTimeCard lawyercaseEvent={lawyercase.events}/>
                         </>
                     )
                     :
@@ -138,14 +257,7 @@ const LawyercaseDetails: React.FC = () => {
                     isOpen={isEdit}
                     setIsOpen={() => setIsEdit(false)}
                 />
-            ) : null}
-
-
-            {lawyercase ? (
-                <>
-                    <AddEvent lawyercase={lawyercase} isOpen={isOpen} setIsOpen={() => setIsOpen(false)}/>
-                </>
-            ) : null}
+            ) : null}            
         </IonPage>
     );
 }

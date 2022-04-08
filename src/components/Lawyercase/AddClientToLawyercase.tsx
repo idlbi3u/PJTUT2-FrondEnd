@@ -82,6 +82,10 @@ const AddClientToCaseModal = (props: ModalProps) => {
     useEffect(() => {
         retrieveClients();
 
+        return () => {
+            console.log("unmount AddClientToCaseModal");
+        }
+
     }, [setClients, isOpen])
 
 

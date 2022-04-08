@@ -49,19 +49,20 @@ const Clients: React.FC = () => {
 
     const retrieveClients = () => {
         ClientDataService.getAll()
-            .then((response: any) => {
-                if(isElectron()) {
-                    console.log(response);
-                    setClients(response)
-                } else {
-                    setClients(response.data)
-                }
-                console.log(clients)
-            })
-            .catch((e: Error) => {
-                console.log(e);
-            });
-    }
+        .then((response: any) => {
+            if(isElectron()) {
+                console.log(response);
+                setClients(response)
+            } else {
+                setClients(response.data)
+            }
+            console.log(clients)
+        })
+        .catch((e: Error) => {
+            console.log(e);
+        })
+    }     
+  
     const deleteClient = (id: string) => {
         ClientDataService.delete(id)
             .then((res: any) => {
@@ -99,12 +100,11 @@ const Clients: React.FC = () => {
     }
     useEffect(() => {
         retrieveClients();
-        console.log(clients)
         return () => {
             console.log("Cleanup");
         };
 
-    }, [isOpen, isEdit, Delete, setClients]);
+    }, [isOpen, isEdit, Delete]);
 
     return (
         <IonPage>
@@ -170,7 +170,8 @@ const Clients: React.FC = () => {
                                                 buttons: [
                                                     {text: 'Annuler', role: 'cancel'},
                                                     {text: 'Confirmer', handler: () => handleDeleteClient(client.id)}
-                                                ]
+                                                ],
+                                                onDidDismiss: (e) => {setDelete(false)},
                                             })
                                         }}>
                                             <IonIcon ios={trashBinOutline} md={trashBinSharp}/>

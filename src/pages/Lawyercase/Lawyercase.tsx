@@ -20,7 +20,7 @@ import {
     SearchbarChangeEventDetail,
     useIonAlert
 } from '@ionic/react';
-import {addOutline, ellipse, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp,} from 'ionicons/icons';
+import {addOutline, ellipse, fileTraySharp, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp,} from 'ionicons/icons';
 import React, {useEffect, useState} from 'react';
 import './Lawyercase.css';
 import LawyercaseDataService from "../../services/lawyercase.service"
@@ -31,9 +31,9 @@ const isElectron = require('is-electron');
 
 const Lawyercase: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [present] = useIonAlert();
     const [isEdit, setIsEdit] = useState(false);
     const [Delete, setDelete] = useState(false);
+    const [present] = useIonAlert();
     const [selectedLawyercase, setSelectedLawyercase] = useState<ILawyercase>();
     const [lawyercases, setLawyercases] = useState<ILawyercase[]>([]);
     const [filter, setFilter] = useState<string>("AllBusiness");
@@ -94,13 +94,16 @@ const Lawyercase: React.FC = () => {
     }
 
     useEffect(() => {
-        retrieveLawyercases();
+        retrieveLawyercases();        
+        
         console.log("Mounted page liste des affaires")
+        return () => {
+            console.log("Unmounted page liste des affaires")
+        }
     }, [Delete, isOpen, isEdit]);
 
 
     useEffect(() => {
-        console.log("FILTER")
         if (filter === "AllBusiness") {
             retrieveLawyercases()
         } else if (filter === "OnGoingBusiness") {
