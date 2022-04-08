@@ -46,7 +46,7 @@ Pour la version mobile, nous avons besoin de faire quelques modifications.
 
 * Lancez la commande `ionic cap build android` afin de build la version android du projet
 
-Une fois la commande executée, veuillez vous rendre le dossier suivant : `./android/app/src/main/AndroidManifest.xml`, en effet l'environnement Android ne comprends pas le `localhost` et doit utiliser `http://10.0.2.2/`. De plus nous devons modifier les fichiers afin d'éviter les problèmes de CORS.
+Une fois la commande executée, veuillez vous rendre le dossier suivant : `./android/app/src/main/AndroidManifest.xml`, en effet l'environnement Android ne comprends pas le `localhost` et doit utiliser `http://10.0.2.2/`.
 
 Effectuez les modifications suivantes : 
 ```
