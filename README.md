@@ -38,6 +38,8 @@ Ce projet permet, en partant d'un seul et même code source de build une applica
 
 
 ## Installation du projet #MOBILE
+![image](https://user-images.githubusercontent.com/77775081/162492982-a2bd2597-60ce-4b3b-92c3-e75c38678efb.png)
+
 
 Pour la version mobile, nous avons besoin de faire quelques modifications
 
