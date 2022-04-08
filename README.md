@@ -28,7 +28,7 @@ Ce projet permet, en partant d'un seul et même code source de build une applica
 * NPM
 
 ## Installation du projet #WEB
-![image](https://user-images.githubusercontent.com/77775081/162492609-4270b76c-bffe-4747-b732-2cc683826a34.png)
+![image](https://user-images.githubusercontent.com/77775081/162493940-3386bc9c-cd9e-484e-b5a2-312a0a9c7658.png)
 
 * Clonnez le projet : `https://github.com/idlbi3u/PJTUT2-FrondEnd.git`
 * Lancez le projet dans votre IDE favoris. 
