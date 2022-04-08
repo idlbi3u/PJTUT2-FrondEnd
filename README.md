@@ -51,6 +51,7 @@ Effectuez les modifications suivantes :
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="io.ionic.starter">
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -60,17 +61,21 @@ Effectuez les modifications suivantes :
             android:networkSecurityConfig="@xml/network_security_config"
             android:usesCleartextTraffic="true"
             android:theme="@style/AppTheme">
+
         <activity
                 android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
                 android:name="io.ionic.starter.MainActivity"
                 android:label="@string/title_activity_main"
                 android:theme="@style/AppTheme.NoActionBarLaunch"
                 android:launchMode="singleTask">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
         </activity>
+
         <provider
                 android:name="androidx.core.content.FileProvider"
                 android:authorities="${applicationId}.fileprovider"
@@ -81,11 +86,14 @@ Effectuez les modifications suivantes :
                     android:resource="@xml/file_paths"></meta-data>
         </provider>
     </application>
+
     <!-- Permissions -->
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 </manifest>
+
 ```
 
 
@@ -95,6 +103,9 @@ Une fois fait, collez le code suivant :
 ```
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">10.0.2.2</domain>
+    </domain-config>
     <base-config cleartextTrafficPermitted="true">
         <trust-anchors>
             <certificates src="system"/>
