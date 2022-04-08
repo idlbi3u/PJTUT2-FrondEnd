@@ -27,6 +27,7 @@ import LawyercaseDataService from "../../services/lawyercase.service"
 import ILawyercase from '../../types/lawyercase.type';
 import AddLawyercase from '../../components/Lawyercase/AddLawyercase'
 import EditLawyercase from '../../components/Lawyercase/EditLawyercase';
+
 const isElectron = require('is-electron');
 
 const Lawyercase: React.FC = () => {
@@ -37,8 +38,7 @@ const Lawyercase: React.FC = () => {
     const [selectedLawyercase, setSelectedLawyercase] = useState<ILawyercase>();
     const [lawyercases, setLawyercases] = useState<ILawyercase[]>([]);
     const [filter, setFilter] = useState<string>("AllBusiness");
-
-
+    
     const handleDeleteLawyercase = (id: string) => {
         setDelete(true);
         deleteLawyercase(id);
@@ -75,22 +75,17 @@ const Lawyercase: React.FC = () => {
     }
 
     const handleSearchLawyercase = (e: CustomEvent<SearchbarChangeEventDetail>) => {
-
         if (e.detail.value === "") {
             retrieveLawyercases()
         }
-
         if (e.detail.value) {
-
             let tlc = e.detail.value.toLocaleLowerCase();
             let filterData = lawyercases.filter((e) => {
                 let nameTlc = e.ref.toLocaleLowerCase();
                 return nameTlc.indexOf(tlc) !== -1
             })
-
             setLawyercases(filterData)
         }
-
     }
 
     useEffect(() => {
@@ -100,10 +95,12 @@ const Lawyercase: React.FC = () => {
         return () => {
             console.log("Unmounted page liste des affaires")
         }
+
     }, [Delete, isOpen, isEdit]);
 
 
     useEffect(() => {
+
         if (filter === "AllBusiness") {
             retrieveLawyercases()
         } else if (filter === "OnGoingBusiness") {
