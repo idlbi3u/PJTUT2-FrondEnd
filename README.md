@@ -9,9 +9,10 @@ Si nous voulions refaire l'application sous REDUX cela aurit pris trop de temps,
 
 1. Présentation
 2. Pré-requis
-3. Installation
-4. Démarrage du server
-5. Détails
+3. Installation du projet #WEB
+4. Installation du projet #MOBILE
+5. Démarrage du server
+6. Détails
 
 ## Présentation 
 Ce projet est une application de gestion d'un cabinet d'avocats. 
@@ -35,4 +36,68 @@ Ce projet permet, en partant d'un seul et même code source de build une applica
 * Lancez le server node.js, si vous ne savez pas comment, suivez le guide => `https://github.com/CalvetYann/PJTUT2-BackEnd`
 * Lancez la commande `npm start` dans le projet Front-end
 * L'application se lance dans votre navigateur, vous n'avez plus qu'a la tester.
+
+
+## Installation du projet #MOBILE
+
+Pour la version mobile, nous avons besoin de faire quelques modifications
+
+* Lancez la commande `ionic cap build android` afin de build la version android du projet
+
+Une fois la commande éxecutée, veuillez vous rendre le dossier suivant : `./android/app/src/main/AndroidManifest.xml`, en effet l'environnement Android ne comprends pas le `localhost` et doit utiliser `http://10.0.2.2/`. De plus nous devons modifier les fichiers afin d'éviter les problèmes de CORS.
+
+Effectuez les modifications suivantes : 
+`<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="io.ionic.starter">
+    <application
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:networkSecurityConfig="@xml/network_security_config"
+            android:usesCleartextTraffic="true"
+            android:theme="@style/AppTheme">
+        <activity
+                android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
+                android:name="io.ionic.starter.MainActivity"
+                android:label="@string/title_activity_main"
+                android:theme="@style/AppTheme.NoActionBarLaunch"
+                android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <provider
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="${applicationId}.fileprovider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/file_paths"></meta-data>
+        </provider>
+    </application>
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+</manifest>`
+
+* Puis rendez vous dans le dossier suivant : `./android/app/src/main/rs/xml` et créez un fichier : `network_security_config.xml`
+
+Une fois fait, collez le code suivant : 
+`<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+    </base-config>
+</network-security-config>`
+
+* Lancez ensuite la commande : `ionic cap build android`
+* Une fois dans Android studio, vous pouvez lancer le projet sur votre émulateur
 
