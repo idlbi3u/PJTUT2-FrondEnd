@@ -92,14 +92,16 @@ Effectuez les modifications suivantes :
 * Puis rendez vous dans le dossier suivant : `./android/app/src/main/rs/xml` et créez un fichier : `network_security_config.xml`
 
 Une fois fait, collez le code suivant : 
-```<?xml version="1.0" encoding="utf-8"?>
+```
+<?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
     <base-config cleartextTrafficPermitted="true">
         <trust-anchors>
             <certificates src="system"/>
         </trust-anchors>
     </base-config>
-</network-security-config>```
+</network-security-config>
+```
 
 * Lancez ensuite la commande : `ionic cap build android`
 * Une fois dans Android studio, vous pouvez lancer le projet sur votre émulateur
