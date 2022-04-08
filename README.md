@@ -2,7 +2,7 @@
 
 ### REDUX INFO
 Nous n'avions pas choisi d'utiliser REDUX au début du projet, nous avons donc pris le temps de créer une branch `redux_branch` que vous pourrez tester, pour le CRUD client. 
-Si nous voulions refaire l'application sous REDUX cela aurit pris trop de temps, et nous aurions dû négliger d'autres features majeurs. 
+Si nous voulions refaire l'application sous REDUX cela aurait pris trop de temps, et nous aurions dû négliger d'autres features majeurs. 
 
 ### SOMMAIRE 
 
@@ -15,7 +15,7 @@ Si nous voulions refaire l'application sous REDUX cela aurit pris trop de temps,
 
 ## Présentation 
 Ce projet est une application de gestion d'un cabinet d'avocats. 
-Vous pourrez y ajouter des clients, et des affaires de justice, et faire le liens entres ces affaires et les clients.
+Vous pourrez y ajouter des clients, et des affaires de justice, et faire les liens entres ces affaires et les clients.
 Ce projet permet, en partant d'un seul et même code source de build une application Web, une application Mobile, et une application Desktop.
 
 ## Pré-requis
@@ -29,24 +29,24 @@ Ce projet permet, en partant d'un seul et même code source de build une applica
 ## Installation du projet #WEB
 ![image](https://user-images.githubusercontent.com/77775081/162493940-3386bc9c-cd9e-484e-b5a2-312a0a9c7658.png)
 
-* Clonnez le projet : `https://github.com/idlbi3u/PJTUT2-FrondEnd.git`
-* Lancez le projet dans votre IDE favoris. 
+* Cloner le projet : `https://github.com/idlbi3u/PJTUT2-FrondEnd.git`
+* Lancez le projet dans votre IDE favori. 
 * Entrez la commande `npm install` dans votre terminal 
 * Lancez WAMP64
 * Lancez le server node.js, si vous ne savez pas comment, suivez le guide => `https://github.com/CalvetYann/PJTUT2-BackEnd`
 * Lancez la commande `npm start` dans le projet Front-end
-* L'application se lance dans votre navigateur, vous n'avez plus qu'a la tester.
+* L'application se lance dans votre navigateur, vous n'avez plus qu'à la tester.
 
 
 ## Installation du projet #MOBILE
 ![image](https://user-images.githubusercontent.com/77775081/162492982-a2bd2597-60ce-4b3b-92c3-e75c38678efb.png)
 
 
-Pour la version mobile, nous avons besoin de faire quelques modifications
+Pour la version mobile, nous avons besoin de faire quelques modifications.
 
 * Lancez la commande `ionic cap build android` afin de build la version android du projet
 
-Une fois la commande éxecutée, veuillez vous rendre le dossier suivant : `./android/app/src/main/AndroidManifest.xml`, en effet l'environnement Android ne comprends pas le `localhost` et doit utiliser `http://10.0.2.2/`. De plus nous devons modifier les fichiers afin d'éviter les problèmes de CORS.
+Une fois la commande executée, veuillez vous rendre le dossier suivant : `./android/app/src/main/AndroidManifest.xml`, en effet l'environnement Android ne comprends pas le `localhost` et doit utiliser `http://10.0.2.2/`. De plus nous devons modifier les fichiers afin d'éviter les problèmes de CORS.
 
 Effectuez les modifications suivantes : 
 ```
