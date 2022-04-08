@@ -1,5 +1,7 @@
 import http from "../http-common";
 import IClientData from "../types/client.type";
+import ILawyercase from "../types/lawyercase.type";
+import LawyercaseDataService from "./lawyercase.service";
 const isElectron = require("is-electron");
 let fs: any;
 if (isElectron()) {
@@ -49,6 +51,10 @@ class ClientDataService {
             return fs.readFile("./src/data/clients.json", "utf8").then((data: string) => {
                 const clients = JSON.parse(data);
                 const client = clients.find((client: IClientData) => client.id === parseInt(id));
+                this.getLawyercases(id)
+                    .then((lawyercases: ILawyercase[]) => {
+                        client.lawyercases = lawyercases;
+                    });
                 return client;
             })
             .catch((err: Error) => {
@@ -97,6 +103,24 @@ class ClientDataService {
 
     findByName(name: string) {
         return http.get(`/clients?name=${name}`);
+    }
+
+    getLawyercases(id: string) {
+        return fs.readFile("./src/data/case_client.json", "utf8").then((data: string) => {
+            const case_client = JSON.parse(data);
+            const lawyercasesId = case_client.filter((case_client: any) => case_client.client_id === parseInt(id));
+            
+            const lawyercases: ILawyercase[] = [];
+
+            lawyercasesId.forEach((lawyercase: any) => {
+                LawyercaseDataService.get(lawyercase.lawyercase_id)
+                    .then((lawyercase: ILawyercase) => {
+                        lawyercases.push(lawyercase);
+                    });
+            });
+
+            return lawyercases;
+        });
     }
 }
 

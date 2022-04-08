@@ -105,6 +105,7 @@ const LawyercaseDetails: React.FC = () => {
             LawyercaseDataService.get(params.id)
             .then((response: any) => {
                 if (isElectron()) {
+                    console.log(response);                    
                     setLawyercase(response);
                 } else {
                     setLawyercase(response.data);
