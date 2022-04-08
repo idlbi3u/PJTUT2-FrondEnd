@@ -47,7 +47,7 @@ Pour la version mobile, nous avons besoin de faire quelques modifications
 Une fois la commande éxecutée, veuillez vous rendre le dossier suivant : `./android/app/src/main/AndroidManifest.xml`, en effet l'environnement Android ne comprends pas le `localhost` et doit utiliser `http://10.0.2.2/`. De plus nous devons modifier les fichiers afin d'éviter les problèmes de CORS.
 
 Effectuez les modifications suivantes : 
-`<?xml version="1.0" encoding="utf-8"?>
+```<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="io.ionic.starter">
     <application
@@ -84,7 +84,7 @@ Effectuez les modifications suivantes :
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-</manifest>`
+</manifest>```
 
 * Puis rendez vous dans le dossier suivant : `./android/app/src/main/rs/xml` et créez un fichier : `network_security_config.xml`
 
