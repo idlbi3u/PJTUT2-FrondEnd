@@ -8,7 +8,7 @@
     "fs": false,
     "path": false,
     "os": false
-  }, 
+  },
   "dependencies": {
     "@capacitor/android": "3.4.3",
     "@capacitor/app": "1.1.1",

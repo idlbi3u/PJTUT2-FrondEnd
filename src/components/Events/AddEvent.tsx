@@ -19,7 +19,7 @@ import {closeOutline, closeSharp} from "ionicons/icons";
 import ILawyercase from "../../types/lawyercase.type";
 
 interface ModalProps {
-    lawyercase?: ILawyercase,
+    lawyercase: ILawyercase,
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -36,6 +36,12 @@ const AddEvent = (props: ModalProps) => {
     }
 
     const saveEvent = () => {
+        
+        if (lawyercase.closed_at) {
+            setIsOpen(false);
+            return;
+        }
+
         const event: IEventData = {
             description: states.description,
             duration: states.duration,
