@@ -15,7 +15,7 @@ import {
     IonToolbar,
     useIonAlert
 } from "@ionic/react";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useParams} from "react-router";
 import IClientData from "../../types/client.type";
 import ClientDataService from "../../services/client.service"
@@ -83,8 +83,9 @@ const ClientDetails = () => {
         return format(parseISO(value), 'dd/MM/yyyy');
     };
 
-    useEffect(() => {
-        ClientDataService.get(params.id)
+    const getClient = useCallback(
+        () => {
+            ClientDataService.get(params.id)
             .then((response: any) => {
                 if (isElectron()) {
                     console.log(response);
@@ -96,14 +97,24 @@ const ClientDetails = () => {
             .catch((e: Error) => {
                 console.log(e);
             });
-    }, [params.id, isEdit, Delete]);
+        },
+        [params.id],
+    )
+
+    useEffect(() => {
+        getClient();
+
+        return () => {
+            console.log('unmound client details')
+        }
+    }, [params.id, isEdit, Delete, getClient]);
 
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
                     <IonButtons slot='start'>
-                        <IonButton routerLink="/clients"><IonIcon ios={arrowBackOutline}
+                        <IonButton routerLink="/clients" routerDirection="back"><IonIcon ios={arrowBackOutline}
                                                                   md={arrowBackSharp}/></IonButton>
                     </IonButtons>
 
@@ -143,8 +154,13 @@ const ClientDetails = () => {
                 {client ?
                     <>
                         <IonCard>
-                            <IonCardContent>
-                                <IonTitle>Informations Client</IonTitle>
+                            <IonCardHeader>
+                                <IonItem lines="none">
+                                    <IonIcon ios={personOutline} md={personSharp}/>
+                                    <IonTitle>Informations Client</IonTitle>
+                                </IonItem>
+                            </IonCardHeader>
+                            <IonCardContent>                                
                                 <IonItem lines="none">
                                     <IonIcon ios={personOutline} md={personSharp}/>
                                     <IonTitle>{client.name + ' ' + client.firstname}</IonTitle>
@@ -188,7 +204,7 @@ const ClientDetails = () => {
                             </IonCardHeader>
 
                             <IonCardContent>
-                                {client.lawyercases === [] ?
+                                {client.lawyercases?.length !== 0 ?
                                     client.lawyercases?.map((lawyercase: ILawyercase, index: number) => (
                                         <IonItem lines="none" key={index}>
                                             <IonText>
@@ -203,7 +219,6 @@ const ClientDetails = () => {
                                             <IonIcon ios={warning} md={warning}/>
                                             <IonText> Aucun dossier associé</IonText>
                                         </>
-
                                     )}
 
 

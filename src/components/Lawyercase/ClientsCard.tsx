@@ -19,16 +19,18 @@ import './ClientsCard.css'
 interface CardProps {
     lawyercaseClients: IClientData[],
     lawyercaseId: string,
-    lawyercaseState: boolean
+    lawyercaseState: boolean,
+    setIsDeleted: (isDeleted: boolean) => void,
 }
 
 const ClientsCard = (props: CardProps) => {
-    const {lawyercaseClients, lawyercaseId, lawyercaseState} = props;
+    const {lawyercaseClients, lawyercaseId, lawyercaseState, setIsDeleted} = props;
     const [present] = useIonAlert();
 
 
 
     const handleDeleteClient = (clientId: string) => {
+        setIsDeleted(false);
         LawyercaseDataService.removeClient(lawyercaseId, clientId)
             .then(() => {
                 LawyercaseDataService.get(lawyercaseId).then((res: any) => {     
@@ -64,7 +66,7 @@ const ClientsCard = (props: CardProps) => {
                                         {text: 'Annuler', role: 'cancel'},
                                         {text: 'Confirmer', handler: () => handleDeleteClient(client.id)}
                                     ],
-                                    onDidDismiss: (e) => console.log('did dismiss'),
+                                    onDidDismiss: (e) => {setIsDeleted(false)},
                                 })
                             }}>
                                 <IonIcon ios={trashBinOutline} md={trashBinSharp}/>

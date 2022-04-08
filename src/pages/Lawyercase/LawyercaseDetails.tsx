@@ -55,7 +55,7 @@ const LawyercaseDetails: React.FC = () => {
     const params = useParams<ParamsInterface>();
     const [lawyercase, setLawyercase] = useState<ILawyercase>();
     const [isEdit, setIsEdit] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isDeleted, setIsDeleted] = useState(false);
     const [addEvent, setAddEvent] = useState(false);
     const [lawyercaseState, setLawyercaseState] = useState<boolean>(false);
     const [addClientModal, setAddClientModal] = useState(false)
@@ -63,6 +63,7 @@ const LawyercaseDetails: React.FC = () => {
     const [present] = useIonAlert();        
 
     const handleDeletelawyercase = (id: string) => {
+        setIsDeleted(true);
         LawyercaseDataService.delete(id)
             .then((res: any) => {
                 console.log(res + "A bien été supprimé de la BDD");
@@ -118,11 +119,12 @@ const LawyercaseDetails: React.FC = () => {
 
     useEffect(() => {
         getLawyercase();
+
         return () => {
-            console.log("unmount LawyercaseDetails");
+            // cleanup
         };
 
-    }, [present, isEdit, isOpen, addClientModal, getLawyercase, lawyercaseState]);
+    }, [present, isDeleted, isEdit, addClientModal, getLawyercase, lawyercaseState]);
 
     return (
 
@@ -158,7 +160,7 @@ const LawyercaseDetails: React.FC = () => {
                                         {text: 'Annuler', role: 'cancel'},
                                         {text: 'Confirmer', handler: () => handleDeletelawyercase(lawyercase?.id)}
                                     ],
-                                    onDidDismiss: (e) => console.log('did dismiss'),
+                                    onDidDismiss: (e) => {setIsDeleted(false)},
                                 })
                             }}
                         >Supprimer<IonIcon ios={trashBinOutline} md={trashBinSharp}/></IonButton>
@@ -216,6 +218,7 @@ const LawyercaseDetails: React.FC = () => {
                                     lawyercaseClients={lawyercase.clients ?? []} 
                                     lawyercaseId={lawyercase.id} 
                                     lawyercaseState={!!!lawyercase.closed_at} 
+                                    setIsDeleted={setIsDeleted}
                                 />                               
                                 <AddClientToCaseModal 
                                     lawyercaseClients={lawyercase.clients ?? []} 
@@ -230,7 +233,7 @@ const LawyercaseDetails: React.FC = () => {
                                         <IonIcon ios={alertOutline} md={alertSharp}/>
                                         <IonTitle>Évènements</IonTitle>
                                         <IonButtons slot='end'>
-                                            <IonButton disabled={!!lawyercase.closed_at} color='primary' onClick={() => {
+                                            <IonButton disabled={!!lawyercase.closed_at} routerDirection="root" color='primary' onClick={() => {                                                
                                                 setAddEvent(true)
                                             }}>
                                                 <IonIcon color="primary" ios={addOutline} md={addSharp}/>
@@ -239,7 +242,12 @@ const LawyercaseDetails: React.FC = () => {
                                     </IonItem>
                                 </IonCardHeader>
                                 <EventsCard lawyercaseEvents={lawyercase.events ?? []}/>
-                                <AddEvent lawyercase={lawyercase} isOpen={addEvent} setIsOpen={() => setAddEvent(false)}/>
+                                <AddEvent 
+                                lawyercase={lawyercase} 
+                                isOpen={addEvent} 
+                                setIsOpen={() => setAddEvent(false)}
+                                getLawyercase={getLawyercase}
+                                />
                             </IonCard>
                             <TotalTimeCard lawyercaseEvent={lawyercase.events}/>
                         </>
