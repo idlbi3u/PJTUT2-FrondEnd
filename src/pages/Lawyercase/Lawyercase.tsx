@@ -20,7 +20,7 @@ import {
     SearchbarChangeEventDetail,
     useIonAlert
 } from '@ionic/react';
-import {addOutline, ellipse, fileTraySharp, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp,} from 'ionicons/icons';
+import {addOutline, ellipse, pencilOutline, pencilSharp, trashBinOutline, trashBinSharp,} from 'ionicons/icons';
 import React, {useEffect, useState} from 'react';
 import './Lawyercase.css';
 import LawyercaseDataService from "../../services/lawyercase.service"
@@ -89,18 +89,16 @@ const Lawyercase: React.FC = () => {
     }
 
     useEffect(() => {
-        retrieveLawyercases();        
+        retrieveLawyercases();    
         
-        console.log("Mounted page liste des affaires")
         return () => {
-            console.log("Unmounted page liste des affaires")
+            // cleanup
         }
 
     }, [Delete, isOpen, isEdit]);
 
 
     useEffect(() => {
-
         if (filter === "AllBusiness") {
             retrieveLawyercases()
         } else if (filter === "OnGoingBusiness") {
@@ -123,7 +121,9 @@ const Lawyercase: React.FC = () => {
                     <IonItem>
                         <IonItem slot='start' className='Business' lines='none'>
                             <IonSelect placeholder="Selectionnez une catégorie d'affaire" value={filter}
-                                       onIonChange={e => setFilter(e.detail.value)}>
+                                       onIonChange={e => {
+                                           setFilter(e.detail.value)
+                                        }}>
                                 <IonSelectOption value="AllBusiness">Toutes les affaires</IonSelectOption>
                                 <IonSelectOption value="OnGoingBusiness">Affaires en cours</IonSelectOption>
                                 <IonSelectOption value="CompletedBusiness">Affaires cloturées</IonSelectOption>

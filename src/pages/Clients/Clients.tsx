@@ -32,6 +32,7 @@ const Clients: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [Delete, setDelete] = useState(false);
+    const [clients, setClients] = useState<IClientData[]>([]);
     const [selectedClient, setSelectedClient] = useState<IClientData>();
     const [present] = useIonAlert();
 
@@ -45,7 +46,6 @@ const Clients: React.FC = () => {
         setIsEdit(true)
     }
 
-    const [clients, setClients] = useState<IClientData[]>([]);
 
     const retrieveClients = () => {
         ClientDataService.getAll()
